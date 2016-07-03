@@ -1,5 +1,7 @@
 .idea/workspace.xml
 .consulo/workspace.xml
+.consulo/sandbox
+dep
 /intellij-markdown
 
 /out        

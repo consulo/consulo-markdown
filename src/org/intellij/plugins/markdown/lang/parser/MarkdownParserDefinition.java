@@ -16,7 +16,13 @@
 package org.intellij.plugins.markdown.lang.parser;
 
 
+import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
+import org.intellij.plugins.markdown.lang.lexer.MarkdownToplevelLexer;
+import org.intellij.plugins.markdown.lang.psi.MarkdownPsiFactory;
+import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
@@ -26,23 +32,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
-import org.intellij.plugins.markdown.lang.lexer.MarkdownToplevelLexer;
-import org.intellij.plugins.markdown.lang.psi.MarkdownPsiFactory;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
-import org.jetbrains.annotations.NotNull;
 
 public class MarkdownParserDefinition implements ParserDefinition {
 
   @NotNull
   @Override
-  public Lexer createLexer(Project project) {
+  public Lexer createLexer(Project project, @NotNull LanguageVersion languageVersion) {
     return new MarkdownToplevelLexer();
   }
 
   @NotNull
   @Override
-  public PsiParser createParser(Project project) {
+  public PsiParser createParser(Project project, @NotNull LanguageVersion languageVersion) {
     return new MarkdownParserAdapter();
   }
 
@@ -54,19 +55,19 @@ public class MarkdownParserDefinition implements ParserDefinition {
 
   @NotNull
   @Override
-  public TokenSet getWhitespaceTokens() {
+  public TokenSet getWhitespaceTokens(@NotNull LanguageVersion languageVersion) {
     return TokenSet.create();
   }
 
   @NotNull
   @Override
-  public TokenSet getCommentTokens() {
+  public TokenSet getCommentTokens(@NotNull LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
   @NotNull
   @Override
-  public TokenSet getStringLiteralElements() {
+  public TokenSet getStringLiteralElements(@NotNull LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 

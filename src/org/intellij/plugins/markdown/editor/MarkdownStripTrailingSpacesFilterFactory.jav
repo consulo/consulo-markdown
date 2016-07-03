@@ -19,7 +19,6 @@ import com.intellij.lang.Language;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.StripTrailingSpacesFilter;
 import com.intellij.openapi.editor.StripTrailingSpacesFilterFactory;
-import com.intellij.openapi.editor.impl.PsiBasedStripTrailingSpacesFilter;
 import com.intellij.openapi.project.Project;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.jetbrains.annotations.NotNull;

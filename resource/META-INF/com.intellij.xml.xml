@@ -1,0 +1,5 @@
+<idea-plugin>
+	<extensions defaultExtensionNs="consulo.markdown">
+		<langGuesser implementation="consulo.markdown.injection.LanguageGuesserByEmbeddedTokenTypes"/>
+	</extensions>
+</idea-plugin>

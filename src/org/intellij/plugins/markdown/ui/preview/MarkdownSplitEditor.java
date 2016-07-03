@@ -1,60 +1,78 @@
 package org.intellij.plugins.markdown.ui.preview;
 
+import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.CaretAdapter;
 import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.fileEditor.TextEditor;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.pom.Navigatable;
-import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
-import org.jetbrains.annotations.NotNull;
 
-public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPreviewFileEditor> implements TextEditor {
-  public MarkdownSplitEditor(@NotNull TextEditor mainEditor,
-                             @NotNull MarkdownPreviewFileEditor secondEditor) {
-    super(mainEditor, secondEditor);
+public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPreviewFileEditor> implements TextEditor
+{
+	public MarkdownSplitEditor(@NotNull TextEditor mainEditor, @NotNull MarkdownPreviewFileEditor secondEditor)
+	{
+		super(mainEditor, secondEditor);
 
-    mainEditor.getEditor().getCaretModel().addCaretListener(new MyCaretListener(secondEditor));
-  }
+		mainEditor.getEditor().getCaretModel().addCaretListener(new MyCaretListener(secondEditor));
+	}
 
-  @NotNull
-  @Override
-  public String getName() {
-    return "Markdown split editor";
-  }
+	@NotNull
+	@Override
+	public String getName()
+	{
+		return "Markdown split editor";
+	}
 
-  @NotNull
-  @Override
-  public Editor getEditor() {
-    return getMainEditor().getEditor();
-  }
+	@Nullable
+	@Override
+	public VirtualFile getVirtualFile()
+	{
+		return null;
+	}
 
-  @Override
-  public boolean canNavigateTo(@NotNull Navigatable navigatable) {
-    return getMainEditor().canNavigateTo(navigatable);
-  }
+	@NotNull
+	@Override
+	public Editor getEditor()
+	{
+		return getMainEditor().getEditor();
+	}
 
-  @Override
-  public void navigateTo(@NotNull Navigatable navigatable) {
-    getMainEditor().navigateTo(navigatable);
-  }
+	@Override
+	public boolean canNavigateTo(@NotNull Navigatable navigatable)
+	{
+		return getMainEditor().canNavigateTo(navigatable);
+	}
 
-  private static class MyCaretListener extends CaretAdapter {
-    @NotNull
-    private final MarkdownPreviewFileEditor myPreviewFileEditor;
+	@Override
+	public void navigateTo(@NotNull Navigatable navigatable)
+	{
+		getMainEditor().navigateTo(navigatable);
+	}
 
-    public MyCaretListener(@NotNull MarkdownPreviewFileEditor previewFileEditor) {
-      myPreviewFileEditor = previewFileEditor;
-    }
+	private static class MyCaretListener extends CaretAdapter
+	{
+		@NotNull
+		private final MarkdownPreviewFileEditor myPreviewFileEditor;
 
-    @Override
-    public void caretPositionChanged(CaretEvent e) {
-      final Editor editor = e.getEditor();
-      if (editor.getCaretModel().getCaretCount() != 1) {
-        return;
-      }
+		public MyCaretListener(@NotNull MarkdownPreviewFileEditor previewFileEditor)
+		{
+			myPreviewFileEditor = previewFileEditor;
+		}
 
-      final int offset = editor.logicalPositionToOffset(e.getNewPosition());
-      myPreviewFileEditor.scrollToSrcOffset(offset);
-    }
-  }
+		@Override
+		public void caretPositionChanged(CaretEvent e)
+		{
+			final Editor editor = e.getEditor();
+			if(editor.getCaretModel().getCaretCount() != 1)
+			{
+				return;
+			}
+
+			final int offset = editor.logicalPositionToOffset(e.getNewPosition());
+			myPreviewFileEditor.scrollToSrcOffset(offset);
+		}
+	}
 }
