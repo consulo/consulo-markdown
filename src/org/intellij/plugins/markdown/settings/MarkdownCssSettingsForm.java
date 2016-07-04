@@ -9,9 +9,12 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.highlighter.HighlighterFactory;
+import com.intellij.lang.Language;
+import com.intellij.lang.LanguagePointerUtil;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
@@ -21,15 +24,14 @@ import com.intellij.openapi.editor.EditorSettings;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.openapi.fileTypes.UnknownFileType;
 import com.intellij.openapi.util.Computable;
 import com.intellij.ui.ColorUtil;
 import com.intellij.ui.components.JBCheckBox;
 
 public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disposable
 {
+	private static final NamedPointer<Language> ourCSSLanguagePointer = LanguagePointerUtil.createPointer("CSS");
+
 	private JPanel myMainPanel;
 	private JBCheckBox myCssFromURIEnabled;
 	private JTextField myCssURI;
@@ -101,12 +103,12 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
 
 	private static void setHighlighting(EditorEx editor)
 	{
-		final FileType cssFileType = FileTypeManager.getInstance().getFileTypeByExtension("css");
-		if(cssFileType == UnknownFileType.INSTANCE)
+		final Language language = ourCSSLanguagePointer.get();
+		if(language == null)
 		{
 			return;
 		}
-		final EditorHighlighter editorHighlighter = HighlighterFactory.createHighlighter(cssFileType, EditorColorsManager.getInstance().getGlobalScheme(), null);
+		final EditorHighlighter editorHighlighter = HighlighterFactory.createHighlighter(language.getAssociatedFileType(), EditorColorsManager.getInstance().getGlobalScheme(), null);
 		editor.setHighlighter(editorHighlighter);
 	}
 
@@ -131,14 +133,14 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
 		myCssText = settings.getStylesheetText();
 		if(myEditor != null && !myEditor.isDisposed())
 		{
-			ApplicationManager.getApplication().runWriteAction(new Runnable()
+			/*ApplicationManager.getApplication().runWriteAction(new Runnable()
 			{
 				@Override
 				public void run()
 				{
 					myEditor.getDocument().setText(myCssText);
 				}
-			});
+			});*/
 		}
 
 		//noinspection ConstantConditions
