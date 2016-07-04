@@ -29,6 +29,7 @@ public class DefaultLanguageGuesser implements LanguageGuesser
 			}
 
 			result.put("js", result.get("javascript"));
+			result.put("csharp", result.get("c#"));
 			return result;
 		}
 	};
