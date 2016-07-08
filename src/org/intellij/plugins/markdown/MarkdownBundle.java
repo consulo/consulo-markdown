@@ -15,7 +15,7 @@
  */
 package org.intellij.plugins.markdown;
 
-import org.consulo.lombok.annotations.Bundle;
+import consulo.lombok.annotations.Bundle;
 
 @Bundle
 public class MarkdownBundle
