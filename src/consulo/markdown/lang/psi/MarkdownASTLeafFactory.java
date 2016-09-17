@@ -4,10 +4,10 @@ import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceContentImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.ASTLeafFactory;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.psi.impl.source.tree.LeafElement;
 import com.intellij.psi.tree.IElementType;
+import consulo.lang.LanguageVersion;
+import consulo.psi.tree.ASTLeafFactory;
 
 /**
  * @author VISTALL

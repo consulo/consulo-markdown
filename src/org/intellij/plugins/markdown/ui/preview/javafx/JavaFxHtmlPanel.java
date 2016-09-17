@@ -1,5 +1,18 @@
 package org.intellij.plugins.markdown.ui.preview.javafx;
 
+import java.awt.BorderLayout;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+import org.intellij.markdown.html.HtmlGenerator;
+import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -18,17 +31,6 @@ import javafx.scene.text.FontSmoothingType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-import org.intellij.markdown.html.HtmlGenerator;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
-import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.awt.*;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JavaFxHtmlPanel extends MarkdownHtmlPanel {
 

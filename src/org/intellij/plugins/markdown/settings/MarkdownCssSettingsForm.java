@@ -9,12 +9,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.consulo.util.pointers.NamedPointer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.highlighter.HighlighterFactory;
 import com.intellij.lang.Language;
-import com.intellij.lang.LanguagePointerUtil;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Document;
@@ -27,6 +25,8 @@ import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.util.Computable;
 import com.intellij.ui.ColorUtil;
 import com.intellij.ui.components.JBCheckBox;
+import consulo.lang.LanguagePointerUtil;
+import consulo.util.pointers.NamedPointer;
 
 public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disposable
 {

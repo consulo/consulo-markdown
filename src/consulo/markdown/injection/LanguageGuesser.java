@@ -3,8 +3,8 @@ package consulo.markdown.injection;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.extensions.CompositeExtensionPointName;
 import com.intellij.lang.Language;
+import consulo.extensions.CompositeExtensionPointName;
 
 /**
  * @author VISTALL

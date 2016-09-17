@@ -1,9 +1,9 @@
 package org.intellij.plugins.markdown.ui.preview.javafx;
 
+import java.awt.Dimension;
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-
-import java.awt.*;
 
 public class JFXPanelWrapper extends JFXPanel {
   public JFXPanelWrapper() {
