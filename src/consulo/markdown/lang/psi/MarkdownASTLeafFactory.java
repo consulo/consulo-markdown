@@ -17,7 +17,7 @@ public class MarkdownASTLeafFactory implements ASTLeafFactory
 {
 	@NotNull
 	@Override
-	public LeafElement createLeaf(@NotNull IElementType type, @NotNull LanguageVersion<?> languageVersion, @NotNull CharSequence text)
+	public LeafElement createLeaf(@NotNull IElementType type, @NotNull LanguageVersion languageVersion, @NotNull CharSequence text)
 	{
 		return new MarkdownCodeFenceContentImpl(type, text);
 	}
