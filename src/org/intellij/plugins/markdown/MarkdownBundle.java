@@ -15,9 +15,25 @@
  */
 package org.intellij.plugins.markdown;
 
-import consulo.lombok.annotations.Bundle;
+import org.jetbrains.annotations.PropertyKey;
+import com.intellij.AbstractBundle;
 
-@Bundle
-public class MarkdownBundle
+public class MarkdownBundle extends AbstractBundle
 {
+	private static final MarkdownBundle ourInstance = new MarkdownBundle();
+
+	private MarkdownBundle()
+	{
+		super("messages.MarkdownBundle");
+	}
+
+	public static String message(@PropertyKey(resourceBundle = "messages.MarkdownBundle") String key)
+	{
+		return ourInstance.getMessage(key);
+	}
+
+	public static String message(@PropertyKey(resourceBundle = "messages.MarkdownBundle") String key, Object... params)
+	{
+		return ourInstance.getMessage(key, params);
+	}
 }
