@@ -14,6 +14,13 @@
             <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resource" />
             <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
           </content>
+          <orderEntry type="module-library" scope="PROVIDED">
+            <library>
+              <binaries>
+                <root url="jar://$MODULE_DIR$/libProvided/jfxrt-stub.jar!/" />
+              </binaries>
+            </library>
+          </orderEntry>
           <orderEntry type="module-extension-sdk" extension-id="java" />
           <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
           <orderEntry type="sourceFolder" />
