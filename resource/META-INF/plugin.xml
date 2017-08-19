@@ -5,7 +5,6 @@
 	<vendor url="http://www.jetbrains.com">JetBrains</vendor>
 
 	<depends optional="true" config-file="org.intellij.intelliLang.xml">org.intellij.intelliLang</depends>
-	<depends optional="true" config-file="com.intellij.xml.xml">com.intellij.xml</depends>
 	<depends optional="true" config-file="com.intellij.spellchecker.xml">com.intellij.spellchecker</depends>
 
 	<extensionPoints>
