@@ -26,13 +26,6 @@ public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPre
 		return "Markdown split editor";
 	}
 
-	@Nullable
-	@Override
-	public VirtualFile getVirtualFile()
-	{
-		return null;
-	}
-
 	@NotNull
 	@Override
 	public Editor getEditor()

@@ -322,9 +322,9 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 		return null;
 	}
 
-	@Nullable
+	@NotNull
 	@Override
-	public VirtualFile getVirtualFile()
+	public VirtualFile getFile()
 	{
 		return myFile;
 	}
