@@ -15,13 +15,14 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import icons.MarkdownIcons;
+import javax.annotation.Nonnull;
+
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.ui.image.Image;
+import icons.MarkdownIcons;
 
 public class MarkdownFileType extends LanguageFileType {
   public static final MarkdownFileType INSTANCE = new MarkdownFileType();
@@ -30,18 +31,21 @@ public class MarkdownFileType extends LanguageFileType {
     super(MarkdownLanguage.INSTANCE);
   }
 
+  @Nonnull
   @NotNull
   @Override
-  public String getName() {
+  public String getId() {
     return "Markdown";
   }
 
+  @Nonnull
   @NotNull
   @Override
   public String getDescription() {
     return MarkdownBundle.message("markdown.file.type.description");
   }
 
+  @Nonnull
   @NotNull
   @Override
   public String getDefaultExtension() {
@@ -50,7 +54,7 @@ public class MarkdownFileType extends LanguageFileType {
 
   @Nullable
   @Override
-  public Icon getIcon() {
+  public Image getIcon() {
     return MarkdownIcons.MarkdownPlugin;
   }
 }
