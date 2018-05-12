@@ -4,13 +4,13 @@ import org.intellij.plugins.markdown.ui.split.SplitTextEditorProvider;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
-import com.intellij.openapi.fileEditor.impl.text.PsiAwareTextEditorProvider;
+import com.intellij.openapi.fileEditor.impl.text.DesktopPsiAwareTextEditorProvider;
 
 public class MarkdownSplitEditorProvider extends SplitTextEditorProvider
 {
 	public MarkdownSplitEditorProvider()
 	{
-		super(new PsiAwareTextEditorProvider(), new MarkdownPreviewFileEditorProvider());
+		super(new DesktopPsiAwareTextEditorProvider(), new MarkdownPreviewFileEditorProvider());
 	}
 
 	@Override
