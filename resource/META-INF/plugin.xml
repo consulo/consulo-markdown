@@ -45,7 +45,6 @@
 		<applicationConfigurable id="Settings.Markdown.Css"
 								 bundle="messages.MarkdownBundle"
 								 parentId="editor"
-								 nonDefaultProject="true"
 								 key="settings.markdown.css.name"
 								 instance="org.intellij.plugins.markdown.settings.MarkdownCssConfigurable">
 			<configurable id="Settings.Markdown.Preview"
