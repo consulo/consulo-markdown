@@ -15,6 +15,14 @@
  */
 package org.intellij.plugins.markdown.highlighting;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.intellij.plugins.markdown.MarkdownBundle;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
@@ -23,16 +31,6 @@ import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
-import org.intellij.plugins.markdown.MarkdownBundle;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MarkdownColorSettingsPage implements ColorSettingsPage {
 
@@ -108,11 +106,6 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
   @NotNull
   public SyntaxHighlighter getHighlighter() {
     return new MarkdownSyntaxHighlighter();
-  }
-
-  @Nullable
-  public Icon getIcon() {
-    return null;
   }
 
   private enum AttributeDescriptorsHolder {

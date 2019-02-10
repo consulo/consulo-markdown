@@ -1,16 +1,15 @@
 package org.intellij.plugins.markdown.structureView;
 
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.util.PlatformIcons;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+import com.intellij.icons.AllIcons;
+import com.intellij.navigation.ItemPresentation;
+import consulo.ui.image.Image;
 
 public abstract class MarkdownBasePresentation implements ItemPresentation {
 
   @Nullable
   @Override
-  public Icon getIcon(boolean unused) {
-    return PlatformIcons.XML_TAG_ICON;
+  public Image getIcon() {
+    return AllIcons.Nodes.Tag;
   }
 }

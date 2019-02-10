@@ -1,8 +1,8 @@
 package org.intellij.plugins.markdown.actions;
 
-import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 
 public class MarkdownToggleItalicTest extends LightPlatformCodeInsightTestCase {
 
