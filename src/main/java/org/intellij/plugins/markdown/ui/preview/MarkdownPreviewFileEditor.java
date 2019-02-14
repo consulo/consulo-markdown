@@ -1,7 +1,6 @@
 package org.intellij.plugins.markdown.ui.preview;
 
 import java.awt.BorderLayout;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URI;
 import java.util.Map;
@@ -42,6 +41,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Alarm;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.JBUI;
+import kava.beans.PropertyChangeListener;
 
 public class MarkdownPreviewFileEditor extends UserDataHolderBase implements FileEditor
 {
