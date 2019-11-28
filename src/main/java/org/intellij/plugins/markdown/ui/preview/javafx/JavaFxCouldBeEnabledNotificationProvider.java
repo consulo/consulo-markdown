@@ -1,11 +1,5 @@
 package org.intellij.plugins.markdown.ui.preview.javafx;
 
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
-import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
-import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileEditor;
@@ -14,8 +8,14 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.editor.notifications.EditorNotificationProvider;
+import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
+import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class JavaFxCouldBeEnabledNotificationProvider implements EditorNotificationProvider<EditorNotificationPanel>, DumbAware
 {
