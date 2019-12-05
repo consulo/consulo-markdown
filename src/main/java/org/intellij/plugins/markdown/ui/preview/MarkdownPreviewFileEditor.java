@@ -1,13 +1,22 @@
 package org.intellij.plugins.markdown.ui.preview;
 
-import java.awt.BorderLayout;
-import java.io.File;
-import java.net.URI;
-import java.util.Map;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
+import com.intellij.CommonBundle;
+import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
+import com.intellij.ide.structureView.StructureViewBuilder;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.event.DocumentAdapter;
+import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.fileEditor.*;
+import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.Alarm;
+import com.intellij.util.messages.MessageBusConnection;
+import com.intellij.util.ui.JBUI;
+import consulo.util.dataholder.UserDataHolderBase;
+import kava.beans.PropertyChangeListener;
 import org.intellij.markdown.IElementType;
 import org.intellij.markdown.ast.ASTNode;
 import org.intellij.markdown.html.GeneratingProvider;
@@ -21,27 +30,12 @@ import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.CommonBundle;
-import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
-import com.intellij.ide.structureView.StructureViewBuilder;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.event.DocumentAdapter;
-import com.intellij.openapi.editor.event.DocumentEvent;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.fileEditor.FileEditorLocation;
-import com.intellij.openapi.fileEditor.FileEditorState;
-import com.intellij.openapi.fileEditor.FileEditorStateLevel;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.util.UserDataHolderBase;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.Alarm;
-import com.intellij.util.messages.MessageBusConnection;
-import com.intellij.util.ui.JBUI;
-import kava.beans.PropertyChangeListener;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.net.URI;
+import java.util.Map;
 
 public class MarkdownPreviewFileEditor extends UserDataHolderBase implements FileEditor
 {

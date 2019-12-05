@@ -1,4 +1,4 @@
-<idea-plugin>
+<consulo-plugin>
 	<id>consulo.markdown</id>
 	<name>Markdown</name>
 	<version>SNAPSHOT</version>
@@ -115,4 +115,4 @@
 			</action>
 		</group>
 	</actions>
-</idea-plugin>
+</consulo-plugin>

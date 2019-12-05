@@ -1,5 +1,5 @@
-<idea-plugin>
+<consulo-plugin>
 	<extensions defaultExtensionNs="consulo.markdown">
 		<langGuesser implementation="consulo.markdown.injection.LanguageGuesserByTemporaryPlacesRegistry"/>
 	</extensions>
-</idea-plugin>
+</consulo-plugin>
