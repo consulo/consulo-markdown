@@ -5,7 +5,7 @@ import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
-public class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCase
+public abstract class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCase
 {
   public void testFenceWithLang() {
     doTest("```java\n" +

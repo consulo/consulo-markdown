@@ -4,7 +4,7 @@ import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import com.intellij.spellchecker.inspections.SpellCheckingInspection;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
-public class MarkdownSpellcheckerTest extends LightPlatformCodeInsightFixtureTestCase
+public abstract class MarkdownSpellcheckerTest extends LightPlatformCodeInsightFixtureTestCase
 {
 
   @Override

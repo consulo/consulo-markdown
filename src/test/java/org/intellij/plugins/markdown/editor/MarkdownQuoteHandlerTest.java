@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
-public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTestCase
+public abstract class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTestCase
 {
   private void doTest(@NotNull String text, char charToType, @NotNull String expectedResult) {
     final PsiFile file = myFixture.configureByText("test.md", text);

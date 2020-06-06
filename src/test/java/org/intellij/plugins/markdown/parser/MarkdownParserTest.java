@@ -15,14 +15,13 @@
  */
 package org.intellij.plugins.markdown.parser;
 
-import java.io.IOException;
-
+import consulo.testFramework.ParsingTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage;
-import org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition;
-import consulo.testFramework.ParsingTestCase;
 
-public class MarkdownParserTest extends ParsingTestCase
+import java.io.IOException;
+
+public abstract class MarkdownParserTest extends ParsingTestCase
 {
 
   public MarkdownParserTest() {

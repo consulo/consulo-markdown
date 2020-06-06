@@ -4,7 +4,7 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class MarkdownToggleCodeSpanTest extends LightPlatformCodeInsightTestCase {
+public abstract class MarkdownToggleCodeSpanTest extends LightPlatformCodeInsightTestCase {
 
   public void testSimple() {
     doTest();
