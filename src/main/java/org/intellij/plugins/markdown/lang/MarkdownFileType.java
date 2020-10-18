@@ -15,14 +15,14 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import javax.annotation.Nonnull;
-
+import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.markdown.icon.MarkdownIconGroup;
+import consulo.ui.image.Image;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import consulo.ui.image.Image;
-import icons.MarkdownIcons;
+
+import javax.annotation.Nonnull;
 
 public class MarkdownFileType extends LanguageFileType {
   public static final MarkdownFileType INSTANCE = new MarkdownFileType();
@@ -55,6 +55,6 @@ public class MarkdownFileType extends LanguageFileType {
   @Nullable
   @Override
   public Image getIcon() {
-    return MarkdownIcons.MarkdownPlugin;
+    return MarkdownIconGroup.MarkdownPlugin();
   }
 }

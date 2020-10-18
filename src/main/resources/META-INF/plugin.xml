@@ -67,21 +67,21 @@
 					id="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
 					text="Toggle bold mode"
 					description="Toggles bold mode on caret/selection"
-					icon="MarkdownIcons.EditorActions.Bold">
+					icon="consulo.markdown.MarkdownIconGroup@editor_actions.bold">
 			</action>
 
 			<action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction"
 					id="org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction"
 					text="Toggle italic mode"
 					description="Toggles italic mode on caret/selection"
-					icon="MarkdownIcons.EditorActions.Italic">
+					icon="consulo.markdown.MarkdownIconGroup@editor_actions.italic">
 			</action>
 
 			<action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction"
 					id="org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction"
 					text="Toggle monospaced (code span) mode"
 					description="Toggles monospaced mode (rendered as code span) on caret/selection"
-					icon="MarkdownIcons.EditorActions.Code_span">
+					icon="consulo.markdown.MarkdownIconGroup@editor_actions.code_span">
 			</action>
 		</group>
 
@@ -90,7 +90,7 @@
 				id="org.intellij.plugins.markdown.ui.actions.editorLayout.CyclicSplitLayoutChangeAction"
 				text="Change split layout"
 				description="Toggle markdown editor layout through different values (editor only, preview only, wysiwyg split)"
-				icon="AllIcons.Actions.PreviewDetails"
+				icon="consulo.platform.base.PlatformIconGroup@actions.previewdetails"
 				use-shortcut-of="ParameterInfo">
 		</action>
 
@@ -99,19 +99,19 @@
 					id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
 					text="Show editor only"
 					description="Sets markdown editor layout to show editor only"
-					icon="MarkdownIcons.Layout.Editor_only">
+					icon="consulo.markdown.MarkdownIconGroup@layout.editor_only">
 			</action>
 			<action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
 					id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
 					text="Show editor and preview"
 					description="Sets markdown editor layout to show editor and preview in split"
-					icon="MarkdownIcons.Layout.Editor_preview">
+					icon="consulo.markdown.MarkdownIconGroup@layout.editor_preview">
 			</action>
 			<action class="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
 					id="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
 					text="Show preview only"
 					description="Sets markdown editor layout to show preview only"
-					icon="MarkdownIcons.Layout.Preview_only">
+					icon="consulo.markdown.MarkdownIconGroup@layout.preview_only">
 			</action>
 		</group>
 	</actions>
