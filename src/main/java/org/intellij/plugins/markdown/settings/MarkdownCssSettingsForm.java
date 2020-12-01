@@ -1,16 +1,5 @@
 package org.intellij.plugins.markdown.settings;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.highlighter.HighlighterFactory;
 import com.intellij.lang.Language;
 import com.intellij.openapi.Disposable;
@@ -23,10 +12,18 @@ import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.util.Computable;
-import com.intellij.ui.ColorUtil;
 import com.intellij.ui.components.JBCheckBox;
 import consulo.lang.LanguagePointerUtil;
+import consulo.ui.color.ColorValue;
+import consulo.ui.util.ColorValueUtil;
 import consulo.util.pointers.NamedPointer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disposable
 {
@@ -61,14 +58,14 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
 					myEditor.getDocument().setReadOnly(!canEditCss);
 					myEditor.getSettings().setCaretRowShown(canEditCss);
 
-					Color baseColor = myEditor.getColorsScheme().getDefaultBackground();
+					ColorValue baseColor = myEditor.getColorsScheme().getDefaultBackground();
 					if(canEditCss)
 					{
 						((EditorEx) myEditor).setBackgroundColor(baseColor);
 					}
 					else
 					{
-						((EditorEx) myEditor).setBackgroundColor(ColorUtil.isDark(baseColor) ? ColorUtil.brighter(baseColor, 1) : ColorUtil.darker(baseColor, 1));
+						((EditorEx) myEditor).setBackgroundColor(ColorValueUtil.isDark(baseColor) ? ColorValueUtil.brighter(baseColor) : ColorValueUtil.darker(baseColor));
 					}
 				}
 			}
