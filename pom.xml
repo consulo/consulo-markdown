@@ -39,13 +39,6 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>markdown</id>
-			<url>http://dl.bintray.com/jetbrains/markdown/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
 			<id>project-local</id>
 			<url>file:${project.basedir}/.local</url>
 		</repository>
@@ -92,7 +85,7 @@
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>markdown</artifactId>
-			<version>0.1.28</version>
+			<version>0.1.46</version>
 		</dependency>
 
 		<dependency>
