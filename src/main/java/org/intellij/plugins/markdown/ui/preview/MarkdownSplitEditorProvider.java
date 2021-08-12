@@ -1,16 +1,19 @@
 package org.intellij.plugins.markdown.ui.preview;
 
+import com.intellij.openapi.fileEditor.impl.text.PsiAwareTextEditorProviderImpl;
+import consulo.fileEditor.impl.text.TextEditorComponentContainerFactory;
 import org.intellij.plugins.markdown.ui.split.SplitTextEditorProvider;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
-import com.intellij.openapi.fileEditor.impl.text.DesktopPsiAwareTextEditorProvider;
+
+import javax.annotation.Nonnull;
 
 public class MarkdownSplitEditorProvider extends SplitTextEditorProvider
 {
-	public MarkdownSplitEditorProvider()
+	public MarkdownSplitEditorProvider(@Nonnull TextEditorComponentContainerFactory factory)
 	{
-		super(new DesktopPsiAwareTextEditorProvider(), new MarkdownPreviewFileEditorProvider());
+		super(new PsiAwareTextEditorProviderImpl(factory), new MarkdownPreviewFileEditorProvider());
 	}
 
 	@Override
@@ -21,11 +24,5 @@ public class MarkdownSplitEditorProvider extends SplitTextEditorProvider
 			throw new IllegalArgumentException("Main editor should be TextEditor");
 		}
 		return new MarkdownSplitEditor(((TextEditor) firstEditor), ((MarkdownPreviewFileEditor) secondEditor));
-	}
-
-	@Override
-	public void disposeEditor(@NotNull FileEditor fileEditor)
-	{
-
 	}
 }
