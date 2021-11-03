@@ -3,6 +3,10 @@
 	<name>Markdown</name>
 	<version>SNAPSHOT</version>
 	<vendor url="http://www.jetbrains.com">JetBrains</vendor>
+	<category>Markup Languages</category>
+	<tags>
+		<tag>markup.language</tag>
+	</tags>
 
 	<depends>consulo.library.batik</depends>
 	<depends optional="true" config-file="org.intellij.intelliLang.xml">org.intellij.intelliLang</depends>
