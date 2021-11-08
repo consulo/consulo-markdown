@@ -9,7 +9,6 @@
 	</tags>
 
 	<depends>consulo.library.batik</depends>
-	<depends optional="true" config-file="org.intellij.intelliLang.xml">org.intellij.intelliLang</depends>
 	<depends optional="true" config-file="com.intellij.spellchecker.xml">com.intellij.spellchecker</depends>
 
 	<extensionPoints>
@@ -19,6 +18,7 @@
 
 	<extensions defaultExtensionNs="consulo.markdown">
 		<langGuesser implementation="consulo.markdown.injection.DefaultLanguageGuesser"/>
+		<langGuesser implementation="consulo.markdown.injection.LanguageGuesserByTemporaryPlacesRegistry"/>
 
 		<htmlPanelProvider implementation="org.intellij.plugins.markdown.ui.preview.lobo.LoboHtmlPanelProvider"/>
 		<htmlPanelProvider implementation="org.intellij.plugins.markdown.ui.preview.javafx.JavaFxHtmlPanelProvider"/>
