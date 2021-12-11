@@ -16,11 +16,11 @@
 package org.intellij.plugins.markdown.lang;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.localize.LocalizeValue;
 import consulo.markdown.icon.MarkdownIconGroup;
+import consulo.markdown.localize.MarkdownLocalize;
 import consulo.ui.image.Image;
-import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
@@ -41,8 +41,8 @@ public class MarkdownFileType extends LanguageFileType {
   @Nonnull
   @NotNull
   @Override
-  public String getDescription() {
-    return MarkdownBundle.message("markdown.file.type.description");
+  public LocalizeValue getDescription() {
+    return MarkdownLocalize.markdownFileTypeDescription();
   }
 
   @Nonnull
@@ -52,7 +52,7 @@ public class MarkdownFileType extends LanguageFileType {
     return "md";
   }
 
-  @Nullable
+  @Nonnull
   @Override
   public Image getIcon() {
     return MarkdownIconGroup.MarkdownPlugin();

@@ -1,0 +1,96 @@
+markdown.plugin.name:
+  text: Markdown
+markdown.file.type.description:
+  text: Markdown files
+markdown.toolbar.view.label:
+  text: 'View:'
+markdown.editor.colors.text:
+  text: Text
+markdown.editor.colors.bold:
+  text: Bold text
+markdown.editor.colors.bold_marker:
+  text: Bold marker
+markdown.editor.colors.italic:
+  text: Italic text
+markdown.editor.colors.italic_marker:
+  text: Italic marker
+markdown.editor.colors.strikethrough:
+  text: Strike through
+markdown.editor.colors.explicit_link:
+  text: Explicit link
+markdown.editor.colors.header_level_1:
+  text: 1st level header
+markdown.editor.colors.header_level_2:
+  text: 2nd level header
+markdown.editor.colors.header_level_3:
+  text: 3rd level header
+markdown.editor.colors.header_level_4:
+  text: 4th level header
+markdown.editor.colors.header_level_5:
+  text: 5th level header
+markdown.editor.colors.header_level_6:
+  text: 6th level header
+markdown.editor.colors.code_span:
+  text: Code span
+markdown.editor.colors.code_span_marker:
+  text: Code span marker
+markdown.editor.colors.code_block:
+  text: Code block
+markdown.editor.colors.code_fence:
+  text: Code fence
+markdown.editor.colors.blockquote:
+  text: Blockquote
+markdown.editor.colors.hrule:
+  text: Horizontal rule
+markdown.editor.colors.table_separator:
+  text: Table separator
+markdown.editor.colors.reference_link:
+  text: Reference link
+markdown.editor.colors.auto_link:
+  text: Auto link
+markdown.editor.colors.unordered_list:
+  text: Unordered list
+markdown.editor.colors.ordered_list:
+  text: Ordered list
+markdown.editor.colors.list_item:
+  text: List item
+markdown.editor.colors.link_definition:
+  text: Link definition
+markdown.editor.colors.html_block:
+  text: HTML block
+markdown.editor.colors.inline_html:
+  text: Inline HTML
+markdown.editor.colors.blockquote_marker:
+  text: Blockquote marker
+markdown.editor.colors.list_marker:
+  text: List marker
+markdown.editor.colors.header_marker:
+  text: Header marker
+markdown.editor.colors.image:
+  text: Image
+markdown.editor.colors.link_text:
+  text: Link text
+markdown.editor.colors.link_label:
+  text: Link label
+markdown.editor.colors.link_destination:
+  text: Link destination
+markdown.editor.colors.link_title:
+  text: Link title
+settings.markdown.css.name:
+  text: Markdown
+settings.markdown.preview.name:
+  text: Preview
+settings.markdown.css.enable.uri:
+  text: Apply CSS from URI
+settings.markdown.css.uri.label:
+  text: 'URI:'
+settings.markdown.css.enable.inline:
+  text: Apply custom CSS text
+settings.markdown.preview.use.grayscale:
+  text: Use grayscale rendering for JavaFX preview
+markdown.layout.editor.only:
+  text: Show editor only
+markdown.layout.preview.only:
+  text: Show preview only
+markdown.layout.editor.and.preview:
+  text: Show editor and preview
