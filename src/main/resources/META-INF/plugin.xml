@@ -21,7 +21,6 @@
 		<langGuesser implementation="consulo.markdown.injection.LanguageGuesserByTemporaryPlacesRegistry"/>
 
 		<htmlPanelProvider implementation="org.intellij.plugins.markdown.ui.preview.lobo.LoboHtmlPanelProvider"/>
-		<htmlPanelProvider implementation="org.intellij.plugins.markdown.ui.preview.javafx.JavaFxHtmlPanelProvider"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij">
