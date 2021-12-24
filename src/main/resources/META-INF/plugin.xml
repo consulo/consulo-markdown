@@ -1,4 +1,4 @@
-<consulo-plugin>
+<consulo-plugin url="https://github.com/consulo/consulo-markdown">
 	<id>consulo.markdown</id>
 	<name>Markdown</name>
 	<version>SNAPSHOT</version>
