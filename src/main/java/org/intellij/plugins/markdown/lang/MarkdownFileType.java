@@ -15,7 +15,7 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.language.file.LanguageFileType;
 import consulo.localize.LocalizeValue;
 import consulo.markdown.icon.MarkdownIconGroup;
 import consulo.markdown.localize.MarkdownLocalize;
@@ -55,6 +55,6 @@ public class MarkdownFileType extends LanguageFileType {
   @Nonnull
   @Override
   public Image getIcon() {
-    return MarkdownIconGroup.MarkdownPlugin();
+    return MarkdownIconGroup.markdownplugin();
   }
 }

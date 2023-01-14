@@ -15,23 +15,25 @@
  */
 package org.intellij.plugins.markdown.highlighting;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.colorScheme.setting.AttributesDescriptor;
+import consulo.colorScheme.setting.ColorDescriptor;
+import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.util.io.CharsetToolkit;
+import consulo.util.io.StreamUtil;
+import consulo.util.lang.StringUtil;
+import org.intellij.plugins.markdown.MarkdownBundle;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.intellij.plugins.markdown.MarkdownBundle;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.options.colors.AttributesDescriptor;
-import com.intellij.openapi.options.colors.ColorDescriptor;
-import com.intellij.openapi.options.colors.ColorSettingsPage;
-import com.intellij.openapi.util.io.StreamUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.CharsetToolkit;
-
+@ExtensionImpl
 public class MarkdownColorSettingsPage implements ColorSettingsPage {
 
   private static final AttributesDescriptor[] ATTRIBUTE_DESCRIPTORS = AttributeDescriptorsHolder.INSTANCE.get();

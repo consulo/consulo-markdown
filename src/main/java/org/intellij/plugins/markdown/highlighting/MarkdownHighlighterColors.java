@@ -15,14 +15,13 @@
  */
 package org.intellij.plugins.markdown.highlighting;
 
-import com.intellij.openapi.editor.colors.TextAttributesKey;
+import consulo.codeEditor.EditorColors;
+import consulo.colorScheme.TextAttributesKey;
 
-import static com.intellij.openapi.editor.DefaultLanguageHighlighterColors.*;
-import static com.intellij.openapi.editor.HighlighterColors.TEXT;
-import static com.intellij.openapi.editor.colors.CodeInsightColors.DEPRECATED_ATTRIBUTES;
-import static com.intellij.openapi.editor.colors.CodeInsightColors.HYPERLINK_ATTRIBUTES;
-import static com.intellij.openapi.editor.colors.EditorColors.INJECTED_LANGUAGE_FRAGMENT;
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
+import static consulo.codeEditor.CodeInsightColors.*;
+import static consulo.codeEditor.DefaultLanguageHighlighterColors.*;
+import static consulo.codeEditor.HighlighterColors.*;
+import static consulo.colorScheme.TextAttributesKey.createTextAttributesKey;
 
 public class MarkdownHighlighterColors {
 
@@ -57,7 +56,7 @@ public class MarkdownHighlighterColors {
 
   public static final TextAttributesKey LINK_DEFINITION_ATTR_KEY = createTextAttributesKey("MARKDOWN_LINK_DEFINITION", TEXT);
   public static final TextAttributesKey REFERENCE_LINK_ATTR_KEY = createTextAttributesKey("MARKDOWN_REFERENCE_LINK", STRING);
-  public static final TextAttributesKey IMAGE_ATTR_KEY = createTextAttributesKey("MARKDOWN_IMAGE", INJECTED_LANGUAGE_FRAGMENT);
+  public static final TextAttributesKey IMAGE_ATTR_KEY = createTextAttributesKey("MARKDOWN_IMAGE", EditorColors.INJECTED_LANGUAGE_FRAGMENT);
   public static final TextAttributesKey EXPLICIT_LINK_ATTR_KEY = createTextAttributesKey("MARKDOWN_EXPLICIT_LINK", STRING);
   public static final TextAttributesKey LINK_TEXT_ATTR_KEY = createTextAttributesKey("MARKDOWN_LINK_TEXT", HYPERLINK_ATTRIBUTES);
   public static final TextAttributesKey LINK_DESTINATION_ATTR_KEY = createTextAttributesKey("MARKDOWN_LINK_DESTINATION", STATIC_METHOD);

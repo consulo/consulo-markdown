@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.highlighting;
 
-import com.intellij.lexer.LayeredLexer;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.lexer.LayeredLexer;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.lexer.MarkdownLexerAdapter;
 import org.intellij.plugins.markdown.lang.lexer.MarkdownToplevelLexer;

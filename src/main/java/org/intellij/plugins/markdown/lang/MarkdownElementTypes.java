@@ -15,8 +15,8 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IFileElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.IFileElementType;
 import org.intellij.markdown.flavours.gfm.GFMElementTypes;
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes;
 

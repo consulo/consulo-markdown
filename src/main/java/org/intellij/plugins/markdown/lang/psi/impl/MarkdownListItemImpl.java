@@ -1,17 +1,17 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
+import consulo.colorScheme.TextAttributesKey;
+import consulo.execution.process.ConsoleHighlighter;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElement;
+import consulo.navigation.ItemPresentation;
+import consulo.ui.ex.ColoredItemPresentation;
+import consulo.ui.image.Image;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.execution.process.ConsoleHighlighter;
-import com.intellij.lang.ASTNode;
-import com.intellij.navigation.ColoredItemPresentation;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.psi.PsiElement;
-import consulo.ui.image.Image;
 
 public class MarkdownListItemImpl extends MarkdownCompositePsiElementBase {
   public MarkdownListItemImpl(@NotNull ASTNode node) {

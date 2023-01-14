@@ -15,14 +15,14 @@
  */
 package org.intellij.plugins.markdown.highlighting;
 
-import com.intellij.lang.annotation.Annotation;
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
+import consulo.application.dumb.DumbAware;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.annotation.Annotation;
+import consulo.language.editor.annotation.AnnotationHolder;
+import consulo.language.editor.annotation.Annotator;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.psi.PsiElement;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.jetbrains.annotations.NotNull;

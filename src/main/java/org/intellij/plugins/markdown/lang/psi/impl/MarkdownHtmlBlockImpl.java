@@ -1,8 +1,8 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
-import com.intellij.lang.ASTNode;
-import com.intellij.navigation.ItemPresentation;
+import consulo.language.ast.ASTNode;
+import consulo.language.impl.psi.ASTWrapperPsiElement;
+import consulo.navigation.ItemPresentation;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
 import org.jetbrains.annotations.NotNull;

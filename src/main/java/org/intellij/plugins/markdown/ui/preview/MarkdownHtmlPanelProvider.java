@@ -1,149 +1,131 @@
 package org.intellij.plugins.markdown.ui.preview;
 
-import javax.swing.JComponent;
-
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ExtensionAPI;
+import consulo.application.CommonBundle;
+import consulo.component.extension.ExtensionPointName;
+import consulo.logging.Logger;
+import consulo.ui.ex.awt.Messages;
+import consulo.util.xml.serializer.annotation.Attribute;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.CommonBundle;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.extensions.ExtensionPointName;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.util.xmlb.annotations.Attribute;
 
-public abstract class MarkdownHtmlPanelProvider
-{
-	public static final ExtensionPointName<MarkdownHtmlPanelProvider> EP_NAME = ExtensionPointName.create("consulo.markdown.htmlPanelProvider");
+import javax.swing.*;
 
-	private static MarkdownHtmlPanelProvider[] ourProviders = null;
+@ExtensionAPI(ComponentScope.APPLICATION)
+public abstract class MarkdownHtmlPanelProvider {
+  public static final ExtensionPointName<MarkdownHtmlPanelProvider> EP_NAME = ExtensionPointName.create(MarkdownHtmlPanelProvider.class);
 
-	@NotNull
-	public abstract MarkdownHtmlPanel createHtmlPanel();
+  private static MarkdownHtmlPanelProvider[] ourProviders = null;
 
-	@NotNull
-	public abstract AvailabilityInfo isAvailable();
+  @NotNull
+  public abstract MarkdownHtmlPanel createHtmlPanel();
 
-	@NotNull
-	public abstract ProviderInfo getProviderInfo();
+  @NotNull
+  public abstract AvailabilityInfo isAvailable();
 
-	@NotNull
-	public static MarkdownHtmlPanelProvider[] getProviders()
-	{
-		if(ourProviders == null)
-		{
-			ourProviders = EP_NAME.getExtensions();
-		}
-		return ourProviders;
-	}
+  @NotNull
+  public abstract ProviderInfo getProviderInfo();
 
-	@NotNull
-	public static MarkdownHtmlPanelProvider createFromInfo(@NotNull ProviderInfo providerInfo)
-	{
-		try
-		{
-			return ((MarkdownHtmlPanelProvider) Class.forName(providerInfo.getClassName()).newInstance());
-		}
-		catch(Exception e)
-		{
-			Messages.showMessageDialog("Cannot set preview panel provider (" + providerInfo.getName() + "):\n" + e.getMessage(), CommonBundle.getErrorTitle(), Messages.getErrorIcon());
-			Logger.getInstance(MarkdownHtmlPanelProvider.class).error(e);
-			return getProviders()[0];
-		}
-	}
+  @NotNull
+  public static MarkdownHtmlPanelProvider[] getProviders() {
+    if (ourProviders == null) {
+      ourProviders = EP_NAME.getExtensions();
+    }
+    return ourProviders;
+  }
 
-	public static class ProviderInfo
-	{
-		@NotNull
-		@Attribute("name")
-		private String myName;
-		@NotNull
-		@Attribute("className")
-		private String className;
+  @NotNull
+  public static MarkdownHtmlPanelProvider createFromInfo(@NotNull ProviderInfo providerInfo) {
+    try {
+      return ((MarkdownHtmlPanelProvider)Class.forName(providerInfo.getClassName()).newInstance());
+    }
+    catch (Exception e) {
+      Messages.showMessageDialog("Cannot set preview panel provider (" + providerInfo.getName() + "):\n" + e.getMessage(),
+                                 CommonBundle.getErrorTitle(),
+                                 Messages.getErrorIcon());
+      Logger.getInstance(MarkdownHtmlPanelProvider.class).error(e);
+      return getProviders()[0];
+    }
+  }
 
-		@SuppressWarnings("unused")
-		private ProviderInfo()
-		{
-			myName = "";
-			className = "";
-		}
+  public static class ProviderInfo {
+    @NotNull
+    @Attribute("name")
+    private String myName;
+    @NotNull
+    @Attribute("className")
+    private String className;
 
-		public ProviderInfo(@NotNull String name, @NotNull String className)
-		{
-			myName = name;
-			this.className = className;
-		}
+    @SuppressWarnings("unused")
+    private ProviderInfo() {
+      myName = "";
+      className = "";
+    }
 
-		@NotNull
-		public String getName()
-		{
-			return myName;
-		}
+    public ProviderInfo(@NotNull String name, @NotNull String className) {
+      myName = name;
+      this.className = className;
+    }
 
-		@NotNull
-		public String getClassName()
-		{
-			return className;
-		}
+    @NotNull
+    public String getName() {
+      return myName;
+    }
 
-		@Override
-		public boolean equals(Object o)
-		{
-			if(this == o)
-			{
-				return true;
-			}
-			if(o == null || getClass() != o.getClass())
-			{
-				return false;
-			}
+    @NotNull
+    public String getClassName() {
+      return className;
+    }
 
-			ProviderInfo info = (ProviderInfo) o;
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
 
-			if(!myName.equals(info.myName))
-			{
-				return false;
-			}
-			if(!className.equals(info.className))
-			{
-				return false;
-			}
+      ProviderInfo info = (ProviderInfo)o;
 
-			return true;
-		}
+      if (!myName.equals(info.myName)) {
+        return false;
+      }
+      if (!className.equals(info.className)) {
+        return false;
+      }
 
-		@Override
-		public int hashCode()
-		{
-			int result = myName.hashCode();
-			result = 31 * result + className.hashCode();
-			return result;
-		}
+      return true;
+    }
 
-		@Override
-		public String toString()
-		{
-			return myName;
-		}
-	}
+    @Override
+    public int hashCode() {
+      int result = myName.hashCode();
+      result = 31 * result + className.hashCode();
+      return result;
+    }
 
-	public static abstract class AvailabilityInfo
-	{
-		public static final AvailabilityInfo AVAILABLE = new AvailabilityInfo()
-		{
-			@Override
-			public boolean checkAvailability(@NotNull JComponent parentComponent)
-			{
-				return true;
-			}
-		};
+    @Override
+    public String toString() {
+      return myName;
+    }
+  }
 
-		public static final AvailabilityInfo UNAVAILABLE = new AvailabilityInfo()
-		{
-			@Override
-			public boolean checkAvailability(@NotNull JComponent parentComponent)
-			{
-				return false;
-			}
-		};
+  public static abstract class AvailabilityInfo {
+    public static final AvailabilityInfo AVAILABLE = new AvailabilityInfo() {
+      @Override
+      public boolean checkAvailability(@NotNull JComponent parentComponent) {
+        return true;
+      }
+    };
 
-		public abstract boolean checkAvailability(@NotNull JComponent parentComponent);
-	}
+    public static final AvailabilityInfo UNAVAILABLE = new AvailabilityInfo() {
+      @Override
+      public boolean checkAvailability(@NotNull JComponent parentComponent) {
+        return false;
+      }
+    };
+
+    public abstract boolean checkAvailability(@NotNull JComponent parentComponent);
+  }
 }

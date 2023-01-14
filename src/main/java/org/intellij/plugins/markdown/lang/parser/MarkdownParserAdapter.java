@@ -15,29 +15,27 @@
  */
 package org.intellij.plugins.markdown.lang.parser;
 
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.parser.PsiBuilder;
+import consulo.language.parser.PsiParser;
+import consulo.language.version.LanguageVersion;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.lang.PsiParser;
-import com.intellij.psi.tree.IElementType;
-import consulo.lang.LanguageVersion;
 
-public class MarkdownParserAdapter implements PsiParser
-{
-	@NotNull
-	public ASTNode parse(@NotNull IElementType root, @NotNull PsiBuilder builder, LanguageVersion languageVersion)
-	{
+public class MarkdownParserAdapter implements PsiParser {
+  @NotNull
+  public ASTNode parse(@NotNull IElementType root, @NotNull PsiBuilder builder, LanguageVersion languageVersion) {
 
-		PsiBuilder.Marker rootMarker = builder.mark();
+    PsiBuilder.Marker rootMarker = builder.mark();
 
-		final org.intellij.markdown.ast.ASTNode parsedTree = MarkdownParserManager.parseContent(builder.getOriginalText());
+    final org.intellij.markdown.ast.ASTNode parsedTree = MarkdownParserManager.parseContent(builder.getOriginalText());
 
-		assert builder.getCurrentOffset() == 0;
-		new PsiBuilderFillingVisitor(builder).visitNode(parsedTree);
-		assert builder.eof();
+    assert builder.getCurrentOffset() == 0;
+    new PsiBuilderFillingVisitor(builder).visitNode(parsedTree);
+    assert builder.eof();
 
-		rootMarker.done(root);
+    rootMarker.done(root);
 
-		return builder.getTreeBuilt();
-	}
+    return builder.getTreeBuilt();
+  }
 }

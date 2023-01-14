@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.ui.actions.styling;
 
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.util.lang.StringUtil;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

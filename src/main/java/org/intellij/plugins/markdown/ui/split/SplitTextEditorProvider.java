@@ -1,9 +1,9 @@
 package org.intellij.plugins.markdown.ui.split;
 
-import com.intellij.openapi.fileEditor.*;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.application.dumb.DumbAware;
+import consulo.fileEditor.*;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;

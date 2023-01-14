@@ -1,8 +1,8 @@
 package org.intellij.plugins.markdown.ui.preview;
 
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.Range;
+import consulo.disposer.Disposable;
+import consulo.util.lang.Range;
+import consulo.util.lang.StringUtil;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

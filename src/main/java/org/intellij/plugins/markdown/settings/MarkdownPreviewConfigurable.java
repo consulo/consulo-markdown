@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SearchableConfigurable;
+import consulo.configurable.ConfigurationException;
+import consulo.configurable.SearchableConfigurable;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;

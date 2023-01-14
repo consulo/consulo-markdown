@@ -1,9 +1,11 @@
 package org.intellij.plugins.markdown.ui.preview.lobo;
 
+import consulo.annotation.component.ExtensionImpl;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
 import org.jetbrains.annotations.NotNull;
 
+@ExtensionImpl
 public final class LoboHtmlPanelProvider extends MarkdownHtmlPanelProvider {
   public static final ProviderInfo INFO = new ProviderInfo("Default", LoboHtmlPanelProvider.class.getName());
 

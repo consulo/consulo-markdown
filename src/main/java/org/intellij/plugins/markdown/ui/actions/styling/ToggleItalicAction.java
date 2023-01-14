@@ -1,6 +1,6 @@
 package org.intellij.plugins.markdown.ui.actions.styling;
 
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.jetbrains.annotations.NotNull;
 

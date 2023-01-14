@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.ide.ui.LafManager;
-import com.intellij.ide.ui.LafManagerListener;
+import consulo.ide.impl.idea.ide.ui.LafManager;
+import consulo.ide.impl.idea.ide.ui.LafManagerListener;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;

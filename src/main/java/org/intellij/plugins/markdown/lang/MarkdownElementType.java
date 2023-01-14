@@ -15,7 +15,7 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
 import org.intellij.markdown.MarkdownElementTypes;
 import org.intellij.markdown.MarkdownTokenTypes;
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes;

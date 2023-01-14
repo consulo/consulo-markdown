@@ -1,9 +1,9 @@
 package org.intellij.plugins.markdown.ui.actions.editorLayout;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.Toggleable;
-import com.intellij.openapi.project.DumbAware;
+import consulo.application.dumb.DumbAware;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.Toggleable;
 import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
 import org.jetbrains.annotations.Nullable;

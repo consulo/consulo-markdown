@@ -1,16 +1,16 @@
 package org.intellij.plugins.markdown.structureView;
 
-import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
-import com.intellij.ide.util.treeView.smartTree.TreeElement;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.PsiFileImpl;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.util.ArrayUtil;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
+import consulo.fileEditor.structureView.tree.SortableTreeElement;
+import consulo.fileEditor.structureView.tree.TreeElement;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.impl.psi.PsiFileImpl;
+import consulo.language.psi.PsiElement;
+import consulo.navigation.ItemPresentation;
+import consulo.navigation.NavigationItem;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.StringUtil;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownBlockQuoteImpl;

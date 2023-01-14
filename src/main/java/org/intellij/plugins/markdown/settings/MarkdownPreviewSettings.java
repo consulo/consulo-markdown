@@ -1,8 +1,8 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.util.xmlb.annotations.Attribute;
-import com.intellij.util.xmlb.annotations.Property;
-import com.intellij.util.xmlb.annotations.Tag;
+import consulo.util.xml.serializer.annotation.Attribute;
+import consulo.util.xml.serializer.annotation.Property;
+import consulo.util.xml.serializer.annotation.Tag;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
 import org.intellij.plugins.markdown.ui.preview.lobo.LoboHtmlPanelProvider;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;

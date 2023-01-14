@@ -15,41 +15,30 @@
  */
 package org.intellij.plugins.markdown.braces;
 
-import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter;
-import com.intellij.lang.BracePair;
-import com.intellij.lang.PairedBraceMatcher;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.BracePair;
+import consulo.language.Language;
+import consulo.language.PairedBraceMatcher;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.jetbrains.annotations.NotNull;
 
-public class MarkdownBraceMatcher extends PairedBraceMatcherAdapter {
+import javax.annotation.Nonnull;
 
-  public MarkdownBraceMatcher() {
-    super(new MyPairedBraceMatcher(), MarkdownLanguage.INSTANCE);
+@ExtensionImpl
+public class MarkdownBraceMatcher implements PairedBraceMatcher {
+  @Override
+  public BracePair[] getPairs() {
+    return new BracePair[]{
+      new BracePair(MarkdownTokenTypes.LPAREN, MarkdownTokenTypes.RPAREN, false),
+      new BracePair(MarkdownTokenTypes.LBRACKET, MarkdownTokenTypes.RBRACKET, false),
+      new BracePair(MarkdownTokenTypes.LT, MarkdownTokenTypes.GT, false),
+      new BracePair(MarkdownTokenTypes.CODE_FENCE_START, MarkdownTokenTypes.CODE_FENCE_END, true)
+    };
   }
 
-  private static class MyPairedBraceMatcher implements PairedBraceMatcher {
-
-    @Override
-    public BracePair[] getPairs() {
-      return new BracePair[]{
-        new BracePair(MarkdownTokenTypes.LPAREN, MarkdownTokenTypes.RPAREN, false),
-        new BracePair(MarkdownTokenTypes.LBRACKET, MarkdownTokenTypes.RBRACKET, false),
-        new BracePair(MarkdownTokenTypes.LT, MarkdownTokenTypes.GT, false),
-        new BracePair(MarkdownTokenTypes.CODE_FENCE_START, MarkdownTokenTypes.CODE_FENCE_END, true)
-      };
-    }
-
-    @Override
-    public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType lbraceType, IElementType contextType) {
-      return true;
-    }
-
-    @Override
-    public int getCodeConstructStart(PsiFile file, int openingBraceOffset) {
-      return openingBraceOffset;
-    }
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return MarkdownLanguage.INSTANCE;
   }
 }

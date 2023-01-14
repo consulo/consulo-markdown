@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.lang.lexer;
 
-import com.intellij.lexer.LexerBase;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.lexer.LexerBase;
 import org.intellij.markdown.ast.ASTNode;
 import org.intellij.markdown.ast.ASTNodeKt;
 import org.intellij.markdown.ast.visitors.RecursiveVisitor;

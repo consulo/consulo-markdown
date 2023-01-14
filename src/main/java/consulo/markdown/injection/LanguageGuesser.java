@@ -1,19 +1,21 @@
 package consulo.markdown.injection;
 
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ExtensionAPI;
+import consulo.component.extension.ExtensionPointName;
+import consulo.language.Language;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.Language;
-import consulo.extensions.CompositeExtensionPointName;
 
 /**
  * @author VISTALL
  * @since 03-Jul-16
  */
-public interface LanguageGuesser
-{
-	CompositeExtensionPointName<LanguageGuesser> EP_NAME = CompositeExtensionPointName.applicationPoint("consulo.markdown.langGuesser", LanguageGuesser.class);
+@ExtensionAPI(ComponentScope.APPLICATION)
+public interface LanguageGuesser {
+  ExtensionPointName<LanguageGuesser> EP_NAME = ExtensionPointName.create(LanguageGuesser.class);
 
-	@Nullable
-	Language guessLanguage(@NotNull MarkdownCodeFenceImpl markdownCodeFence, @NotNull String fenceLanguage);
+  @Nullable
+  Language guessLanguage(@NotNull MarkdownCodeFenceImpl markdownCodeFence, @NotNull String fenceLanguage);
 }

@@ -1,6 +1,6 @@
 package org.intellij.plugins.markdown.lang.parser;
 
-import com.intellij.lang.PsiBuilder;
+import consulo.language.parser.PsiBuilder;
 import org.intellij.markdown.ast.ASTNode;
 import org.intellij.markdown.ast.LeafASTNode;
 import org.intellij.markdown.ast.visitors.RecursiveVisitor;

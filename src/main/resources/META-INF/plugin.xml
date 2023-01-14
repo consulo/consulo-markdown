@@ -17,34 +17,23 @@
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="consulo.markdown">
-		<langGuesser implementation="consulo.markdown.injection.DefaultLanguageGuesser"/>
-		<langGuesser implementation="consulo.markdown.injection.LanguageGuesserByTemporaryPlacesRegistry"/>
 
-		<htmlPanelProvider implementation="org.intellij.plugins.markdown.ui.preview.lobo.LoboHtmlPanelProvider"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="org.intellij.plugins.markdown.lang.MarkdownFileTypeFactory"/>
-		<lang.parserDefinition language="Markdown" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>
-		<lang.ast.compositeFactory implementation="consulo.markdown.lang.psi.MarkdownASTCompositeFactory"/>
-		<lang.ast.leafFactory implementation="consulo.markdown.lang.psi.MarkdownASTLeafFactory"/>
 
 		<lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl"
 								 implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl$Manipulator"/>
 
-		<colorSettingsPage implementation="org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage"/>
 		<syntaxHighlighter key="Markdown" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/MarkdownDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colorSchemes/MarkdownDefault.xml"/>
 
-		<braceMatcher filetype="Markdown" implementationClass="org.intellij.plugins.markdown.braces.MarkdownBraceMatcher"/>
-		<quoteHandler fileType="Markdown" className="org.intellij.plugins.markdown.braces.MarkdownQuoteHandler"/>
 
 		<annotator language="Markdown" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownHighlightingAnnotator"/>
 
 		<multiHostInjector forClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl" implementationClass="org.intellij.plugins.markdown.injection.CodeFenceInjector"/>
 
-		<fileEditorProvider implementation="org.intellij.plugins.markdown.ui.preview.MarkdownSplitEditorProvider"/>
 
 		<applicationConfigurable id="Settings.Markdown.Css"
 								 bundle="messages.MarkdownBundle"
@@ -56,14 +45,11 @@
 						  key="settings.markdown.preview.name"
 						  instance="org.intellij.plugins.markdown.settings.MarkdownPreviewConfigurable"/>
 		</applicationConfigurable>
-		<applicationService serviceImplementation="org.intellij.plugins.markdown.settings.MarkdownApplicationSettings"/>
-		<lang.psiStructureViewFactory language="Markdown"
-									  implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>
 		<!--<stripTrailingSpacesFilterFactory implementation="org.intellij.plugins.markdown.editor.MarkdownStripTrailingSpacesFilterFactory"/>  -->
 	</extensions>
 
 	<actions>
-		<group id="Markdown.Toolbar.Left" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor actions">
+		<group id="Markdown.Toolbar.Left" text="Markdown editor actions">
 			<action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
 					id="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
 					text="Toggle bold mode"
@@ -95,7 +81,7 @@
 				use-shortcut-of="ParameterInfo">
 		</action>
 
-		<group id="Markdown.Toolbar.Right" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor layout actions">
+		<group id="Markdown.Toolbar.Right" text="Markdown editor layout actions">
 			<action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
 					id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
 					text="Show editor only"

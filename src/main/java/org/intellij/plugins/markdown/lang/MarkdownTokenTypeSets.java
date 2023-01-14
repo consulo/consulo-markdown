@@ -15,7 +15,7 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.psi.tree.TokenSet;
+import consulo.language.ast.TokenSet;
 
 public interface MarkdownTokenTypeSets extends MarkdownElementTypes {
   TokenSet HEADER_MARKERS = TokenSet.create(

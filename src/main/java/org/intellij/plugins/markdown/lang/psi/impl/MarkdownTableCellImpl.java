@@ -1,6 +1,6 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
-import com.intellij.lang.ASTNode;
+import consulo.language.ast.ASTNode;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownTableCellImpl extends MarkdownCompositePsiElementBase {

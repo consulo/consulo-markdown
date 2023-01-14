@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.util.xmlb.annotations.Attribute;
+import consulo.logging.Logger;
+import consulo.util.xml.serializer.annotation.Attribute;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URISyntaxException;

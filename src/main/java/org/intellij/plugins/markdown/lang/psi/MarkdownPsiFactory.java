@@ -1,16 +1,16 @@
 package org.intellij.plugins.markdown.lang.psi;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.impl.psi.ASTWrapperPsiElement;
+import consulo.language.psi.PsiElement;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
-public enum MarkdownPsiFactory {
-  INSTANCE;
+public class MarkdownPsiFactory {
+  public static final MarkdownPsiFactory INSTANCE = new MarkdownPsiFactory();
 
   public PsiElement createElement(@NotNull ASTNode node) {
     final IElementType elementType = node.getElementType();

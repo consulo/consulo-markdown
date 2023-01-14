@@ -1,15 +1,14 @@
 package org.intellij.plugins.markdown.ui.split;
 
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.ActionPlaces;
-import com.intellij.openapi.actionSystem.ActionToolbar;
-import com.intellij.openapi.actionSystem.impl.ActionToolbarImpl;
-import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
-import com.intellij.util.ui.JBEmptyBorder;
-import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.UIUtil;
+import consulo.codeEditor.EditorGutterComponentEx;
+import consulo.disposer.Disposable;
+import consulo.ui.ex.action.ActionGroup;
+import consulo.ui.ex.action.ActionManager;
+import consulo.ui.ex.action.ActionPlaces;
+import consulo.ui.ex.action.ActionToolbar;
+import consulo.ui.ex.awt.JBEmptyBorder;
+import consulo.ui.ex.awt.JBUI;
+import consulo.ui.ex.awt.UIUtil;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,7 +72,7 @@ public class SplitEditorToolbar extends JPanel implements Disposable {
   public void addGutterToTrack(@NotNull EditorGutterComponentEx gutterComponentEx) {
     myGutters.add(gutterComponentEx);
 
-    gutterComponentEx.addComponentListener(myAdjustToGutterListener);
+    gutterComponentEx.getComponent().addComponentListener(myAdjustToGutterListener);
   }
 
   public void refresh() {
@@ -84,10 +83,12 @@ public class SplitEditorToolbar extends JPanel implements Disposable {
   private void adjustSpacing() {
     EditorGutterComponentEx leftMostGutter = null;
     for (EditorGutterComponentEx gutter : myGutters) {
-      if (!gutter.isShowing()) {
+      JComponent component = gutter.getComponent();
+
+      if (!component.isShowing()) {
         continue;
       }
-      if (leftMostGutter == null || leftMostGutter.getX() > gutter.getX()) {
+      if (leftMostGutter == null || component.getX() > component.getX()) {
         leftMostGutter = gutter;
       }
     }
@@ -109,7 +110,7 @@ public class SplitEditorToolbar extends JPanel implements Disposable {
   public void dispose() {
     removeComponentListener(myAdjustToGutterListener);
     for (EditorGutterComponentEx gutter : myGutters) {
-      gutter.removeComponentListener(myAdjustToGutterListener);
+      gutter.getComponent().removeComponentListener(myAdjustToGutterListener);
     }
   }
 
@@ -121,10 +122,11 @@ public class SplitEditorToolbar extends JPanel implements Disposable {
       throw new IllegalStateException(groupId + " should have been a group");
     }
     final ActionGroup group = ((ActionGroup)actionManager.getAction(groupId));
-    final ActionToolbarImpl editorToolbar =
-      ((ActionToolbarImpl)actionManager.createActionToolbar(ActionPlaces.EDITOR_TOOLBAR, group, true));
-    editorToolbar.setOpaque(false);
-    editorToolbar.setBorder(new JBEmptyBorder(0, 2, 0, 2));
+    final ActionToolbar editorToolbar = actionManager.createActionToolbar(ActionPlaces.EDITOR_TOOLBAR, group, true);
+
+    JComponent component = editorToolbar.getComponent();
+    component.setOpaque(false);
+    component.setBorder(new JBEmptyBorder(0, 2, 0, 2));
 
     return editorToolbar;
   }

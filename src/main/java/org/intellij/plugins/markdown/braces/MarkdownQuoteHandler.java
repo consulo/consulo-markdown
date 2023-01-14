@@ -15,16 +15,22 @@
  */
 package org.intellij.plugins.markdown.braces;
 
-import com.intellij.codeInsight.editorActions.QuoteHandler;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.highlighter.HighlighterIterator;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.HighlighterIterator;
+import consulo.document.util.TextRange;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.editor.action.FileQuoteHandler;
+import consulo.virtualFileSystem.fileType.FileType;
+import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.jetbrains.annotations.NotNull;
 
-public class MarkdownQuoteHandler implements QuoteHandler {
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+public class MarkdownQuoteHandler implements FileQuoteHandler {
   private final static TokenSet QUOTE_TYPES = TokenSet.create(MarkdownTokenTypes.EMPH,
                                                               //MarkdownTokenTypes.TILDE,
                                                               MarkdownTokenTypes.BACKTICK,
@@ -53,7 +59,7 @@ public class MarkdownQuoteHandler implements QuoteHandler {
 
   @Override
   public boolean isOpeningQuote(HighlighterIterator iterator, int offset) {
-    final IElementType tokenType = iterator.getTokenType();
+    final IElementType tokenType = (IElementType)iterator.getTokenType();
     
     if (!QUOTE_TYPES.contains(tokenType)) {
       return false;
@@ -104,5 +110,11 @@ public class MarkdownQuoteHandler implements QuoteHandler {
       from += dx;
     }
     return -1;
+  }
+
+  @Nonnull
+  @Override
+  public FileType getFileType() {
+    return MarkdownFileType.INSTANCE;
   }
 }

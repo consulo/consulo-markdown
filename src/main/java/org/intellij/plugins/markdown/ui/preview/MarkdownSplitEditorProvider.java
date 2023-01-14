@@ -1,28 +1,28 @@
 package org.intellij.plugins.markdown.ui.preview;
 
-import com.intellij.openapi.fileEditor.impl.text.PsiAwareTextEditorProviderImpl;
-import consulo.fileEditor.impl.text.TextEditorComponentContainerFactory;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.fileEditor.FileEditor;
+import consulo.fileEditor.TextEditor;
+import consulo.ide.impl.fileEditor.text.TextEditorComponentContainerFactory;
+import consulo.ide.impl.idea.openapi.fileEditor.impl.text.PsiAwareTextEditorProviderImpl;
+import jakarta.inject.Inject;
 import org.intellij.plugins.markdown.ui.split.SplitTextEditorProvider;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.fileEditor.TextEditor;
 
 import javax.annotation.Nonnull;
 
-public class MarkdownSplitEditorProvider extends SplitTextEditorProvider
-{
-	public MarkdownSplitEditorProvider(@Nonnull TextEditorComponentContainerFactory factory)
-	{
-		super(new PsiAwareTextEditorProviderImpl(factory), new MarkdownPreviewFileEditorProvider());
-	}
+@ExtensionImpl
+public class MarkdownSplitEditorProvider extends SplitTextEditorProvider {
+  @Inject
+  public MarkdownSplitEditorProvider(@Nonnull TextEditorComponentContainerFactory factory) {
+    super(new PsiAwareTextEditorProviderImpl(factory), new MarkdownPreviewFileEditorProvider());
+  }
 
-	@Override
-	protected FileEditor createSplitEditor(@NotNull final FileEditor firstEditor, @NotNull FileEditor secondEditor)
-	{
-		if(!(firstEditor instanceof TextEditor) || !(secondEditor instanceof MarkdownPreviewFileEditor))
-		{
-			throw new IllegalArgumentException("Main editor should be TextEditor");
-		}
-		return new MarkdownSplitEditor(((TextEditor) firstEditor), ((MarkdownPreviewFileEditor) secondEditor));
-	}
+  @Override
+  protected FileEditor createSplitEditor(@NotNull final FileEditor firstEditor, @NotNull FileEditor secondEditor) {
+    if (!(firstEditor instanceof TextEditor) || !(secondEditor instanceof MarkdownPreviewFileEditor)) {
+      throw new IllegalArgumentException("Main editor should be TextEditor");
+    }
+    return new MarkdownSplitEditor(((TextEditor)firstEditor), ((MarkdownPreviewFileEditor)secondEditor));
+  }
 }

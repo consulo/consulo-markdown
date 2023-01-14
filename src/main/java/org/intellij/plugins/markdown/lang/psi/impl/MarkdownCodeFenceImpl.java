@@ -1,18 +1,19 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.tree.CompositePsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
+import consulo.document.util.TextRange;
+import consulo.language.ast.IElementType;
+import consulo.language.impl.psi.CompositePsiElement;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.navigation.ItemPresentation;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
@@ -137,6 +138,12 @@ public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLan
     public MarkdownCodeFenceImpl handleContentChange(@NotNull MarkdownCodeFenceImpl element, @NotNull TextRange range, String newContent)
       throws IncorrectOperationException {
       return null;
+    }
+
+    @Nonnull
+    @Override
+    public Class<MarkdownCodeFenceImpl> getElementClass() {
+      return MarkdownCodeFenceImpl.class;
     }
   }
 }

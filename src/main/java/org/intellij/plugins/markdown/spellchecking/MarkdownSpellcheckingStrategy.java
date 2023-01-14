@@ -1,14 +1,18 @@
 package org.intellij.plugins.markdown.spellchecking;
 
-import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
-import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.jetbrains.annotations.NotNull;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.TreeUtil;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
 import com.intellij.spellchecker.tokenizer.Tokenizer;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.TokenSet;
+import consulo.language.impl.ast.TreeUtil;
+import consulo.language.psi.PsiElement;
+import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
+import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class MarkdownSpellcheckingStrategy extends SpellcheckingStrategy {
 
@@ -29,5 +33,11 @@ public class MarkdownSpellcheckingStrategy extends SpellcheckingStrategy {
     }
 
     return TEXT_TOKENIZER;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return MarkdownLanguage.INSTANCE;
   }
 }

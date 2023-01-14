@@ -15,7 +15,7 @@
  */
 package org.intellij.plugins.markdown.lang.psi;
 
-import com.intellij.psi.NavigatablePsiElement;
+import consulo.language.psi.NavigatablePsiElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

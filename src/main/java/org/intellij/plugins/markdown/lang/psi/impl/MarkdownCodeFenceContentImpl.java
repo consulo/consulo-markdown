@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.impl.psi.LeafPsiElement;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownCodeFenceContentImpl extends LeafPsiElement {

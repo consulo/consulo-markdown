@@ -1,9 +1,10 @@
 package org.intellij.plugins.markdown.structureView;
 
-import org.jetbrains.annotations.Nullable;
-import com.intellij.icons.AllIcons;
-import com.intellij.navigation.ItemPresentation;
+import consulo.application.AllIcons;
+import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nullable;
 
 public abstract class MarkdownBasePresentation implements ItemPresentation {
 

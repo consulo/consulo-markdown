@@ -15,7 +15,7 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.lang.Language;
+import consulo.language.Language;
 
 public class MarkdownLanguage extends Language {
 

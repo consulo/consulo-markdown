@@ -15,10 +15,10 @@
  */
 package org.intellij.plugins.markdown.highlighting;
 
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.tree.IElementType;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.highlight.SyntaxHighlighterBase;
+import consulo.language.lexer.Lexer;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;

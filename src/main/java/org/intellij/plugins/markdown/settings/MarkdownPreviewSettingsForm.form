@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="7ddf0" class="com.intellij.openapi.ui.ComboBox" binding="myPreviewProvider" custom-create="true">
+      <component id="7ddf0" class="consulo.ui.ex.awt.ComboBox" binding="myPreviewProvider" custom-create="true">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -40,13 +40,13 @@
           <text value="Default editor layout:"/>
         </properties>
       </component>
-      <component id="e3ef5" class="com.intellij.openapi.ui.ComboBox" binding="myDefaultSplitLayout" custom-create="true">
+      <component id="e3ef5" class="consulo.ui.ex.awt.ComboBox" binding="myDefaultSplitLayout" custom-create="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="bb932" class="com.intellij.ui.components.JBCheckBox" binding="myUseGrayscaleRenderingForJBCheckBox" default-binding="true">
+      <component id="bb932" class="consulo.ui.ex.awt.JBCheckBox" binding="myUseGrayscaleRenderingForJBCheckBox" default-binding="true">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

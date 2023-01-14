@@ -1,15 +1,15 @@
 package org.intellij.plugins.markdown.ui.split;
 
-import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
-import com.intellij.ide.structureView.StructureViewBuilder;
-import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
-import com.intellij.openapi.fileEditor.*;
-import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.wm.IdeFocusManager;
-import com.intellij.ui.JBSplitter;
+import consulo.application.ui.wm.IdeFocusManager;
+import consulo.codeEditor.EditorGutterComponentEx;
+import consulo.disposer.Disposer;
+import consulo.fileEditor.*;
+import consulo.fileEditor.highlight.BackgroundEditorHighlighter;
+import consulo.fileEditor.structureView.StructureViewBuilder;
+import consulo.ui.ex.awt.JBSplitter;
 import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolderBase;
+import consulo.util.lang.Pair;
 import kava.beans.PropertyChangeEvent;
 import kava.beans.PropertyChangeListener;
 import org.intellij.plugins.markdown.MarkdownBundle;

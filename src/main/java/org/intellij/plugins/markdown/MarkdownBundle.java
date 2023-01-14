@@ -15,25 +15,21 @@
  */
 package org.intellij.plugins.markdown;
 
+import consulo.component.util.localize.AbstractBundle;
 import org.jetbrains.annotations.PropertyKey;
-import com.intellij.AbstractBundle;
 
-public class MarkdownBundle extends AbstractBundle
-{
-	private static final MarkdownBundle ourInstance = new MarkdownBundle();
+public class MarkdownBundle extends AbstractBundle {
+  private static final MarkdownBundle ourInstance = new MarkdownBundle();
 
-	private MarkdownBundle()
-	{
-		super("messages.MarkdownBundle");
-	}
+  private MarkdownBundle() {
+    super("messages.MarkdownBundle");
+  }
 
-	public static String message(@PropertyKey(resourceBundle = "messages.MarkdownBundle") String key)
-	{
-		return ourInstance.getMessage(key);
-	}
+  public static String message(@PropertyKey(resourceBundle = "messages.MarkdownBundle") String key) {
+    return ourInstance.getMessage(key);
+  }
 
-	public static String message(@PropertyKey(resourceBundle = "messages.MarkdownBundle") String key, Object... params)
-	{
-		return ourInstance.getMessage(key, params);
-	}
+  public static String message(@PropertyKey(resourceBundle = "messages.MarkdownBundle") String key, Object... params) {
+    return ourInstance.getMessage(key, params);
+  }
 }
