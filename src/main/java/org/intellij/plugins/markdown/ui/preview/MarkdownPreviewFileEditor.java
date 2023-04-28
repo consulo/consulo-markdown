@@ -31,6 +31,7 @@ import org.intellij.plugins.markdown.lang.parser.MarkdownParserManager;
 import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
+import org.intellij.plugins.markdown.settings.MarkdownSettingsChangedListener;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -102,8 +103,8 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     updatePanelCssSettings(myPanel, settings.getMarkdownCssSettings());
 
     MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
-    MarkdownApplicationSettings.SettingsChangedListener settingsChangedListener = new MyUpdatePanelOnSettingsChangedListener();
-    settingsConnection.subscribe(MarkdownApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
+    MarkdownSettingsChangedListener settingsChangedListener = new MyUpdatePanelOnSettingsChangedListener();
+    settingsConnection.subscribe(MarkdownSettingsChangedListener.class, settingsChangedListener);
   }
 
   public void scrollToSrcOffset(final int offset) {
@@ -192,8 +193,8 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 
     if (provider.isAvailable() != MarkdownHtmlPanelProvider.AvailabilityInfo.AVAILABLE) {
       settings.setMarkdownPreviewSettings(new MarkdownPreviewSettings(settings.getMarkdownPreviewSettings().getSplitEditorLayout(),
-                                                                      MarkdownPreviewSettings.DEFAULT.getHtmlPanelProviderInfo(),
-                                                                      settings.getMarkdownPreviewSettings().isUseGrayscaleRendering()));
+                                                                      MarkdownPreviewSettings.DEFAULT.getHtmlPanelProviderInfo()
+      ));
 
       Messages.showMessageDialog(myHtmlPanelWrapper,
                                  "Tried to use preview panel provider (" + providerInfo.getName() + "), but it is unavailable. Reverting to default.",
@@ -342,7 +343,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   }
 
 
-  private class MyUpdatePanelOnSettingsChangedListener implements MarkdownApplicationSettings.SettingsChangedListener {
+  private class MyUpdatePanelOnSettingsChangedListener implements MarkdownSettingsChangedListener {
     @Override
     public void onSettingsChange(@NotNull final MarkdownApplicationSettings settings) {
       final MarkdownHtmlPanelProvider newPanelProvider = retrievePanelProvider(settings);

@@ -3,9 +3,11 @@ package org.intellij.plugins.markdown.lang.psi.impl;
 import consulo.document.util.TextRange;
 import consulo.language.ast.IElementType;
 import consulo.language.impl.psi.CompositePsiElement;
-import consulo.language.psi.*;
+import consulo.language.psi.ElementManipulators;
+import consulo.language.psi.LiteralTextEscaper;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiLanguageInjectionHost;
 import consulo.language.psi.util.PsiTreeUtil;
-import consulo.language.util.IncorrectOperationException;
 import consulo.navigation.ItemPresentation;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
@@ -13,7 +15,6 @@ import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
@@ -130,20 +131,5 @@ public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLan
   @Override
   public List<MarkdownPsiElement> getCompositeChildren() {
     return Collections.emptyList();
-  }
-
-  public static class Manipulator extends AbstractElementManipulator<MarkdownCodeFenceImpl> {
-
-    @Override
-    public MarkdownCodeFenceImpl handleContentChange(@NotNull MarkdownCodeFenceImpl element, @NotNull TextRange range, String newContent)
-      throws IncorrectOperationException {
-      return null;
-    }
-
-    @Nonnull
-    @Override
-    public Class<MarkdownCodeFenceImpl> getElementClass() {
-      return MarkdownCodeFenceImpl.class;
-    }
   }
 }

@@ -1,6 +1,0 @@
-<consulo-plugin>
-	<extensions defaultExtensionNs="com.intellij.spellchecker">
-		<support language="Markdown"
-				 implementationClass="org.intellij.plugins.markdown.spellchecking.MarkdownSpellcheckingStrategy"/>
-	</extensions>
-</consulo-plugin>

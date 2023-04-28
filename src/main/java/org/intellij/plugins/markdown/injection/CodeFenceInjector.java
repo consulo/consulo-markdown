@@ -1,5 +1,6 @@
 package org.intellij.plugins.markdown.injection;
 
+import consulo.annotation.component.ExtensionImpl;
 import consulo.document.util.TextRange;
 import consulo.language.Language;
 import consulo.language.inject.MultiHostInjector;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.List;
 
+@ExtensionImpl
 public class CodeFenceInjector implements MultiHostInjector {
   @Nullable
   private Language findLangForInjection(@NotNull MarkdownCodeFenceImpl element) {

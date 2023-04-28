@@ -15,19 +15,18 @@
  */
 package org.intellij.plugins.markdown.highlighting;
 
-import consulo.application.dumb.DumbAware;
 import consulo.colorScheme.TextAttributesKey;
 import consulo.language.ast.IElementType;
-import consulo.language.editor.annotation.Annotation;
 import consulo.language.editor.annotation.AnnotationHolder;
 import consulo.language.editor.annotation.Annotator;
+import consulo.language.editor.annotation.HighlightSeverity;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.language.psi.PsiElement;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.jetbrains.annotations.NotNull;
 
-public class MarkdownHighlightingAnnotator implements Annotator, DumbAware {
+public class MarkdownHighlightingAnnotator implements Annotator {
 
   private static final SyntaxHighlighter SYNTAX_HIGHLIGHTER = new MarkdownSyntaxHighlighter();
 
@@ -43,10 +42,12 @@ public class MarkdownHighlightingAnnotator implements Annotator, DumbAware {
 
       final IElementType parentType = parent.getNode().getElementType();
       if (parentType == MarkdownElementTypes.EMPH || parentType == MarkdownElementTypes.STRONG) {
-        final Annotation annotation = holder.createInfoAnnotation(element, null);
-        annotation.setTextAttributes(parentType == MarkdownElementTypes.EMPH
-                                     ? MarkdownHighlighterColors.ITALIC_MARKER_ATTR_KEY
-                                     : MarkdownHighlighterColors.BOLD_MARKER_ATTR_KEY);
+        holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+              .range(element)
+              .textAttributes(parentType == MarkdownElementTypes.EMPH
+                                ? MarkdownHighlighterColors.ITALIC_MARKER_ATTR_KEY
+                                : MarkdownHighlighterColors.BOLD_MARKER_ATTR_KEY)
+              .create();
       }
       return;
     }
@@ -54,8 +55,10 @@ public class MarkdownHighlightingAnnotator implements Annotator, DumbAware {
     final TextAttributesKey[] tokenHighlights = SYNTAX_HIGHLIGHTER.getTokenHighlights(type);
 
     if (tokenHighlights.length > 0 && !MarkdownHighlighterColors.TEXT_ATTR_KEY.equals(tokenHighlights[0])) {
-      final Annotation annotation = holder.createInfoAnnotation(element, null);
-      annotation.setTextAttributes(tokenHighlights[0]);
+      holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+            .range(element)
+            .textAttributes(tokenHighlights[0])
+            .create();
     }
   }
 }

@@ -3,9 +3,7 @@ package org.intellij.plugins.markdown.settings;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
-import consulo.annotation.component.TopicAPI;
 import consulo.application.ApplicationManager;
-import consulo.component.messagebus.Topic;
 import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
@@ -58,7 +56,7 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
   public void setMarkdownCssSettings(@NotNull MarkdownCssSettings settings) {
     myState.myCssSettings = settings;
 
-    ApplicationManager.getApplication().getMessageBus().syncPublisher(SettingsChangedListener.class).onSettingsChange(this);
+    ApplicationManager.getApplication().getMessageBus().syncPublisher(MarkdownSettingsChangedListener.class).onSettingsChange(this);
   }
 
   @NotNull
@@ -71,7 +69,7 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
   public void setMarkdownPreviewSettings(@NotNull MarkdownPreviewSettings settings) {
     myState.myPreviewSettings = settings;
 
-    ApplicationManager.getApplication().getMessageBus().syncPublisher(SettingsChangedListener.class).onSettingsChange(this);
+    ApplicationManager.getApplication().getMessageBus().syncPublisher(MarkdownSettingsChangedListener.class).onSettingsChange(this);
   }
 
   @NotNull
@@ -91,10 +89,4 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
     private MarkdownPreviewSettings myPreviewSettings = MarkdownPreviewSettings.DEFAULT;
   }
 
-  @TopicAPI(ComponentScope.APPLICATION)
-  public interface SettingsChangedListener {
-    Topic<SettingsChangedListener> TOPIC = Topic.create("MarkdownApplicationSettingsChanged", SettingsChangedListener.class);
-
-    void onSettingsChange(@NotNull MarkdownApplicationSettings settings);
-  }
 }

@@ -1,7 +1,10 @@
 package org.intellij.plugins.markdown.settings;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.configurable.ApplicationConfigurable;
 import consulo.configurable.ConfigurationException;
 import consulo.configurable.SearchableConfigurable;
+import jakarta.inject.Inject;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -9,12 +12,14 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class MarkdownPreviewConfigurable implements SearchableConfigurable {
+@ExtensionImpl
+public class MarkdownPreviewConfigurable implements SearchableConfigurable, ApplicationConfigurable {
   @Nullable
   private MarkdownPreviewSettingsForm myForm = null;
   @NotNull
   private MarkdownApplicationSettings myMarkdownApplicationSettings;
 
+  @Inject
   public MarkdownPreviewConfigurable(@NotNull MarkdownApplicationSettings markdownApplicationSettings) {
     myMarkdownApplicationSettings = markdownApplicationSettings;
   }
@@ -25,22 +30,16 @@ public class MarkdownPreviewConfigurable implements SearchableConfigurable {
     return "Settings.Markdown.Preview";
   }
 
-  @Nullable
+  @javax.annotation.Nullable
   @Override
-  public Runnable enableSearch(String option) {
-    return null;
+  public String getParentId() {
+    return MarkdownCssConfigurable.ID;
   }
 
   @Nls
   @Override
   public String getDisplayName() {
     return MarkdownBundle.message("settings.markdown.preview.name");
-  }
-
-  @Nullable
-  @Override
-  public String getHelpTopic() {
-    return null;
   }
 
   @Nullable

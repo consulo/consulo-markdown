@@ -19,7 +19,6 @@ public class MarkdownPreviewSettingsForm implements MarkdownPreviewSettings.Hold
   private ComboBox myPreviewProvider;
   private ComboBox myDefaultSplitLayout;
   private JPanel myMainPanel;
-  private JBCheckBox myUseGrayscaleRenderingForJBCheckBox;
   private EnumComboBoxModel<SplitFileEditor.SplitEditorLayout> mySplitLayoutModel;
   private CollectionComboBoxModel<MarkdownHtmlPanelProvider.ProviderInfo> myPreviewPanelModel;
 
@@ -59,16 +58,11 @@ public class MarkdownPreviewSettingsForm implements MarkdownPreviewSettings.Hold
         }
         else {
           myLastItem = item;
-          updateUseGrayscaleEnabled();
         }
       }
     });
   }
 
-  private void updateUseGrayscaleEnabled() {
-    final MarkdownHtmlPanelProvider.ProviderInfo selected = myPreviewPanelModel.getSelected();
-    myUseGrayscaleRenderingForJBCheckBox.setEnabled(selected != null && selected.getClassName().contains("JavaFxHtmlPanelProvider"));
-  }
 
   @Override
   public void setMarkdownPreviewSettings(@NotNull MarkdownPreviewSettings settings) {
@@ -76,9 +70,6 @@ public class MarkdownPreviewSettingsForm implements MarkdownPreviewSettings.Hold
       myPreviewPanelModel.setSelectedItem(settings.getHtmlPanelProviderInfo());
     }
     mySplitLayoutModel.setSelectedItem(settings.getSplitEditorLayout());
-    myUseGrayscaleRenderingForJBCheckBox.setSelected(settings.isUseGrayscaleRendering());
-
-    updateUseGrayscaleEnabled();
   }
 
   @NotNull
@@ -88,7 +79,6 @@ public class MarkdownPreviewSettingsForm implements MarkdownPreviewSettings.Hold
       throw new IllegalStateException("Should be selected always");
     }
     return new MarkdownPreviewSettings(mySplitLayoutModel.getSelectedItem(),
-                                       myPreviewPanelModel.getSelected(),
-                                       myUseGrayscaleRenderingForJBCheckBox.isSelected());
+                                       myPreviewPanelModel.getSelected());
   }
 }

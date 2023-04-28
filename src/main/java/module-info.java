@@ -8,11 +8,9 @@ open module consulo.markdown {
   // TODO remove this in future
   requires consulo.ide.impl;
   requires java.desktop;
+  requires forms.rt;
 
   requires loboevolution;
 
   requires markdown;
-
-  // TODO remove this!
-  requires com.intellij.spellchecker;
 }

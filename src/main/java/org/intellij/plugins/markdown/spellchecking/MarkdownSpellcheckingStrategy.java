@@ -1,12 +1,13 @@
 package org.intellij.plugins.markdown.spellchecking;
 
-import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
-import com.intellij.spellchecker.tokenizer.Tokenizer;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.ast.ASTNode;
 import consulo.language.ast.TokenSet;
 import consulo.language.impl.ast.TreeUtil;
 import consulo.language.psi.PsiElement;
+import consulo.language.spellcheker.SpellcheckingStrategy;
+import consulo.language.spellcheker.tokenizer.Tokenizer;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class MarkdownSpellcheckingStrategy extends SpellcheckingStrategy {
 
   public static final TokenSet NO_SPELLCHECKING_TYPES = TokenSet.create(MarkdownElementTypes.CODE_BLOCK,

@@ -1,8 +1,12 @@
 package org.intellij.plugins.markdown.settings;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.configurable.ApplicationConfigurable;
 import consulo.configurable.ConfigurationException;
 import consulo.configurable.SearchableConfigurable;
+import consulo.configurable.StandardConfigurableIds;
 import consulo.disposer.Disposer;
+import jakarta.inject.Inject;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -10,12 +14,16 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class MarkdownCssConfigurable implements SearchableConfigurable {
+@ExtensionImpl
+public class MarkdownCssConfigurable implements SearchableConfigurable, ApplicationConfigurable {
+  public static final String ID = "Settings.Markdown.Css";
+
   @Nullable
   private MarkdownCssSettingsForm myForm = null;
   @NotNull
   private MarkdownApplicationSettings myMarkdownApplicationSettings;
 
+  @Inject
   public MarkdownCssConfigurable(@NotNull MarkdownApplicationSettings markdownApplicationSettings) {
     myMarkdownApplicationSettings = markdownApplicationSettings;
   }
@@ -24,6 +32,12 @@ public class MarkdownCssConfigurable implements SearchableConfigurable {
   @Override
   public String getId() {
     return "Settings.Markdown.Css";
+  }
+
+  @javax.annotation.Nullable
+  @Override
+  public String getParentId() {
+    return StandardConfigurableIds.EDITOR_GROUP;
   }
 
   @Nullable
