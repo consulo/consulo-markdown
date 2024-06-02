@@ -8,6 +8,7 @@
     <tag>markup.language</tag>
   </tags>
 
+  <!--requires by loboevolution-->
   <depends>consulo.library.batik</depends>
 
   <actions>
@@ -39,7 +40,6 @@
             id="org.intellij.plugins.markdown.ui.actions.editorLayout.CyclicSplitLayoutChangeAction"
             text="Change split layout"
             description="Toggle markdown editor layout through different values (editor only, preview only, wysiwyg split)"
-            icon="consulo.platform.base.PlatformIconGroup@actions.previewdetails"
             use-shortcut-of="ParameterInfo">
     </action>
 
@@ -47,20 +47,17 @@
       <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
               id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
               text="Show editor only"
-              description="Sets markdown editor layout to show editor only"
-              icon="consulo.markdown.MarkdownIconGroup@layout.editor_only">
+              description="Sets markdown editor layout to show editor only">
       </action>
       <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
               id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
               text="Show editor and preview"
-              description="Sets markdown editor layout to show editor and preview in split"
-              icon="consulo.markdown.MarkdownIconGroup@layout.editor_preview">
+              description="Sets markdown editor layout to show editor and preview in split">
       </action>
       <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
               id="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
               text="Show preview only"
-              description="Sets markdown editor layout to show preview only"
-              icon="consulo.markdown.MarkdownIconGroup@layout.preview_only">
+              description="Sets markdown editor layout to show preview only">
       </action>
     </group>
   </actions>
