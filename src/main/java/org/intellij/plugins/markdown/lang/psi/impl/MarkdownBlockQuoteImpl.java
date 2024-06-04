@@ -1,8 +1,8 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
-import consulo.ide.impl.idea.navigation.DelegatingItemPresentation;
 import consulo.language.ast.ASTNode;
 import consulo.navigation.ItemPresentation;
+import consulo.ui.ex.DelegatingItemPresentation;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownBlockQuoteImpl extends MarkdownCompositePsiElementBase {

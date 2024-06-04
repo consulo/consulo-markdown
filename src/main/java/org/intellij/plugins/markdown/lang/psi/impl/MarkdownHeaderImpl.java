@@ -1,10 +1,10 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
-import consulo.ide.impl.idea.navigation.DelegatingItemPresentation;
 import consulo.language.ast.ASTNode;
 import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiElement;
 import consulo.navigation.ItemPresentation;
+import consulo.ui.ex.DelegatingItemPresentation;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.jetbrains.annotations.NotNull;
