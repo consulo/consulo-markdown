@@ -14,14 +14,22 @@ import consulo.language.psi.PsiFile;
 import consulo.logging.Logger;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.ToggleAction;
+import consulo.ui.image.Image;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Couple;
 import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil;
 import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.Nls;
 
 public abstract class BaseToggleStateAction extends ToggleAction implements DumbAware {
   private static final Logger LOG = Logger.getInstance(BaseToggleStateAction.class);
+
+  protected BaseToggleStateAction(@Nullable @Nls(capitalization = Nls.Capitalization.Title) String text,
+                                  @Nullable @Nls(capitalization = Nls.Capitalization.Sentence) String description,
+                                  @Nullable Image icon) {
+    super(text, description, icon);
+  }
 
   @Nonnull
   protected abstract String getBoundString(@Nonnull CharSequence text, int selectionStart, int selectionEnd);

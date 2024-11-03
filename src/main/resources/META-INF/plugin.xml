@@ -8,28 +8,8 @@
     <tag>markup.language</tag>
   </tags>
 
-  <actions>
-    <group id="Markdown.Toolbar.Left" text="Markdown editor actions">
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
-              text="Toggle bold mode"
-              description="Toggles bold mode on caret/selection"
-              icon="consulo.markdown.MarkdownIconGroup@editor_actions.bold">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction"
-              text="Toggle italic mode"
-              description="Toggles italic mode on caret/selection"
-              icon="consulo.markdown.MarkdownIconGroup@editor_actions.italic">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction"
-              text="Toggle monospaced (code span) mode"
-              description="Toggles monospaced mode (rendered as code span) on caret/selection"
-              icon="consulo.markdown.MarkdownIconGroup@editor_actions.code_span">
-      </action>
-    </group>
-  </actions>
+  <!--
+  TODO migrate to using kotlin sdk
+  <depends>consulo.library.kotlin.sdk</depends>
+-->
 </consulo-plugin>

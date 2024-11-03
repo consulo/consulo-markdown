@@ -16,6 +16,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.inject.Inject;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.ui.actions.styling.MarkdownActionGroup;
 
 @ExtensionImpl
 public class MarkdownSplitEditorProvider implements FileEditorProvider, DumbAware {
@@ -36,7 +37,7 @@ public class MarkdownSplitEditorProvider implements FileEditorProvider, DumbAwar
   @Override
   public FileEditor createEditor(@Nonnull Project project, @Nonnull VirtualFile virtualFile) {
     ActionManager manager = ActionManager.getInstance();
-    String id = "Markdown.Toolbar.Left";
+    String id = MarkdownActionGroup.ID;
     ActionGroup action = (ActionGroup)manager.getAction(id);
     ActionToolbar actionToolbar = manager.createActionToolbar(id, action, true);
     return myTextEditorWithPreviewFactory.create((TextEditor)TextEditorProvider.getInstance().createEditor(project, virtualFile),

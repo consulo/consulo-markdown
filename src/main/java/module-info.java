@@ -10,8 +10,5 @@ open module consulo.markdown {
   requires java.desktop;
   requires forms.rt;
 
-  requires jdk.xml.dom;
-
-  requires cobra.core;
   requires markdown;
 }

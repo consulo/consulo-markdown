@@ -1,12 +1,19 @@
 package org.intellij.plugins.markdown.ui.actions.styling;
 
+import consulo.annotation.component.ActionImpl;
 import consulo.language.ast.IElementType;
+import consulo.markdown.icon.MarkdownIconGroup;
 import consulo.util.lang.StringUtil;
 import jakarta.annotation.Nonnull;
-import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import jakarta.annotation.Nullable;
+import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 
+@ActionImpl(id = "org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction")
 public class ToggleCodeSpanAction extends BaseToggleStateAction {
+  public ToggleCodeSpanAction() {
+    super("Toggle monospaced (code span) mode", "Toggles monospaced mode (rendered as code span) on caret/selection", MarkdownIconGroup.editor_actionsCode_span());
+  }
+
   @Nonnull
   @Override
   protected String getBoundString(@Nonnull CharSequence text, int selectionStart, int selectionEnd) {
