@@ -7,14 +7,14 @@ import consulo.language.psi.PsiElement;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.ex.ColoredItemPresentation;
 import consulo.ui.image.Image;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 public class MarkdownListItemImpl extends MarkdownCompositePsiElementBase {
-  public MarkdownListItemImpl(@NotNull ASTNode node) {
+  public MarkdownListItemImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

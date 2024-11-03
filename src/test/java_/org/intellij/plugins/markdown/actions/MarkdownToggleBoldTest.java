@@ -2,7 +2,7 @@ package org.intellij.plugins.markdown.actions;
 
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public abstract class MarkdownToggleBoldTest extends LightPlatformCodeInsightTestCase {
 
@@ -16,7 +16,7 @@ public abstract class MarkdownToggleBoldTest extends LightPlatformCodeInsightTes
     checkResultByFile(getTestName(true) + "_after.md");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getTestDataPath() {
     return MarkdownTestingUtil.TEST_DATA_PATH + "/actions/toggleBold/";

@@ -6,11 +6,11 @@ import consulo.configurable.ConfigurationException;
 import consulo.configurable.SearchableConfigurable;
 import consulo.configurable.StandardConfigurableIds;
 import consulo.disposer.Disposer;
+import jakarta.annotation.Nonnull;
 import jakarta.inject.Inject;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import javax.swing.*;
 
@@ -20,21 +20,21 @@ public class MarkdownCssConfigurable implements SearchableConfigurable, Applicat
 
   @Nullable
   private MarkdownCssSettingsForm myForm = null;
-  @NotNull
+  @Nonnull
   private MarkdownApplicationSettings myMarkdownApplicationSettings;
 
   @Inject
-  public MarkdownCssConfigurable(@NotNull MarkdownApplicationSettings markdownApplicationSettings) {
+  public MarkdownCssConfigurable(@Nonnull MarkdownApplicationSettings markdownApplicationSettings) {
     myMarkdownApplicationSettings = markdownApplicationSettings;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getId() {
     return "Settings.Markdown.Css";
   }
 
-  @javax.annotation.Nullable
+  @Nullable
   @Override
   public String getParentId() {
     return StandardConfigurableIds.EDITOR_GROUP;
@@ -58,13 +58,13 @@ public class MarkdownCssConfigurable implements SearchableConfigurable, Applicat
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public JComponent createComponent() {
     return getForm().getComponent();
   }
 
-  @NotNull
+  @Nonnull
   public MarkdownCssSettingsForm getForm() {
     if (myForm == null) {
       myForm = new MarkdownCssSettingsForm();

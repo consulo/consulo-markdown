@@ -17,8 +17,8 @@ import org.intellij.plugins.markdown.lang.psi.impl.MarkdownBlockQuoteImpl;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCompositePsiElementBase;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownListItemImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +54,10 @@ public class MarkdownStructureElement implements StructureViewTreeElement, Sorta
                                    MarkdownElementTypes.TABLE_ROW,
                                    MarkdownElementTypes.TABLE_CELL));
 
-  @NotNull
+  @Nonnull
   private final PsiElement myElement;
 
-  public MarkdownStructureElement(@NotNull PsiElement element) {
+  public MarkdownStructureElement(@Nonnull PsiElement element) {
     myElement = element;
   }
 
@@ -83,13 +83,13 @@ public class MarkdownStructureElement implements StructureViewTreeElement, Sorta
     return myElement instanceof NavigationItem && ((NavigationItem)myElement).canNavigateToSource();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getAlphaSortKey() {
     return StringUtil.notNullize(myElement instanceof NavigationItem ? ((NavigationItem)myElement).getName() : null);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ItemPresentation getPresentation() {
     final ItemPresentation result = getPresentationImpl();
@@ -114,7 +114,7 @@ public class MarkdownStructureElement implements StructureViewTreeElement, Sorta
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public TreeElement[] getChildren() {
     final PsiElement parentToTraverse = myElement instanceof MarkdownFile ? myElement.getFirstChild() : myElement;
@@ -133,7 +133,7 @@ public class MarkdownStructureElement implements StructureViewTreeElement, Sorta
     return ArrayUtil.toObjectArray(result, TreeElement.class);
   }
 
-  public static boolean hasTrivialChild(@NotNull PsiElement parentToTraverse) {
+  public static boolean hasTrivialChild(@Nonnull PsiElement parentToTraverse) {
     if ((parentToTraverse instanceof MarkdownListItemImpl
          || parentToTraverse instanceof MarkdownBlockQuoteImpl) &&
         ((MarkdownCompositePsiElementBase)parentToTraverse).hasTrivialChildren()) {

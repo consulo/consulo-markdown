@@ -25,9 +25,7 @@ import consulo.language.editor.action.FileQuoteHandler;
 import consulo.virtualFileSystem.fileType.FileType;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class MarkdownQuoteHandler implements FileQuoteHandler {
@@ -83,7 +81,7 @@ public class MarkdownQuoteHandler implements FileQuoteHandler {
     return false;
   }
 
-  private static TextRange getRangeOfThisType(@NotNull CharSequence charSequence, int offset) {
+  private static TextRange getRangeOfThisType(@Nonnull CharSequence charSequence, int offset) {
     final int length = charSequence.length();
     final char c = charSequence.charAt(offset);
 
@@ -97,7 +95,7 @@ public class MarkdownQuoteHandler implements FileQuoteHandler {
     return TextRange.create(l, r + 1);
   }
 
-  private static int locateNextPosition(@NotNull CharSequence haystack, char needle, int from, int dx) {
+  private static int locateNextPosition(@Nonnull CharSequence haystack, char needle, int from, int dx) {
     while (from >= 0 && from < haystack.length()) {
       final char currentChar = haystack.charAt(from);
       if (currentChar == needle) {

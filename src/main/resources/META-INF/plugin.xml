@@ -8,9 +8,6 @@
     <tag>markup.language</tag>
   </tags>
 
-  <!--requires by loboevolution-->
-  <depends>consulo.library.batik</depends>
-
   <actions>
     <group id="Markdown.Toolbar.Left" text="Markdown editor actions">
       <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
@@ -32,32 +29,6 @@
               text="Toggle monospaced (code span) mode"
               description="Toggles monospaced mode (rendered as code span) on caret/selection"
               icon="consulo.markdown.MarkdownIconGroup@editor_actions.code_span">
-      </action>
-    </group>
-
-
-    <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.CyclicSplitLayoutChangeAction"
-            id="org.intellij.plugins.markdown.ui.actions.editorLayout.CyclicSplitLayoutChangeAction"
-            text="Change split layout"
-            description="Toggle markdown editor layout through different values (editor only, preview only, wysiwyg split)"
-            use-shortcut-of="ParameterInfo">
-    </action>
-
-    <group id="Markdown.Toolbar.Right" text="Markdown editor layout actions">
-      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
-              id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
-              text="Show editor only"
-              description="Sets markdown editor layout to show editor only">
-      </action>
-      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
-              id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
-              text="Show editor and preview"
-              description="Sets markdown editor layout to show editor and preview in split">
-      </action>
-      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
-              id="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
-              text="Show preview only"
-              description="Sets markdown editor layout to show preview only">
       </action>
     </group>
   </actions>

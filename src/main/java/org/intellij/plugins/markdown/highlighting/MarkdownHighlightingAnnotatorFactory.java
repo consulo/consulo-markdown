@@ -5,10 +5,10 @@ import consulo.application.dumb.DumbAware;
 import consulo.language.Language;
 import consulo.language.editor.annotation.Annotator;
 import consulo.language.editor.annotation.AnnotatorFactory;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

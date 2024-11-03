@@ -1,26 +1,10 @@
 package org.intellij.plugins.markdown.settings;
 
-import consulo.ide.impl.idea.ide.ui.LafManager;
-import consulo.ide.impl.idea.ide.ui.LafManagerListener;
-import org.jetbrains.annotations.Nullable;
+import consulo.ui.style.Style;
+import consulo.ui.style.StyleChangeListener;
+import jakarta.annotation.Nonnull;
 
-import javax.swing.*;
-
-class MarkdownLAFListener implements LafManagerListener {
-  private boolean isLastLAFWasDarcula = isDarcula(LafManager.getInstance().getCurrentLookAndFeel());
-
-  @Override
-  public void lookAndFeelChanged(LafManager source) {
-    final UIManager.LookAndFeelInfo newLookAndFeel = source.getCurrentLookAndFeel();
-    final boolean isNewLookAndFeelDarcula = isDarcula(newLookAndFeel);
-
-    if (isNewLookAndFeelDarcula == isLastLAFWasDarcula) {
-      return;
-    }
-
-    updateCssSettingsForced(isNewLookAndFeelDarcula);
-  }
-
+class MarkdownLAFListener implements StyleChangeListener {
   public void updateCssSettingsForced(boolean isDarcula) {
     final MarkdownCssSettings currentCssSettings = MarkdownApplicationSettings.getInstance().getMarkdownCssSettings();
     MarkdownApplicationSettings.getInstance().setMarkdownCssSettings(new MarkdownCssSettings(
@@ -29,13 +13,14 @@ class MarkdownLAFListener implements LafManagerListener {
       currentCssSettings.isTextEnabled(),
       currentCssSettings.getStylesheetText()
     ));
-    isLastLAFWasDarcula = isDarcula;
   }
 
-  public static boolean isDarcula(@Nullable UIManager.LookAndFeelInfo laf) {
-    if (laf == null) {
-      return false;
+  @Override
+  public void styleChanged(@Nonnull Style oldStyle, @Nonnull Style newStyle) {
+    if (oldStyle.isDark() == newStyle.isDark()) {
+      return;
     }
-    return laf.getName().contains("Darcula");
+
+    updateCssSettingsForced(newStyle.isDark());
   }
 }

@@ -1,11 +1,11 @@
 package org.intellij.plugins.markdown.lang.psi.impl;
 
 import consulo.language.ast.ASTNode;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class MarkdownParagraphImpl extends MarkdownCompositePsiElementBase {
 
-  public MarkdownParagraphImpl(@NotNull ASTNode node) {
+  public MarkdownParagraphImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

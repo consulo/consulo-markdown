@@ -2,7 +2,7 @@ package org.intellij.plugins.markdown.settings;
 
 import consulo.logging.Logger;
 import consulo.util.xml.serializer.annotation.Attribute;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -14,12 +14,12 @@ public final class MarkdownCssSettings {
   @Attribute("UriEnabled")
   private boolean myUriEnabled;
   @Attribute("StylesheetUri")
-  @NotNull
+  @Nonnull
   private String myStylesheetUri;
   @Attribute("TextEnabled")
   private boolean myTextEnabled;
   @Attribute("StylesheetText")
-  @NotNull
+  @Nonnull
   private String myStylesheetText;
 
   private MarkdownCssSettings() {
@@ -30,7 +30,7 @@ public final class MarkdownCssSettings {
     this(true, getPredefinedCssURI(isDarcula), false, "");
   }
 
-  public MarkdownCssSettings(boolean uriEnabled, @NotNull String stylesheetUri, boolean textEnabled, @NotNull String stylesheetText) {
+  public MarkdownCssSettings(boolean uriEnabled, @Nonnull String stylesheetUri, boolean textEnabled, @Nonnull String stylesheetText) {
     myUriEnabled = uriEnabled;
     myStylesheetUri = stylesheetUri;
     myTextEnabled = textEnabled;
@@ -41,7 +41,7 @@ public final class MarkdownCssSettings {
     return myUriEnabled;
   }
 
-  @NotNull
+  @Nonnull
   public String getStylesheetUri() {
     return myStylesheetUri;
   }
@@ -50,7 +50,7 @@ public final class MarkdownCssSettings {
     return myTextEnabled;
   }
 
-  @NotNull
+  @Nonnull
   public String getStylesheetText() {
     return myStylesheetText;
   }
@@ -70,12 +70,12 @@ public final class MarkdownCssSettings {
     return true;
   }
 
-  @NotNull
+  @Nonnull
   public static MarkdownCssSettings getDefaultCssSettings(boolean isDarcula) {
     return isDarcula ? DARCULA : DEFAULT;
   }
 
-  @NotNull
+  @Nonnull
   private static String getPredefinedCssURI(boolean isDarcula) {
     final String fileName = isDarcula ? "darcula.css" : "default.css";
     try {
@@ -98,9 +98,9 @@ public final class MarkdownCssSettings {
   }
 
   public interface Holder {
-    void setMarkdownCssSettings(@NotNull MarkdownCssSettings settings);
+    void setMarkdownCssSettings(@Nonnull MarkdownCssSettings settings);
 
-    @NotNull
+    @Nonnull
     MarkdownCssSettings getMarkdownCssSettings();
   }
 }

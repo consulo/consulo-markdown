@@ -3,10 +3,10 @@ package org.intellij.plugins.markdown.lang.psi.impl;
 import consulo.language.ast.ASTNode;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.ex.DelegatingItemPresentation;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class MarkdownBlockQuoteImpl extends MarkdownCompositePsiElementBase {
-  public MarkdownBlockQuoteImpl(@NotNull ASTNode node) {
+  public MarkdownBlockQuoteImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

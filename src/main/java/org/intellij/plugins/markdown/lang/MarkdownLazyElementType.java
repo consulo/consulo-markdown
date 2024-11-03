@@ -8,20 +8,20 @@ import consulo.language.parser.PsiBuilderFactory;
 import consulo.language.psi.PsiElement;
 import consulo.language.version.LanguageVersionUtil;
 import consulo.project.Project;
+import jakarta.annotation.Nonnull;
 import org.intellij.markdown.parser.MarkdownParser;
 import org.intellij.plugins.markdown.lang.lexer.MarkdownLexerAdapter;
 import org.intellij.plugins.markdown.lang.parser.MarkdownParserManager;
 import org.intellij.plugins.markdown.lang.parser.PsiBuilderFillingVisitor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 public class MarkdownLazyElementType extends ILazyParseableElementType {
-  public MarkdownLazyElementType(@NotNull @NonNls String debugName) {
+  public MarkdownLazyElementType(@Nonnull @NonNls String debugName) {
     super(debugName, MarkdownLanguage.INSTANCE);
   }
 
   @Override
-  protected ASTNode doParseContents(@NotNull ASTNode chameleon, @NotNull PsiElement psi) {
+  protected ASTNode doParseContents(@Nonnull ASTNode chameleon, @Nonnull PsiElement psi) {
     final Project project = psi.getProject();
     final Lexer lexer = new MarkdownLexerAdapter();
     final CharSequence chars = chameleon.getChars();

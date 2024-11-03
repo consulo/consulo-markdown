@@ -20,11 +20,11 @@ import consulo.language.ast.IElementType;
 import consulo.language.parser.PsiBuilder;
 import consulo.language.parser.PsiParser;
 import consulo.language.version.LanguageVersion;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class MarkdownParserAdapter implements PsiParser {
-  @NotNull
-  public ASTNode parse(@NotNull IElementType root, @NotNull PsiBuilder builder, LanguageVersion languageVersion) {
+  @Nonnull
+  public ASTNode parse(@Nonnull IElementType root, @Nonnull PsiBuilder builder, LanguageVersion languageVersion) {
 
     PsiBuilder.Marker rootMarker = builder.mark();
 

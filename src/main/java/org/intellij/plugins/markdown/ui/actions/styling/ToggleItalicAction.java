@@ -1,12 +1,12 @@
 package org.intellij.plugins.markdown.ui.actions.styling;
 
 import consulo.language.ast.IElementType;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
-import org.jetbrains.annotations.NotNull;
 
 public class ToggleItalicAction extends BaseToggleStateAction {
-  @NotNull
-  protected String getBoundString(@NotNull CharSequence text, int selectionStart, int selectionEnd) {
+  @Nonnull
+  protected String getBoundString(@Nonnull CharSequence text, int selectionStart, int selectionEnd) {
     return isWord(text, selectionStart, selectionEnd) ? "_" : "*";
   }
 
@@ -14,12 +14,12 @@ public class ToggleItalicAction extends BaseToggleStateAction {
     return true;
   }
 
-  @NotNull
+  @Nonnull
   protected IElementType getTargetNodeType() {
     return MarkdownElementTypes.EMPH;
   }
 
-  private static boolean isWord(@NotNull CharSequence text, int from, int to) {
+  private static boolean isWord(@Nonnull CharSequence text, int from, int to) {
     return (from == 0 || !Character.isLetterOrDigit(text.charAt(from - 1)))
            && (to == text.length() || !Character.isLetterOrDigit(text.charAt(to)));
   }

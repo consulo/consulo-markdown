@@ -1,7 +1,7 @@
 package org.intellij.plugins.markdown.actions;
 
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 
 public abstract class MarkdownToggleItalicTest extends LightPlatformCodeInsightTestCase {
@@ -36,7 +36,7 @@ public abstract class MarkdownToggleItalicTest extends LightPlatformCodeInsightT
     checkResultByFile(getTestName(true) + "_after.md");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getTestDataPath() {
     return MarkdownTestingUtil.TEST_DATA_PATH + "/actions/toggleItalic/";

@@ -24,9 +24,9 @@ import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.util.io.CharsetToolkit;
 import consulo.util.io.StreamUtil;
 import consulo.util.lang.StringUtil;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +38,7 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
 
   private static final AttributesDescriptor[] ATTRIBUTE_DESCRIPTORS = AttributeDescriptorsHolder.INSTANCE.get();
 
-  @NotNull
+  @Nonnull
   public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
     final Map<String, TextAttributesKey> result = new HashMap<String, TextAttributesKey>();
 
@@ -74,18 +74,18 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
     return result;
   }
 
-  @NotNull
+  @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return ATTRIBUTE_DESCRIPTORS;
   }
 
-  @NotNull
+  @Nonnull
   public ColorDescriptor[] getColorDescriptors() {
     return ColorDescriptor.EMPTY_ARRAY;
   }
 
   @NonNls
-  @NotNull
+  @Nonnull
   public String getDemoText() {
     final InputStream stream = getClass().getResourceAsStream("SampleDocument.md");
 
@@ -100,12 +100,12 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
     return "*error loading text*";
   }
 
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return MarkdownBundle.message("markdown.plugin.name");
   }
 
-  @NotNull
+  @Nonnull
   public SyntaxHighlighter getHighlighter() {
     return new MarkdownSyntaxHighlighter();
   }
@@ -159,7 +159,7 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
       put("markdown.editor.colors.inline_html", MarkdownHighlighterColors.INLINE_HTML_ATTR_KEY);
     }
 
-    @NotNull
+    @Nonnull
     public AttributesDescriptor[] get() {
       final AttributesDescriptor[] result = new AttributesDescriptor[myMap.size()];
       int i = 0;
@@ -171,7 +171,7 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
       return result;
     }
 
-    private void put(@NotNull String bundleKey, @NotNull TextAttributesKey attributes) {
+    private void put(@Nonnull String bundleKey, @Nonnull TextAttributesKey attributes) {
       if (myMap.put(bundleKey, attributes) != null) {
         throw new IllegalArgumentException("Duplicated key: " + bundleKey);
       }

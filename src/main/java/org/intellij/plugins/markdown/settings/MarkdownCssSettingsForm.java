@@ -13,8 +13,8 @@ import consulo.language.editor.highlight.HighlighterFactory;
 import consulo.ui.color.ColorValue;
 import consulo.ui.ex.awt.JBCheckBox;
 import consulo.ui.util.ColorValueUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,11 +30,11 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
   private JBCheckBox myApplyCustomCssText;
   private JPanel myEditorPanel;
 
-  @NotNull
+  @Nonnull
   private String myCssText = "";
   @Nullable
   private Editor myEditor;
-  @NotNull
+  @Nonnull
   private final ActionListener myUpdateListener;
 
 
@@ -75,7 +75,7 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
     myEditorPanel.add(myEditor.getComponent(), BorderLayout.CENTER);
   }
 
-  @NotNull
+  @Nonnull
   private static Editor createEditor() {
     EditorFactory editorFactory = EditorFactory.getInstance();
     Document editorDocument = editorFactory.createDocument("");
@@ -107,7 +107,7 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
   }
 
   @Override
-  public void setMarkdownCssSettings(@NotNull MarkdownCssSettings settings) {
+  public void setMarkdownCssSettings(@Nonnull MarkdownCssSettings settings) {
     myCssFromURIEnabled.setSelected(settings.isUriEnabled());
     myCssURI.setText(settings.getStylesheetUri());
     myApplyCustomCssText.setSelected(settings.isTextEnabled());
@@ -127,7 +127,7 @@ public class MarkdownCssSettingsForm implements MarkdownCssSettings.Holder, Disp
     myUpdateListener.actionPerformed(null);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public MarkdownCssSettings getMarkdownCssSettings() {
     if (myEditor != null && !myEditor.isDisposed()) {

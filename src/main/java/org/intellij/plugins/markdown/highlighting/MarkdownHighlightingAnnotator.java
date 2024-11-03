@@ -22,16 +22,16 @@ import consulo.language.editor.annotation.Annotator;
 import consulo.language.editor.annotation.HighlightSeverity;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.language.psi.PsiElement;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.jetbrains.annotations.NotNull;
 
 public class MarkdownHighlightingAnnotator implements Annotator {
 
   private static final SyntaxHighlighter SYNTAX_HIGHLIGHTER = new MarkdownSyntaxHighlighter();
 
   @Override
-  public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
+  public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder) {
     final IElementType type = element.getNode().getElementType();
 
     if (type == MarkdownTokenTypes.EMPH) {

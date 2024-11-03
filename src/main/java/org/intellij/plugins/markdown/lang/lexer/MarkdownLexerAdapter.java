@@ -17,20 +17,20 @@ package org.intellij.plugins.markdown.lang.lexer;
 
 import consulo.language.ast.IElementType;
 import consulo.language.lexer.LexerBase;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.markdown.lexer.MarkdownLexer;
 import org.intellij.plugins.markdown.lang.MarkdownElementType;
 import org.intellij.plugins.markdown.lang.parser.MarkdownParserManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class MarkdownLexerAdapter extends LexerBase {
-  @NotNull
+  @Nonnull
   private final MarkdownLexer delegateLexer = MarkdownParserManager.FLAVOUR.createInlinesLexer();
 
   private int endOffset;
 
   @Override
-  public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
+  public void start(@Nonnull CharSequence buffer, int startOffset, int endOffset, int initialState) {
     this.endOffset = endOffset;
     delegateLexer.start(buffer, startOffset, endOffset);
   }
@@ -61,7 +61,7 @@ public class MarkdownLexerAdapter extends LexerBase {
     delegateLexer.advance();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public CharSequence getBufferSequence() {
     return delegateLexer.getOriginalText();

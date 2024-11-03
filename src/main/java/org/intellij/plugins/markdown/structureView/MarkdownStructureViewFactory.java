@@ -10,11 +10,9 @@ import consulo.language.editor.structureView.PsiStructureViewFactory;
 import consulo.language.editor.structureView.StructureViewModelBase;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import jakarta.annotation.Nullable;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class MarkdownStructureViewFactory implements PsiStructureViewFactory {
@@ -22,7 +20,7 @@ public class MarkdownStructureViewFactory implements PsiStructureViewFactory {
   @Override
   public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile) {
     return new TreeBasedStructureViewBuilder() {
-      @NotNull
+      @Nonnull
       @Override
       public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
         return new MarkdownStructureViewModel(psiFile, editor);
@@ -37,7 +35,7 @@ public class MarkdownStructureViewFactory implements PsiStructureViewFactory {
   }
 
   private static class MarkdownStructureViewModel extends StructureViewModelBase {
-    public MarkdownStructureViewModel(@NotNull PsiFile psiFile, @Nullable Editor editor) {
+    public MarkdownStructureViewModel(@Nonnull PsiFile psiFile, @Nullable Editor editor) {
       super(psiFile, new MarkdownStructureElement(psiFile));
     }
 

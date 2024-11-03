@@ -16,35 +16,35 @@ import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.ToggleAction;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Couple;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 public abstract class BaseToggleStateAction extends ToggleAction implements DumbAware {
   private static final Logger LOG = Logger.getInstance(BaseToggleStateAction.class);
 
-  @NotNull
-  protected abstract String getBoundString(@NotNull CharSequence text, int selectionStart, int selectionEnd);
+  @Nonnull
+  protected abstract String getBoundString(@Nonnull CharSequence text, int selectionStart, int selectionEnd);
 
   @Nullable
-  protected String getExistingBoundString(@NotNull CharSequence text, int startOffset) {
+  protected String getExistingBoundString(@Nonnull CharSequence text, int startOffset) {
     return String.valueOf(text.charAt(startOffset));
   }
 
   protected abstract boolean shouldMoveToWordBounds();
 
-  @NotNull
+  @Nonnull
   protected abstract IElementType getTargetNodeType();
 
-  @NotNull
-  protected SelectionState getCommonState(@NotNull PsiElement element1, @NotNull PsiElement element2) {
+  @Nonnull
+  protected SelectionState getCommonState(@Nonnull PsiElement element1, @Nonnull PsiElement element2) {
     return MarkdownActionUtil.getCommonParentOfType(element1,
                                                     element2,
                                                     getTargetNodeType()) == null ? SelectionState.NO : SelectionState.YES;
   }
 
   @Override
-  public void update(@NotNull AnActionEvent e) {
+  public void update(@Nonnull AnActionEvent e) {
     e.getPresentation().setEnabled(MarkdownActionUtil.findMarkdownTextEditor(e) != null);
     super.update(e);
   }
@@ -129,7 +129,7 @@ public abstract class BaseToggleStateAction extends ToggleAction implements Dumb
     });
   }
 
-  public void removeEmphFromSelection(@NotNull Document document, @NotNull Caret caret, @NotNull TextRange nodeRange) {
+  public void removeEmphFromSelection(@Nonnull Document document, @Nonnull Caret caret, @Nonnull TextRange nodeRange) {
     final CharSequence text = document.getCharsSequence();
     final String boundString = getExistingBoundString(text, nodeRange.getStartOffset());
     if (boundString == null) {
@@ -173,7 +173,7 @@ public abstract class BaseToggleStateAction extends ToggleAction implements Dumb
     }
   }
 
-  public void addEmphToSelection(@NotNull Document document, @NotNull Caret caret) {
+  public void addEmphToSelection(@Nonnull Document document, @Nonnull Caret caret) {
     int from = caret.getSelectionStart();
     int to = caret.getSelectionEnd();
 

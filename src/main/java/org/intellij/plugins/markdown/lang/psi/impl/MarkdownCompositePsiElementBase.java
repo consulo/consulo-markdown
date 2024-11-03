@@ -3,10 +3,10 @@ package org.intellij.plugins.markdown.lang.psi.impl;
 import consulo.language.ast.ASTNode;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
 import consulo.navigation.ItemPresentation;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,24 +15,24 @@ import java.util.List;
 public abstract class MarkdownCompositePsiElementBase extends ASTWrapperPsiElement implements MarkdownPsiElement {
   public static final int PRESENTABLE_TEXT_LENGTH = 50;
 
-  public MarkdownCompositePsiElementBase(@NotNull ASTNode node) {
+  public MarkdownCompositePsiElementBase(@Nonnull ASTNode node) {
     super(node);
   }
 
   protected abstract String getPresentableTagName();
 
-  @NotNull
+  @Nonnull
   protected CharSequence getChars() {
     return getTextRange().subSequence(getContainingFile().getViewProvider().getContents());
   }
 
-  @NotNull
+  @Nonnull
   protected String shrinkTextTo(int length) {
     final CharSequence chars = getChars();
     return chars.subSequence(0, Math.min(length, chars.length())).toString();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public List<MarkdownPsiElement> getCompositeChildren() {
     return Arrays.asList(findChildrenByClass(MarkdownPsiElement.class));

@@ -3,8 +3,7 @@ package org.intellij.plugins.markdown.structureView;
 import consulo.application.AllIcons;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
-
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public abstract class MarkdownBasePresentation implements ItemPresentation {
 

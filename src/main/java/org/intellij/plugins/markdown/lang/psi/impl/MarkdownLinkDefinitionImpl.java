@@ -7,18 +7,18 @@ import consulo.navigation.ItemPresentation;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class MarkdownLinkDefinitionImpl extends ASTWrapperPsiElement implements MarkdownPsiElement {
-  public MarkdownLinkDefinitionImpl(@NotNull ASTNode node) {
+  public MarkdownLinkDefinitionImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
-  @NotNull
+  @Nonnull
   public PsiElement getLinkLabel() {
     final PsiElement label = findChildByType(MarkdownElementTypes.LINK_LABEL);
     if (label == null) {
@@ -27,7 +27,7 @@ public class MarkdownLinkDefinitionImpl extends ASTWrapperPsiElement implements 
     return label;
   }
 
-  @NotNull
+  @Nonnull
   public PsiElement getLinkDestination() {
     final PsiElement destination = findChildByType(MarkdownElementTypes.LINK_DESTINATION);
     if (destination == null) {
@@ -72,7 +72,7 @@ public class MarkdownLinkDefinitionImpl extends ASTWrapperPsiElement implements 
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public List<MarkdownPsiElement> getCompositeChildren() {
     return Collections.emptyList();

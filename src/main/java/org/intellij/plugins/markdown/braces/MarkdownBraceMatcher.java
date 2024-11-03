@@ -19,10 +19,9 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.BracePair;
 import consulo.language.Language;
 import consulo.language.PairedBraceMatcher;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-
-import javax.annotation.Nonnull;
 
 @ExtensionImpl
 public class MarkdownBraceMatcher implements PairedBraceMatcher {

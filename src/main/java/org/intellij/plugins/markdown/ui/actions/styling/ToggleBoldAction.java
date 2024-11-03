@@ -1,20 +1,20 @@
 package org.intellij.plugins.markdown.ui.actions.styling;
 
 import consulo.language.ast.IElementType;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ToggleBoldAction extends BaseToggleStateAction {
-  @NotNull
+  @Nonnull
   @Override
-  protected String getBoundString(@NotNull CharSequence text, int selectionStart, int selectionEnd) {
+  protected String getBoundString(@Nonnull CharSequence text, int selectionStart, int selectionEnd) {
     return "**";
   }
 
   @Nullable
   @Override
-  protected String getExistingBoundString(@NotNull CharSequence text, int startOffset) {
+  protected String getExistingBoundString(@Nonnull CharSequence text, int startOffset) {
     return text.subSequence(startOffset, startOffset + 2).toString();
   }
 
@@ -23,7 +23,7 @@ public class ToggleBoldAction extends BaseToggleStateAction {
     return true;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected IElementType getTargetNodeType() {
     return MarkdownElementTypes.STRONG;

@@ -8,35 +8,36 @@ import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
 import consulo.ide.ServiceManager;
-import consulo.ide.impl.idea.ide.ui.LafManager;
+import consulo.ui.style.StyleManager;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 import consulo.util.xml.serializer.annotation.Property;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @Singleton
 @State(name = "MarkdownApplicationSettings", storages = @Storage("markdown.xml"))
 @ServiceAPI(ComponentScope.APPLICATION)
 @ServiceImpl
-public class MarkdownApplicationSettings implements PersistentStateComponent<MarkdownApplicationSettings.State>, MarkdownCssSettings.Holder, MarkdownPreviewSettings.Holder {
+public class MarkdownApplicationSettings implements PersistentStateComponent<MarkdownApplicationSettings.State>, MarkdownCssSettings.Holder {
   private State myState = new State();
 
   @Inject
   public MarkdownApplicationSettings() {
-    final MarkdownLAFListener lafListener = new MarkdownLAFListener();
-    LafManager.getInstance().addLafManagerListener(lafListener);
+    final MarkdownLAFListener listener = new MarkdownLAFListener();
+    StyleManager.get().addChangeListener(listener);
+    
     // Let's init proper CSS scheme
     ApplicationManager.getApplication().invokeLater(new Runnable() {
       @Override
       public void run() {
-        lafListener.updateCssSettingsForced(MarkdownLAFListener.isDarcula(LafManager.getInstance().getCurrentLookAndFeel()));
+        listener.updateCssSettingsForced(StyleManager.get().getCurrentStyle().isDark());
       }
     });
   }
 
-  @NotNull
+  @Nonnull
   public static MarkdownApplicationSettings getInstance() {
     return ServiceManager.getService(MarkdownApplicationSettings.class);
   }
@@ -53,40 +54,22 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
   }
 
   @Override
-  public void setMarkdownCssSettings(@NotNull MarkdownCssSettings settings) {
+  public void setMarkdownCssSettings(@Nonnull MarkdownCssSettings settings) {
     myState.myCssSettings = settings;
 
     ApplicationManager.getApplication().getMessageBus().syncPublisher(MarkdownSettingsChangedListener.class).onSettingsChange(this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public MarkdownCssSettings getMarkdownCssSettings() {
     return myState.myCssSettings;
   }
 
-  @Override
-  public void setMarkdownPreviewSettings(@NotNull MarkdownPreviewSettings settings) {
-    myState.myPreviewSettings = settings;
-
-    ApplicationManager.getApplication().getMessageBus().syncPublisher(MarkdownSettingsChangedListener.class).onSettingsChange(this);
-  }
-
-  @NotNull
-  @Override
-  public MarkdownPreviewSettings getMarkdownPreviewSettings() {
-    return myState.myPreviewSettings;
-  }
-
-
   public static class State {
     @Property(surroundWithTag = false)
-    @NotNull
+    @Nonnull
     private MarkdownCssSettings myCssSettings = MarkdownCssSettings.DEFAULT;
-
-    @Property(surroundWithTag = false)
-    @NotNull
-    private MarkdownPreviewSettings myPreviewSettings = MarkdownPreviewSettings.DEFAULT;
   }
 
 }

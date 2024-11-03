@@ -2,14 +2,14 @@ package org.intellij.plugins.markdown.ui.actions.styling;
 
 import consulo.language.ast.IElementType;
 import consulo.util.lang.StringUtil;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 public class ToggleCodeSpanAction extends BaseToggleStateAction {
-  @NotNull
+  @Nonnull
   @Override
-  protected String getBoundString(@NotNull CharSequence text, int selectionStart, int selectionEnd) {
+  protected String getBoundString(@Nonnull CharSequence text, int selectionStart, int selectionEnd) {
     int maxBacktickSequenceSeen = 0;
     int curBacktickSequence = 0;
     for (int i = selectionStart; i < selectionEnd; ++i) {
@@ -27,7 +27,7 @@ public class ToggleCodeSpanAction extends BaseToggleStateAction {
 
   @Nullable
   @Override
-  protected String getExistingBoundString(@NotNull CharSequence text, int startOffset) {
+  protected String getExistingBoundString(@Nonnull CharSequence text, int startOffset) {
     int to = startOffset;
     while (to < text.length() && text.charAt(to) == '`') {
       to++;
@@ -41,7 +41,7 @@ public class ToggleCodeSpanAction extends BaseToggleStateAction {
     return false;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected IElementType getTargetNodeType() {
     return MarkdownElementTypes.CODE_SPAN;

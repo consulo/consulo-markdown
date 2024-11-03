@@ -4,15 +4,15 @@ import consulo.language.ast.ASTNode;
 import consulo.language.ast.IElementType;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
 import consulo.language.psi.PsiElement;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.psi.impl.*;
-import org.jetbrains.annotations.NotNull;
 
 public class MarkdownPsiFactory {
   public static final MarkdownPsiFactory INSTANCE = new MarkdownPsiFactory();
 
-  public PsiElement createElement(@NotNull ASTNode node) {
+  public PsiElement createElement(@Nonnull ASTNode node) {
     final IElementType elementType = node.getElementType();
 
     if (elementType == MarkdownElementTypes.PARAGRAPH) {

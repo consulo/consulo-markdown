@@ -9,11 +9,11 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiLanguageInjectionHost;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.navigation.ItemPresentation;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -77,26 +77,26 @@ public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLan
   }
 
   @Override
-  public PsiLanguageInjectionHost updateText(@NotNull String text) {
+  public PsiLanguageInjectionHost updateText(@Nonnull String text) {
     return ElementManipulators.handleContentChange(this, text);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public LiteralTextEscaper<? extends PsiLanguageInjectionHost> createLiteralTextEscaper() {
     return new LiteralTextEscaper<PsiLanguageInjectionHost>(this) {
       @Override
-      public boolean decode(@NotNull TextRange rangeInsideHost, @NotNull StringBuilder outChars) {
+      public boolean decode(@Nonnull TextRange rangeInsideHost, @Nonnull StringBuilder outChars) {
         outChars.append(rangeInsideHost.substring(myHost.getText()));
         return true;
       }
 
       @Override
-      public int getOffsetInHost(int offsetInDecoded, @NotNull TextRange rangeInsideHost) {
+      public int getOffsetInHost(int offsetInDecoded, @Nonnull TextRange rangeInsideHost) {
         return rangeInsideHost.getStartOffset() + offsetInDecoded;
       }
 
-      @NotNull
+      @Nonnull
       @Override
       public TextRange getRelevantTextRange() {
         return getContentTextRange();
@@ -127,7 +127,7 @@ public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLan
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public List<MarkdownPsiElement> getCompositeChildren() {
     return Collections.emptyList();

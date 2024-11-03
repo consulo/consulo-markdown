@@ -5,12 +5,12 @@ import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiElement;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.ex.DelegatingItemPresentation;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
-import org.jetbrains.annotations.NotNull;
 
 public class MarkdownHeaderImpl extends MarkdownCompositePsiElementBase {
-  public MarkdownHeaderImpl(@NotNull ASTNode node) {
+  public MarkdownHeaderImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

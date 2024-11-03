@@ -5,10 +5,10 @@ import consulo.language.ast.IElementType;
 import consulo.language.impl.ast.ASTLeafFactory;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.version.LanguageVersion;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceContentImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.Nullable;
  */
 @ExtensionImpl
 public class MarkdownASTLeafFactory implements ASTLeafFactory {
-  @NotNull
+  @Nonnull
   @Override
-  public LeafPsiElement createLeaf(@NotNull IElementType type, @NotNull LanguageVersion languageVersion, @NotNull CharSequence text) {
+  public LeafPsiElement createLeaf(@Nonnull IElementType type, @Nonnull LanguageVersion languageVersion, @Nonnull CharSequence text) {
     return new MarkdownCodeFenceContentImpl(type, text);
   }
 

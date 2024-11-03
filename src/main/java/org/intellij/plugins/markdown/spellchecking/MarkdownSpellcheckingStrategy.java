@@ -11,9 +11,7 @@ import consulo.language.spellcheker.tokenizer.Tokenizer;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class MarkdownSpellcheckingStrategy extends SpellcheckingStrategy {
@@ -23,7 +21,7 @@ public class MarkdownSpellcheckingStrategy extends SpellcheckingStrategy {
                                                                         MarkdownElementTypes.CODE_SPAN,
                                                                         MarkdownElementTypes.LINK_DESTINATION);
 
-  @NotNull
+  @Nonnull
   @Override
   public Tokenizer getTokenizer(PsiElement element) {
     final ASTNode node = element.getNode();

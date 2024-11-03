@@ -1,17 +1,17 @@
 package org.intellij.plugins.markdown.lang.parser;
 
+import jakarta.annotation.Nonnull;
 import org.intellij.markdown.MarkdownElementTypes;
 import org.intellij.markdown.ast.ASTNode;
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor;
 import org.intellij.markdown.parser.MarkdownParser;
-import org.jetbrains.annotations.NotNull;
 
 public class MarkdownParserManager {
   public static final GFMFlavourDescriptor FLAVOUR = new GFMFlavourDescriptor();
 
   private static final ThreadLocal<ParsingInfo> ourLastParsingResult = new ThreadLocal<ParsingInfo>();
 
-  public static ASTNode parseContent(@NotNull CharSequence buffer) {
+  public static ASTNode parseContent(@Nonnull CharSequence buffer) {
     final ParsingInfo info = ourLastParsingResult.get();
     if (info != null && info.myBufferHash == buffer.hashCode() && info.myBuffer.equals(buffer)) {
       return info.myParseResult;
@@ -24,13 +24,13 @@ public class MarkdownParserManager {
   }
 
   private static class ParsingInfo {
-    @NotNull
+    @Nonnull
     final CharSequence myBuffer;
     final int myBufferHash;
-    @NotNull
+    @Nonnull
     final ASTNode myParseResult;
 
-    public ParsingInfo(@NotNull CharSequence buffer, @NotNull ASTNode parseResult) {
+    public ParsingInfo(@Nonnull CharSequence buffer, @Nonnull ASTNode parseResult) {
       myBuffer = buffer;
       myBufferHash = myBuffer.hashCode();
       myParseResult = parseResult;

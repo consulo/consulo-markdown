@@ -3,28 +3,28 @@ package org.intellij.plugins.markdown.ui.preview;
 import consulo.disposer.Disposable;
 import consulo.util.lang.Range;
 import consulo.util.lang.StringUtil;
+import jakarta.annotation.Nonnull;
 import org.intellij.markdown.html.HtmlGenerator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 import org.w3c.dom.Node;
 
 import javax.swing.*;
 import java.util.List;
 
 public abstract class MarkdownHtmlPanel implements Disposable {
-  @NotNull
+  @Nonnull
   public abstract JComponent getComponent();
 
-  public abstract void setHtml(@NotNull String html);
+  public abstract void setHtml(@Nonnull String html);
 
-  public abstract void setCSS(@Nullable String inlineCss, @NotNull String... fileUris);
+  public abstract void setCSS(@Nullable String inlineCss, @Nonnull String... fileUris);
 
   public abstract void render();
 
   public abstract void scrollToMarkdownSrcOffset(int offset);
 
   @Nullable
-  protected static Range<Integer> nodeToSrcRange(@NotNull Node node) {
+  protected static Range<Integer> nodeToSrcRange(@Nonnull Node node) {
     if (!node.hasAttributes()) {
       return null;
     }
@@ -39,8 +39,8 @@ public abstract class MarkdownHtmlPanel implements Disposable {
     return new Range<Integer>(Integer.parseInt(startEnd.get(0)), Integer.parseInt(startEnd.get(1)));
   }
 
-  @NotNull
-  protected static String getCssLines(@Nullable String inlineCss, @NotNull String... fileUris) {
+  @Nonnull
+  protected static String getCssLines(@Nullable String inlineCss, @Nonnull String... fileUris) {
     StringBuilder result = new StringBuilder();
 
     for (String uri : fileUris) {

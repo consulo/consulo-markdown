@@ -16,11 +16,11 @@
 package org.intellij.plugins.markdown.lang.psi;
 
 import consulo.language.psi.NavigatablePsiElement;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
 public interface MarkdownPsiElement extends NavigatablePsiElement {
-  @NotNull
+  @Nonnull
   List<MarkdownPsiElement> getCompositeChildren();
 }

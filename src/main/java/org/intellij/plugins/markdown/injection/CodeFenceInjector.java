@@ -10,16 +10,15 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.markdown.injection.LanguageGuesser;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceContentImpl;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class CodeFenceInjector implements MultiHostInjector {
   @Nullable
-  private Language findLangForInjection(@NotNull MarkdownCodeFenceImpl element) {
+  private Language findLangForInjection(@Nonnull MarkdownCodeFenceImpl element) {
     final String fenceLanguage = element.getFenceLanguage();
     if (fenceLanguage == null) {
       return null;
@@ -34,7 +33,7 @@ public class CodeFenceInjector implements MultiHostInjector {
   }
 
   @Override
-  public void injectLanguages(@NotNull MultiHostRegistrar registrar, @NotNull PsiElement context) {
+  public void injectLanguages(@Nonnull MultiHostRegistrar registrar, @Nonnull PsiElement context) {
     if (!(context instanceof MarkdownCodeFenceImpl)) {
       return;
     }

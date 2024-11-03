@@ -2,13 +2,13 @@ package org.intellij.plugins.markdown.lang.lexer;
 
 import consulo.language.ast.IElementType;
 import consulo.language.lexer.LexerBase;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.markdown.ast.ASTNode;
 import org.intellij.markdown.ast.ASTNodeKt;
 import org.intellij.markdown.ast.visitors.RecursiveVisitor;
 import org.intellij.plugins.markdown.lang.MarkdownElementType;
 import org.intellij.plugins.markdown.lang.parser.MarkdownParserManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class MarkdownToplevelLexer extends LexerBase {
   private int myLexemeIndex;
 
   @Override
-  public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
+  public void start(@Nonnull CharSequence buffer, int startOffset, int endOffset, int initialState) {
     myBuffer = buffer;
     myBufferStart = startOffset;
     myBufferEnd = endOffset;
@@ -73,7 +73,7 @@ public class MarkdownToplevelLexer extends LexerBase {
     myLexemeIndex++;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public CharSequence getBufferSequence() {
     return myBuffer;
@@ -87,7 +87,7 @@ public class MarkdownToplevelLexer extends LexerBase {
   private class LexerBuildingVisitor extends RecursiveVisitor {
 
     @Override
-    public void visitNode(@NotNull ASTNode node) {
+    public void visitNode(@Nonnull ASTNode node) {
       if (node.getStartOffset() == node.getEndOffset()) {
         return;
       }

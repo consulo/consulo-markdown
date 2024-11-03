@@ -33,9 +33,7 @@ import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.lexer.MarkdownToplevelLexer;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiFactory;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class MarkdownParserDefinition implements ParserDefinition {
@@ -46,55 +44,55 @@ public class MarkdownParserDefinition implements ParserDefinition {
     return MarkdownLanguage.INSTANCE;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Lexer createLexer(@NotNull LanguageVersion languageVersion) {
+  public Lexer createLexer(@Nonnull LanguageVersion languageVersion) {
     return new MarkdownToplevelLexer();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiParser createParser(@NotNull LanguageVersion languageVersion) {
+  public PsiParser createParser(@Nonnull LanguageVersion languageVersion) {
     return new MarkdownParserAdapter();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public IFileElementType getFileNodeType() {
     return MarkdownElementTypes.MARKDOWN_FILE_ELEMENT_TYPE;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public TokenSet getWhitespaceTokens(@NotNull LanguageVersion languageVersion) {
+  public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion) {
     return TokenSet.create();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public TokenSet getCommentTokens(@NotNull LanguageVersion languageVersion) {
+  public TokenSet getCommentTokens(@Nonnull LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public TokenSet getStringLiteralElements(@NotNull LanguageVersion languageVersion) {
+  public TokenSet getStringLiteralElements(@Nonnull LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiElement createElement(ASTNode node) {
     return MarkdownPsiFactory.INSTANCE.createElement(node);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiFile createFile(FileViewProvider viewProvider) {
     return new MarkdownFile(viewProvider);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
     return SpaceRequirements.MAY;

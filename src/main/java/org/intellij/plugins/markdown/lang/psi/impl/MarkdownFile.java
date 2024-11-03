@@ -17,11 +17,9 @@ package org.intellij.plugins.markdown.lang.psi.impl;
 
 import consulo.language.file.FileViewProvider;
 import consulo.language.impl.psi.PsiFileBase;
-import consulo.virtualFileSystem.fileType.FileType;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +29,7 @@ public class MarkdownFile extends PsiFileBase implements MarkdownPsiElement {
     super(viewProvider, MarkdownLanguage.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public List<MarkdownPsiElement> getCompositeChildren() {
     return Arrays.asList(findChildrenByClass(MarkdownPsiElement.class));

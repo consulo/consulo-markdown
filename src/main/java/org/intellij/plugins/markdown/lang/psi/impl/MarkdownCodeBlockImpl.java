@@ -4,17 +4,17 @@ import consulo.language.ast.ASTNode;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.navigation.ItemPresentation;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.structureView.MarkdownBasePresentation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class MarkdownCodeBlockImpl extends ASTWrapperPsiElement implements MarkdownPsiElement {
-  public MarkdownCodeBlockImpl(@NotNull ASTNode node) {
+  public MarkdownCodeBlockImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
@@ -54,7 +54,7 @@ public class MarkdownCodeBlockImpl extends ASTWrapperPsiElement implements Markd
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public List<MarkdownPsiElement> getCompositeChildren() {
     return Collections.emptyList();

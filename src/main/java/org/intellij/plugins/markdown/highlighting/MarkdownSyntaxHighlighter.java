@@ -19,10 +19,10 @@ import consulo.colorScheme.TextAttributesKey;
 import consulo.language.ast.IElementType;
 import consulo.language.editor.highlight.SyntaxHighlighterBase;
 import consulo.language.lexer.Lexer;
+import jakarta.annotation.Nonnull;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,12 +76,12 @@ public class MarkdownSyntaxHighlighter extends SyntaxHighlighterBase {
     safeMap(ATTRIBUTES, MarkdownTokenTypes.HTML_TAG, MarkdownHighlighterColors.INLINE_HTML_ATTR_KEY);
   }
 
-  @NotNull
+  @Nonnull
   public Lexer getHighlightingLexer() {
     return lexer;
   }
 
-  @NotNull
+  @Nonnull
   public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     return pack(ATTRIBUTES.get(tokenType));
   }

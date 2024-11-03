@@ -1,22 +1,22 @@
 package org.intellij.plugins.markdown.lang.parser;
 
 import consulo.language.parser.PsiBuilder;
+import jakarta.annotation.Nonnull;
 import org.intellij.markdown.ast.ASTNode;
 import org.intellij.markdown.ast.LeafASTNode;
 import org.intellij.markdown.ast.visitors.RecursiveVisitor;
 import org.intellij.plugins.markdown.lang.MarkdownElementType;
-import org.jetbrains.annotations.NotNull;
 
 public class PsiBuilderFillingVisitor extends RecursiveVisitor {
-  @NotNull
+  @Nonnull
   private final PsiBuilder builder;
 
-  public PsiBuilderFillingVisitor(@NotNull PsiBuilder builder) {
+  public PsiBuilderFillingVisitor(@Nonnull PsiBuilder builder) {
     this.builder = builder;
   }
 
   @Override
-  public void visitNode(@NotNull ASTNode node) {
+  public void visitNode(@Nonnull ASTNode node) {
     if (node instanceof LeafASTNode) {
       return;
     }

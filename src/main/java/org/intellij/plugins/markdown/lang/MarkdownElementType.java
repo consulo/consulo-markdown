@@ -21,8 +21,8 @@ import org.intellij.markdown.MarkdownTokenTypes;
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -30,14 +30,14 @@ import java.util.Map;
 
 public class MarkdownElementType extends IElementType {
 
-  @NotNull
+  @Nonnull
   private static final Map<org.intellij.markdown.IElementType, IElementType> markdownToPlatformTypeMap =
     new HashMap<org.intellij.markdown.IElementType, IElementType>();
-  @NotNull
+  @Nonnull
   private static final Map<IElementType, org.intellij.markdown.IElementType> platformToMarkdownTypeMap =
     new HashMap<IElementType, org.intellij.markdown.IElementType>();
 
-  public MarkdownElementType(@NotNull @NonNls String debugName) {
+  public MarkdownElementType(@Nonnull @NonNls String debugName) {
     super(debugName, MarkdownLanguage.INSTANCE);
   }
 

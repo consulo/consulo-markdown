@@ -1,8 +1,6 @@
 package org.intellij.plugins.markdown.ui.preview;
 
 import consulo.application.Application;
-import consulo.application.ApplicationManager;
-import consulo.application.CommonBundle;
 import consulo.component.messagebus.MessageBusConnection;
 import consulo.disposer.Disposer;
 import consulo.document.Document;
@@ -10,16 +8,17 @@ import consulo.document.FileDocumentManager;
 import consulo.document.event.DocumentAdapter;
 import consulo.document.event.DocumentEvent;
 import consulo.fileEditor.FileEditor;
-import consulo.fileEditor.FileEditorLocation;
 import consulo.fileEditor.FileEditorState;
 import consulo.fileEditor.FileEditorStateLevel;
-import consulo.fileEditor.highlight.BackgroundEditorHighlighter;
-import consulo.fileEditor.structureView.StructureViewBuilder;
+import consulo.ui.HtmlView;
 import consulo.ui.ex.awt.JBUI;
-import consulo.ui.ex.awt.Messages;
 import consulo.ui.ex.awt.util.Alarm;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 import consulo.util.dataholder.UserDataHolderBase;
+import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import kava.beans.PropertyChangeListener;
 import org.intellij.markdown.IElementType;
 import org.intellij.markdown.ast.ASTNode;
@@ -30,35 +29,28 @@ import org.intellij.markdown.parser.MarkdownParser;
 import org.intellij.plugins.markdown.lang.parser.MarkdownParserManager;
 import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
-import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
 import org.intellij.plugins.markdown.settings.MarkdownSettingsChangedListener;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.Map;
 
 public class MarkdownPreviewFileEditor extends UserDataHolderBase implements FileEditor {
   private final static long PARSING_CALL_TIMEOUT_MS = 50L;
 
   private final static long RENDERING_DELAY_MS = 20L;
-  @NotNull
-  private final JPanel myHtmlPanelWrapper;
-  @NotNull
-  private MarkdownHtmlPanel myPanel;
-  @Nullable
-  private MarkdownHtmlPanelProvider.ProviderInfo myLastPanelProviderInfo = null;
-  @NotNull
+  @Nonnull
+  private HtmlView myPanel;
+  @Nonnull
   private final VirtualFile myFile;
   @Nullable
   private final Document myDocument;
-  @NotNull
+  @Nonnull
   private final Alarm myPooledAlarm = new Alarm(Alarm.ThreadToUse.POOLED_THREAD, this);
-  @NotNull
+  @Nonnull
   private final Alarm mySwingAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD, this);
 
   private final Object REQUESTS_LOCK = new Object();
@@ -68,10 +60,10 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   private Runnable myLastHtmlOrRefreshRequest = null;
 
   private volatile int myLastScrollOffset;
-  @NotNull
+  @Nonnull
   private String myLastRenderedHtml = "";
 
-  public MarkdownPreviewFileEditor(@NotNull VirtualFile file) {
+  public MarkdownPreviewFileEditor(@Nonnull VirtualFile file) {
     myFile = file;
     myDocument = FileDocumentManager.getInstance().getDocument(myFile);
 
@@ -96,13 +88,9 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       }, this);
     }
 
-    myHtmlPanelWrapper = new JPanel(new BorderLayout());
+    myPanel = HtmlView.create();
 
-    final MarkdownApplicationSettings settings = MarkdownApplicationSettings.getInstance();
-    myPanel = detachOldPanelAndCreateAndAttachNewOne(myHtmlPanelWrapper, null, retrievePanelProvider(settings));
-    updatePanelCssSettings(myPanel, settings.getMarkdownCssSettings());
-
-    MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
+    MessageBusConnection settingsConnection = Application.get().getMessageBus().connect(this);
     MarkdownSettingsChangedListener settingsChangedListener = new MyUpdatePanelOnSettingsChangedListener();
     settingsConnection.subscribe(MarkdownSettingsChangedListener.class, settingsChangedListener);
   }
@@ -133,32 +121,26 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public JComponent getComponent() {
-    return myHtmlPanelWrapper;
+    return (JComponent)TargetAWT.to(myPanel);
   }
 
-  @Nullable
-  @Override
-  public JComponent getPreferredFocusedComponent() {
-    return myPanel.getComponent();
-  }
-
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return "Markdown HTML Preview";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public FileEditorState getState(@NotNull FileEditorStateLevel fileEditorStateLevel) {
+  public FileEditorState getState(@Nonnull FileEditorStateLevel fileEditorStateLevel) {
     return FileEditorState.INSTANCE;
   }
 
   @Override
-  public void setState(@NotNull FileEditorState state) {
+  public void setState(@Nonnull FileEditorState state) {
   }
 
   @Override
@@ -174,38 +156,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   @Override
   public void selectNotify() {
     myPooledAlarm.cancelAllRequests();
-    myPooledAlarm.addRequest(new Runnable() {
-      @Override
-      public void run() {
-        MarkdownPreviewFileEditor.this.updateHtml(true);
-      }
-    }, 0);
-  }
-
-  @Nullable("Null means leave current panel")
-  private MarkdownHtmlPanelProvider retrievePanelProvider(@NotNull MarkdownApplicationSettings settings) {
-    final MarkdownHtmlPanelProvider.ProviderInfo providerInfo = settings.getMarkdownPreviewSettings().getHtmlPanelProviderInfo();
-    if (providerInfo.equals(myLastPanelProviderInfo)) {
-      return null;
-    }
-
-    MarkdownHtmlPanelProvider provider = MarkdownHtmlPanelProvider.createFromInfo(providerInfo);
-
-    if (provider.isAvailable() != MarkdownHtmlPanelProvider.AvailabilityInfo.AVAILABLE) {
-      settings.setMarkdownPreviewSettings(new MarkdownPreviewSettings(settings.getMarkdownPreviewSettings().getSplitEditorLayout(),
-                                                                      MarkdownPreviewSettings.DEFAULT.getHtmlPanelProviderInfo()
-      ));
-
-      Messages.showMessageDialog(myHtmlPanelWrapper,
-                                 "Tried to use preview panel provider (" + providerInfo.getName() + "), but it is unavailable. Reverting to default.",
-                                 CommonBundle.getErrorTitle(),
-                                 Messages.getErrorIcon());
-
-      provider = MarkdownHtmlPanelProvider.getProviders()[0];
-    }
-
-    myLastPanelProviderInfo = settings.getMarkdownPreviewSettings().getHtmlPanelProviderInfo();
-    return provider;
+    myPooledAlarm.addRequest(() -> MarkdownPreviewFileEditor.this.updateHtml(true), 0);
   }
 
   /**
@@ -233,20 +184,44 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
           final String currentHtml = "<html><head></head>" + html + "</html>";
           if (!currentHtml.equals(myLastRenderedHtml)) {
             myLastRenderedHtml = currentHtml;
-            myPanel.setHtml(myLastRenderedHtml);
+
+            MarkdownApplicationSettings settings = MarkdownApplicationSettings.getInstance();
+            MarkdownCssSettings cssSettings = settings.getMarkdownCssSettings();
+            String inlineCss = new StringBuilder().append(cssSettings.isTextEnabled() ? cssSettings.getStylesheetText() + "\n" : "")
+                                                  .append("body {\n  font-size: ")
+                                                  .append(JBUI
+                                                            .scale(100))
+                                                  .append
+                                                    ("%;\n}")
+                                                  .toString();
+
+            URL[] cssUrls = new URL[0];
+            if (cssSettings.isUriEnabled()) {
+              String stylesheetUri = cssSettings.getStylesheetUri();
+              if (!StringUtil.isEmptyOrSpaces(stylesheetUri)) {
+                try {
+                  cssUrls = new URL[]{URI.create(stylesheetUri).toURL()};
+                }
+                catch (MalformedURLException ignored) {
+                }
+              }
+            }
+
+            myPanel.render(new HtmlView.RenderData(currentHtml, inlineCss, cssUrls));
 
             if (preserveScrollOffset) {
-              myPanel.scrollToMarkdownSrcOffset(myLastScrollOffset);
+              // TODO not fully renders myPanel.scrollToMarkdownSrcOffset(myLastScrollOffset);
             }
           }
 
-          myPanel.render();
           synchronized (REQUESTS_LOCK) {
             myLastHtmlOrRefreshRequest = null;
           }
         }
       };
-      mySwingAlarm.addRequest(myLastHtmlOrRefreshRequest, RENDERING_DELAY_MS, Application.get().getModalityStateForComponent(getComponent()));
+      mySwingAlarm.addRequest(myLastHtmlOrRefreshRequest,
+                              RENDERING_DELAY_MS,
+                              Application.get().getModalityStateForComponent(getComponent()));
     }
   }
 
@@ -255,32 +230,14 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   }
 
   @Override
-  public void addPropertyChangeListener(@NotNull PropertyChangeListener listener) {
+  public void addPropertyChangeListener(@Nonnull PropertyChangeListener listener) {
   }
 
   @Override
-  public void removePropertyChangeListener(@NotNull PropertyChangeListener listener) {
+  public void removePropertyChangeListener(@Nonnull PropertyChangeListener listener) {
   }
 
-  @Nullable
-  @Override
-  public BackgroundEditorHighlighter getBackgroundHighlighter() {
-    return null;
-  }
-
-  @Nullable
-  @Override
-  public FileEditorLocation getCurrentLocation() {
-    return null;
-  }
-
-  @Nullable
-  @Override
-  public StructureViewBuilder getStructureViewBuilder() {
-    return null;
-  }
-
-  @NotNull
+  @Nonnull
   @Override
   public VirtualFile getFile() {
     return myFile;
@@ -288,11 +245,10 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 
   @Override
   public void dispose() {
-    Disposer.dispose(myPanel);
   }
 
-  @NotNull
-  private static String generateMarkdownHtml(@NotNull VirtualFile file, @NotNull String text) {
+  @Nonnull
+  private static String generateMarkdownHtml(@Nonnull VirtualFile file, @Nonnull String text) {
     final VirtualFile parent = file.getParent();
     final URI baseUri = parent != null ? new File(parent.getPath()).toURI() : null;
 
@@ -303,57 +259,15 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     return new HtmlGenerator(text, parsedTree, htmlGeneratingProviders, true).generateHtml();
   }
 
-  @Contract("_, null, null -> fail")
-  @NotNull
-  private static MarkdownHtmlPanel detachOldPanelAndCreateAndAttachNewOne(@NotNull JPanel panelWrapper,
-                                                                          @Nullable MarkdownHtmlPanel oldPanel,
-                                                                          @Nullable MarkdownHtmlPanelProvider newPanelProvider) {
-    ApplicationManager.getApplication().assertIsDispatchThread();
-    if (oldPanel == null && newPanelProvider == null) {
-      throw new IllegalArgumentException("Either create new one or leave the old");
-    }
-    if (newPanelProvider == null) {
-      return oldPanel;
-    }
-    if (oldPanel != null) {
-      panelWrapper.remove(oldPanel.getComponent());
-      Disposer.dispose(oldPanel);
-    }
-
-    final MarkdownHtmlPanel newPanel = newPanelProvider.createHtmlPanel();
-    panelWrapper.add(newPanel.getComponent(), BorderLayout.CENTER);
-    panelWrapper.repaint();
-
-    return newPanel;
-  }
-
-  private static void updatePanelCssSettings(@NotNull MarkdownHtmlPanel panel, @NotNull final MarkdownCssSettings cssSettings) {
-    ApplicationManager.getApplication().assertIsDispatchThread();
-    //noinspection StringBufferReplaceableByString
-    final String inlineCss = new StringBuilder().append(cssSettings.isTextEnabled() ? cssSettings.getStylesheetText() + "\n" : "")
-                                                .append("body {\n  font-size: ")
-                                                .append(JBUI
-                                                          .scale(100))
-                                                .append
-                                                  ("%;\n}")
-                                                .toString();
-
-    panel.setCSS(inlineCss, cssSettings.isUriEnabled() ? cssSettings.getStylesheetUri() : null);
-    panel.render();
-  }
-
 
   private class MyUpdatePanelOnSettingsChangedListener implements MarkdownSettingsChangedListener {
     @Override
-    public void onSettingsChange(@NotNull final MarkdownApplicationSettings settings) {
-      final MarkdownHtmlPanelProvider newPanelProvider = retrievePanelProvider(settings);
-
+    public void onSettingsChange(@Nonnull final MarkdownApplicationSettings settings) {
       mySwingAlarm.addRequest(new Runnable() {
         @Override
         public void run() {
-          myPanel = detachOldPanelAndCreateAndAttachNewOne(myHtmlPanelWrapper, myPanel, newPanelProvider);
-          myPanel.setHtml(myLastRenderedHtml);
-          updatePanelCssSettings(myPanel, settings.getMarkdownCssSettings());
+          myLastRenderedHtml = null;
+          updateHtml(false);
         }
       }, 0, Application.get().getModalityStateForComponent(getComponent()));
     }

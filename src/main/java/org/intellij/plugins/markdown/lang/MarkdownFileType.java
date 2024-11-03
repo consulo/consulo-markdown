@@ -20,33 +20,28 @@ import consulo.localize.LocalizeValue;
 import consulo.markdown.icon.MarkdownIconGroup;
 import consulo.markdown.localize.MarkdownLocalize;
 import consulo.ui.image.Image;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class MarkdownFileType extends LanguageFileType {
   public static final MarkdownFileType INSTANCE = new MarkdownFileType();
 
-  protected MarkdownFileType() {
+  private MarkdownFileType() {
     super(MarkdownLanguage.INSTANCE);
   }
 
   @Nonnull
-  @NotNull
   @Override
   public String getId() {
     return "Markdown";
   }
 
   @Nonnull
-  @NotNull
   @Override
   public LocalizeValue getDescription() {
     return MarkdownLocalize.markdownFileTypeDescription();
   }
 
   @Nonnull
-  @NotNull
   @Override
   public String getDefaultExtension() {
     return "md";

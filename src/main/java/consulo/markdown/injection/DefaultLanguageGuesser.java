@@ -3,9 +3,9 @@ package consulo.markdown.injection;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.util.NotNullLazyValue;
 import consulo.language.Language;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -18,7 +18,7 @@ import java.util.Map;
 @ExtensionImpl
 public class DefaultLanguageGuesser implements LanguageGuesser {
   private NotNullLazyValue<Map<String, Language>> langIdToLanguage = new NotNullLazyValue<Map<String, Language>>() {
-    @NotNull
+    @Nonnull
     @Override
     protected Map<String, Language> compute() {
       final HashMap<String, Language> result = new HashMap<String, Language>();
@@ -34,7 +34,7 @@ public class DefaultLanguageGuesser implements LanguageGuesser {
 
   @Nullable
   @Override
-  public Language guessLanguage(@NotNull MarkdownCodeFenceImpl markdownCodeFence, @NotNull String fenceLanguage) {
+  public Language guessLanguage(@Nonnull MarkdownCodeFenceImpl markdownCodeFence, @Nonnull String fenceLanguage) {
     return langIdToLanguage.getValue().get(fenceLanguage.toLowerCase(Locale.US));
   }
 }
