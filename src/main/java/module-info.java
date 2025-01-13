@@ -5,8 +5,7 @@
 open module consulo.markdown {
   requires consulo.ide.api;
 
-  // TODO remove this in future
-  requires consulo.ide.impl;
+  // TODO remove in future
   requires java.desktop;
   requires forms.rt;
 
