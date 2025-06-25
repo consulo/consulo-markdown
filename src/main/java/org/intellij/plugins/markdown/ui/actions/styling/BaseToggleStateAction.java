@@ -1,25 +1,26 @@
 package org.intellij.plugins.markdown.ui.actions.styling;
 
+import consulo.application.ReadAction;
 import consulo.application.dumb.DumbAware;
 import consulo.codeEditor.Caret;
 import consulo.codeEditor.Editor;
 import consulo.document.Document;
 import consulo.document.util.TextRange;
 import consulo.language.ast.IElementType;
-import consulo.language.editor.CommonDataKeys;
 import consulo.language.editor.WriteCommandAction;
 import consulo.language.psi.PsiDocumentManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.logging.Logger;
+import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.ToggleAction;
 import consulo.ui.image.Image;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Couple;
 import jakarta.annotation.Nonnull;
-import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil;
 import jakarta.annotation.Nullable;
+import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil;
 import org.jetbrains.annotations.Nls;
 
 public abstract class BaseToggleStateAction extends ToggleAction implements DumbAware {
@@ -53,26 +54,26 @@ public abstract class BaseToggleStateAction extends ToggleAction implements Dumb
 
   @Override
   public void update(@Nonnull AnActionEvent e) {
-    e.getPresentation().setEnabled(MarkdownActionUtil.findMarkdownTextEditor(e) != null);
+    e.getPresentation().setEnabled(ReadAction.compute(() -> MarkdownActionUtil.findMarkdownTextEditor(e)) != null);
     super.update(e);
   }
 
   @Override
   public boolean isSelected(AnActionEvent e) {
-    final Editor editor = MarkdownActionUtil.findMarkdownTextEditor(e);
-    final PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
+    final Editor editor = ReadAction.compute(() -> MarkdownActionUtil.findMarkdownTextEditor(e));
+    final PsiFile psiFile = ReadAction.compute(() -> e.getData(PsiFile.KEY));
     if (editor == null || psiFile == null) {
       return false;
     }
 
     SelectionState lastState = null;
     for (Caret caret : editor.getCaretModel().getAllCarets()) {
-      final Couple<PsiElement> elements = MarkdownActionUtil.getElementsUnderCaretOrSelection(psiFile, caret);
+      final Couple<PsiElement> elements = ReadAction.compute(() -> MarkdownActionUtil.getElementsUnderCaretOrSelection(psiFile, caret));
       if (elements == null) {
         continue;
       }
 
-      final SelectionState state = getCommonState(elements.getFirst(), elements.getSecond());
+      final SelectionState state = ReadAction.compute(() -> getCommonState(elements.getFirst(), elements.getSecond()));
       if (lastState == null) {
         lastState = state;
       }
@@ -93,9 +94,10 @@ public abstract class BaseToggleStateAction extends ToggleAction implements Dumb
   }
 
   @Override
+  @RequiredUIAccess
   public void setSelected(AnActionEvent e, final boolean state) {
     final Editor editor = MarkdownActionUtil.findMarkdownTextEditor(e);
-    final PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
+    final PsiFile psiFile = e.getData(PsiFile.KEY);
     if (editor == null || psiFile == null) {
       return;
     }
