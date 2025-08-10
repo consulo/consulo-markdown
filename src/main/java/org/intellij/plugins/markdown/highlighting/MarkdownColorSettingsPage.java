@@ -21,6 +21,8 @@ import consulo.colorScheme.setting.AttributesDescriptor;
 import consulo.colorScheme.setting.ColorDescriptor;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.localize.LocalizeValue;
+import consulo.markdown.localize.MarkdownLocalize;
 import consulo.util.io.CharsetToolkit;
 import consulo.util.io.StreamUtil;
 import consulo.util.lang.StringUtil;
@@ -100,9 +102,10 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
     return "*error loading text*";
   }
 
+  @Override
   @Nonnull
-  public String getDisplayName() {
-    return MarkdownBundle.message("markdown.plugin.name");
+  public LocalizeValue getDisplayName() {
+    return MarkdownLocalize.markdownPluginName();
   }
 
   @Nonnull

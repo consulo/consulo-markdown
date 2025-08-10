@@ -6,11 +6,11 @@ import consulo.configurable.ConfigurationException;
 import consulo.configurable.SearchableConfigurable;
 import consulo.configurable.StandardConfigurableIds;
 import consulo.disposer.Disposer;
+import consulo.localize.LocalizeValue;
+import consulo.markdown.localize.MarkdownLocalize;
 import jakarta.annotation.Nonnull;
-import jakarta.inject.Inject;
-import org.intellij.plugins.markdown.MarkdownBundle;
-import org.jetbrains.annotations.Nls;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
 
 import javax.swing.*;
 
@@ -46,10 +46,10 @@ public class MarkdownCssConfigurable implements SearchableConfigurable, Applicat
     return null;
   }
 
-  @Nls
+  @Nonnull
   @Override
-  public String getDisplayName() {
-    return MarkdownBundle.message("settings.markdown.css.name");
+  public LocalizeValue getDisplayName() {
+    return MarkdownLocalize.settingsMarkdownCssName();
   }
 
   @Nullable
