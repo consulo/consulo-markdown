@@ -7,7 +7,7 @@ import consulo.application.ApplicationManager;
 import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.ui.style.StyleManager;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 import consulo.util.xml.serializer.annotation.Property;
@@ -39,7 +39,7 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
 
   @Nonnull
   public static MarkdownApplicationSettings getInstance() {
-    return ServiceManager.getService(MarkdownApplicationSettings.class);
+    return Application.get().getInstance(MarkdownApplicationSettings.class);
   }
 
   @Nullable
