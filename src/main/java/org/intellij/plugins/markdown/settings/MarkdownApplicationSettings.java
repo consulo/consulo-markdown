@@ -32,7 +32,7 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
     ApplicationManager.getApplication().invokeLater(new Runnable() {
       @Override
       public void run() {
-        listener.updateCssSettingsForced(StyleManager.get().getCurrentStyle().isDark());
+        listener.updateCssSettingsForced();
       }
     });
   }

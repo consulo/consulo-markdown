@@ -5,11 +5,11 @@ import consulo.ui.style.StyleChangeListener;
 import jakarta.annotation.Nonnull;
 
 class MarkdownLAFListener implements StyleChangeListener {
-  public void updateCssSettingsForced(boolean isDarcula) {
+  public void updateCssSettingsForced() {
     final MarkdownCssSettings currentCssSettings = MarkdownApplicationSettings.getInstance().getMarkdownCssSettings();
     MarkdownApplicationSettings.getInstance().setMarkdownCssSettings(new MarkdownCssSettings(
       currentCssSettings.isUriEnabled(),
-      MarkdownCssSettings.getDefaultCssSettings(isDarcula).getStylesheetUri(),
+      MarkdownCssSettings.getDefaultCssSettings().getStylesheetUri(),
       currentCssSettings.isTextEnabled(),
       currentCssSettings.getStylesheetText()
     ));
@@ -21,6 +21,6 @@ class MarkdownLAFListener implements StyleChangeListener {
       return;
     }
 
-    updateCssSettingsForced(newStyle.isDark());
+    updateCssSettingsForced();
   }
 }

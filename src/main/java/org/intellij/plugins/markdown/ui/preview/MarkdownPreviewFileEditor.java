@@ -188,11 +188,6 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
             MarkdownApplicationSettings settings = MarkdownApplicationSettings.getInstance();
             MarkdownCssSettings cssSettings = settings.getMarkdownCssSettings();
             String inlineCss = new StringBuilder().append(cssSettings.isTextEnabled() ? cssSettings.getStylesheetText() + "\n" : "")
-                                                  .append("body {\n  font-size: ")
-                                                  .append(JBUI
-                                                            .scale(100))
-                                                  .append
-                                                    ("%;\n}")
                                                   .toString();
 
             URL[] cssUrls = new URL[0];
@@ -207,11 +202,11 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
               }
             }
 
-            myPanel.render(new HtmlView.RenderData(currentHtml, inlineCss, cssUrls));
-
-            if (preserveScrollOffset) {
-              // TODO not fully renders myPanel.scrollToMarkdownSrcOffset(myLastScrollOffset);
-            }
+            myPanel.render(new HtmlView.RenderData(currentHtml, inlineCss, cssUrls)).whenComplete((o, throwable) -> {
+                if (preserveScrollOffset) {
+                    myPanel.scrollToMarkdownSrcOffset(myLastScrollOffset);
+                }
+            });
           }
 
           synchronized (REQUESTS_LOCK) {

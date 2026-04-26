@@ -8,8 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 public final class MarkdownCssSettings {
-  public static final MarkdownCssSettings DEFAULT = new MarkdownCssSettings(false);
-  public static final MarkdownCssSettings DARCULA = new MarkdownCssSettings(true);
+  public static final MarkdownCssSettings DEFAULT = new MarkdownCssSettings();
 
   @Attribute("UriEnabled")
   private boolean myUriEnabled;
@@ -23,11 +22,7 @@ public final class MarkdownCssSettings {
   private String myStylesheetText;
 
   private MarkdownCssSettings() {
-    this(true, getPredefinedCssURI(false), false, "");
-  }
-
-  private MarkdownCssSettings(boolean isDarcula) {
-    this(true, getPredefinedCssURI(isDarcula), false, "");
+    this(true, getPredefinedCssURI(), false, "");
   }
 
   public MarkdownCssSettings(boolean uriEnabled, @Nonnull String stylesheetUri, boolean textEnabled, @Nonnull String stylesheetText) {
@@ -71,15 +66,14 @@ public final class MarkdownCssSettings {
   }
 
   @Nonnull
-  public static MarkdownCssSettings getDefaultCssSettings(boolean isDarcula) {
-    return isDarcula ? DARCULA : DEFAULT;
+  public static MarkdownCssSettings getDefaultCssSettings() {
+    return DEFAULT;
   }
 
   @Nonnull
-  private static String getPredefinedCssURI(boolean isDarcula) {
-    final String fileName = isDarcula ? "darcula.css" : "default.css";
+  private static String getPredefinedCssURI() {
     try {
-      final URL resource = MarkdownCssSettings.class.getResource(fileName);
+      final URL resource = MarkdownCssSettings.class.getResource("cobra-styles.css");
       return resource != null ? resource.toURI().toString() : "";
     }
     catch (URISyntaxException e) {
