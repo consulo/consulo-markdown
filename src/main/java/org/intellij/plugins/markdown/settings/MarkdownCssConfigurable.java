@@ -6,6 +6,7 @@ import consulo.configurable.ConfigurationException;
 import consulo.configurable.SearchableConfigurable;
 import consulo.configurable.StandardConfigurableIds;
 import consulo.disposer.Disposer;
+import consulo.language.LanguageRegistry;
 import consulo.localize.LocalizeValue;
 import consulo.markdown.localize.MarkdownLocalize;
 import jakarta.annotation.Nonnull;
@@ -16,82 +17,85 @@ import javax.swing.*;
 
 @ExtensionImpl
 public class MarkdownCssConfigurable implements SearchableConfigurable, ApplicationConfigurable {
-  public static final String ID = "Settings.Markdown.Css";
+    public static final String ID = "Settings.Markdown.Css";
 
-  @Nullable
-  private MarkdownCssSettingsForm myForm = null;
-  @Nonnull
-  private MarkdownApplicationSettings myMarkdownApplicationSettings;
+    @Nullable
+    private MarkdownCssSettingsForm myForm = null;
 
-  @Inject
-  public MarkdownCssConfigurable(@Nonnull MarkdownApplicationSettings markdownApplicationSettings) {
-    myMarkdownApplicationSettings = markdownApplicationSettings;
-  }
+    private MarkdownApplicationSettings myMarkdownApplicationSettings;
+    private final LanguageRegistry myLanguageRegistry;
 
-  @Nonnull
-  @Override
-  public String getId() {
-    return "Settings.Markdown.Css";
-  }
-
-  @Nullable
-  @Override
-  public String getParentId() {
-    return StandardConfigurableIds.EDITOR_GROUP;
-  }
-
-  @Nullable
-  @Override
-  public Runnable enableSearch(String option) {
-    return null;
-  }
-
-  @Nonnull
-  @Override
-  public LocalizeValue getDisplayName() {
-    return MarkdownLocalize.settingsMarkdownCssName();
-  }
-
-  @Nullable
-  @Override
-  public String getHelpTopic() {
-    return null;
-  }
-
-  @Nonnull
-  @Override
-  public JComponent createComponent() {
-    return getForm().getComponent();
-  }
-
-  @Nonnull
-  public MarkdownCssSettingsForm getForm() {
-    if (myForm == null) {
-      myForm = new MarkdownCssSettingsForm();
+    @Inject
+    public MarkdownCssConfigurable(@Nonnull MarkdownApplicationSettings markdownApplicationSettings,
+                                   LanguageRegistry languageRegistry) {
+        myMarkdownApplicationSettings = markdownApplicationSettings;
+        myLanguageRegistry = languageRegistry;
     }
-    return myForm;
-  }
 
-  @Override
-  public boolean isModified() {
-    return !getForm().getMarkdownCssSettings().equals(myMarkdownApplicationSettings.getMarkdownCssSettings());
-  }
-
-  @Override
-  public void apply() throws ConfigurationException {
-    myMarkdownApplicationSettings.setMarkdownCssSettings(getForm().getMarkdownCssSettings());
-  }
-
-  @Override
-  public void reset() {
-    getForm().setMarkdownCssSettings(myMarkdownApplicationSettings.getMarkdownCssSettings());
-  }
-
-  @Override
-  public void disposeUIResources() {
-    if (myForm != null) {
-      Disposer.dispose(myForm);
+    @Nonnull
+    @Override
+    public String getId() {
+        return "Settings.Markdown.Css";
     }
-    myForm = null;
-  }
+
+    @Nullable
+    @Override
+    public String getParentId() {
+        return StandardConfigurableIds.EDITOR_GROUP;
+    }
+
+    @Nullable
+    @Override
+    public Runnable enableSearch(String option) {
+        return null;
+    }
+
+    @Nonnull
+    @Override
+    public LocalizeValue getDisplayName() {
+        return MarkdownLocalize.settingsMarkdownCssName();
+    }
+
+    @Nullable
+    @Override
+    public String getHelpTopic() {
+        return null;
+    }
+
+    @Nonnull
+    @Override
+    public JComponent createComponent() {
+        return getForm().getComponent();
+    }
+
+    @Nonnull
+    public MarkdownCssSettingsForm getForm() {
+        if (myForm == null) {
+            myForm = new MarkdownCssSettingsForm(myLanguageRegistry);
+        }
+        return myForm;
+    }
+
+    @Override
+    public boolean isModified() {
+        return !getForm().getMarkdownCssSettings().equals(myMarkdownApplicationSettings.getMarkdownCssSettings());
+    }
+
+    @Override
+    public void apply() throws ConfigurationException {
+        myMarkdownApplicationSettings.setMarkdownCssSettings(getForm().getMarkdownCssSettings());
+    }
+
+    @Override
+    public void reset() {
+        getForm().setMarkdownCssSettings(myMarkdownApplicationSettings.getMarkdownCssSettings());
+    }
+
+    @Override
+    public void disposeUIResources() {
+        if (myForm != null) {
+            Disposer.dispose(myForm);
+        }
+        myForm = null;
+    }
 }

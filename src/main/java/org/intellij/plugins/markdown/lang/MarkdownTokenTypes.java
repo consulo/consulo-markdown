@@ -16,12 +16,13 @@
 package org.intellij.plugins.markdown.lang;
 
 import consulo.language.ast.IElementType;
+import consulo.language.ast.StandardTokenTypes;
 import consulo.language.ast.TokenType;
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes;
 
 import static org.intellij.plugins.markdown.lang.MarkdownElementType.platformType;
 
-public interface MarkdownTokenTypes extends TokenType {
+public interface MarkdownTokenTypes extends StandardTokenTypes {
 
   IElementType TEXT = platformType(org.intellij.markdown.MarkdownTokenTypes.TEXT);
 
