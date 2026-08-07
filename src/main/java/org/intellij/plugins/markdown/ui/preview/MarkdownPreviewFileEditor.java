@@ -10,6 +10,7 @@ import consulo.document.event.DocumentEvent;
 import consulo.fileEditor.FileEditor;
 import consulo.fileEditor.FileEditorState;
 import consulo.fileEditor.FileEditorStateLevel;
+import consulo.ui.Component;
 import consulo.ui.HtmlView;
 import consulo.ui.ex.awt.JBUI;
 import consulo.ui.ex.awt.util.Alarm;
@@ -127,20 +128,15 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     return (JComponent)TargetAWT.to(myPanel);
   }
 
+  @Override
+  public @Nullable Component getUIComponent() {
+    return myPanel;
+  }
+
   @Nonnull
   @Override
   public String getName() {
     return "Markdown HTML Preview";
-  }
-
-  @Nonnull
-  @Override
-  public FileEditorState getState(@Nonnull FileEditorStateLevel fileEditorStateLevel) {
-    return FileEditorState.INSTANCE;
-  }
-
-  @Override
-  public void setState(@Nonnull FileEditorState state) {
   }
 
   @Override
