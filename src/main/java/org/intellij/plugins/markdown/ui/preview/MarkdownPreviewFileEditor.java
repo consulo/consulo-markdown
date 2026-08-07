@@ -122,12 +122,6 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     }
   }
 
-  @Nonnull
-  @Override
-  public JComponent getComponent() {
-    return (JComponent)TargetAWT.to(myPanel);
-  }
-
   @Override
   public @Nullable Component getUIComponent() {
     return myPanel;
