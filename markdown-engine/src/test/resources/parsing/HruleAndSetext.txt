@@ -1,0 +1,8 @@
+FILE
+  ASTWrapperPsiElement(Markdown:MARKDOWN_FILE)
+    PsiElement(Markdown:HORIZONTAL_RULE)('***')
+    PsiElement(Markdown:EOL)('\n')
+    PsiElement(Markdown:HORIZONTAL_RULE)('---')
+    PsiElement(Markdown:EOL)('\n')
+    PsiElement(Markdown:HORIZONTAL_RULE)('___')
+    PsiElement(Markdown:EOL)('\n')

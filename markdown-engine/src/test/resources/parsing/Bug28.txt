@@ -1,0 +1,12 @@
+FILE
+  ASTWrapperPsiElement(Markdown:MARKDOWN_FILE)
+    PsiElement(Markdown:PARAGRAPH)
+      ASTWrapperPsiElement(Markdown:INLINE_LINK)
+        ASTWrapperPsiElement(Markdown:LINK_TEXT)
+          PsiElement(Markdown:[)('[')
+          PsiElement(Markdown:GFM_AUTOLINK)('http://localhost:8000')
+          PsiElement(Markdown:])(']')
+        PsiElement(Markdown:()('(')
+        ASTWrapperPsiElement(Markdown:LINK_DESTINATION)
+          PsiElement(Markdown:GFM_AUTOLINK)('http://localhost:8000')
+        PsiElement(Markdown:))(')')

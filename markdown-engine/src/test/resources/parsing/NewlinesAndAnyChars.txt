@@ -1,0 +1,14 @@
+FILE
+  ASTWrapperPsiElement(Markdown:MARKDOWN_FILE)
+    PsiElement(Markdown:PARAGRAPH)
+      PsiElement(Markdown:TEXT)('.')
+      PsiElement(Markdown:EOL)(' ')
+    PsiElement(Markdown:EOL)('\n')
+    PsiElement(Markdown:EOL)('\n')
+    PsiElement(Markdown:PARAGRAPH)
+      ASTWrapperPsiElement(Markdown:STRONG)
+        PsiElement(Markdown:EMPH)('*')
+        PsiElement(Markdown:EMPH)('*')
+        PsiElement(Markdown:TEXT)('XSS')
+        PsiElement(Markdown:EMPH)('*')
+        PsiElement(Markdown:EMPH)('*')

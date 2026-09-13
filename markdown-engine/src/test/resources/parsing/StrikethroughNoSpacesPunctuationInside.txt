@@ -1,0 +1,9 @@
+FILE
+  ASTWrapperPsiElement(Markdown:MARKDOWN_FILE)
+    PsiElement(Markdown:PARAGRAPH)
+      PsiElement(Markdown:TEXT)('prefix')
+      PsiElement(Markdown:~)('~')
+      PsiElement(Markdown:~)('~')
+      PsiElement(Markdown::)(':')
+      PsiElement(Markdown:~)('~')
+      PsiElement(Markdown:~)('~')
