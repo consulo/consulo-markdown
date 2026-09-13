@@ -1,0 +1,8 @@
+Origin
+======
+
+Migrated from the JetBrains markdown parser.
+
+  https://github.com/JetBrains/markdown
+  Apache License 2.0
+  Based on version 0.7.5 - 0.7.7
