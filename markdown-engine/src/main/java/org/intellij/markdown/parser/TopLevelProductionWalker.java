@@ -21,6 +21,7 @@ import org.intellij.markdown.MarkdownElementTypes;
 import org.intellij.markdown.MarkdownTokenTypes;
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes;
 import org.intellij.markdown.parser.sequentialparsers.SequentialParser;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Walker for block-level productions, whose offsets are already absolute character offsets.
@@ -112,6 +113,40 @@ public final class TopLevelProductionWalker extends ProductionWalker {
         }
         if (endOffset > last) {
             sink.leaf(MarkdownTokenTypes.WHITE_SPACE, last, endOffset);
+        }
+    }
+
+    @Override
+    protected void emitFallback(SequentialParser.@Nullable Node root, MarkdownProductionSink sink) {
+        if (root == null) {
+            return;
+        }
+        IElementType type = root.getType();
+        sink.open(type, 0);
+        emitWhitespaceAs(MarkdownTokenTypes.TEXT, 0, myText.length(), sink);
+        sink.close(type, myText.length());
+    }
+
+    /**
+     * Emits {@code [startOffset, endOffset)} as {@code type} runs separated by EOL tokens, so the
+     * stream stays gap-free and line-oriented.
+     */
+    private void emitWhitespaceAs(IElementType type, int startOffset, int endOffset, MarkdownProductionSink sink) {
+        int last = startOffset;
+        while (last < endOffset) {
+            myCancellationToken.checkCancelled();
+            int nextEol = indexOf(myText, last, endOffset, '\n');
+            if (nextEol == -1) {
+                break;
+            }
+            if (nextEol > last) {
+                sink.leaf(type, last, nextEol);
+            }
+            sink.leaf(MarkdownTokenTypes.EOL, nextEol, nextEol + 1);
+            last = nextEol + 1;
+        }
+        if (endOffset > last) {
+            sink.leaf(type, last, endOffset);
         }
     }
 

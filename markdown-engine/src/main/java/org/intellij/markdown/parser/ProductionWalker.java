@@ -21,6 +21,7 @@ import org.intellij.markdown.MarkdownTokenMarker;
 import org.intellij.markdown.lexer.Compat;
 import org.intellij.markdown.lexer.Stack;
 import org.intellij.markdown.parser.sequentialparsers.SequentialParser;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,75 +41,122 @@ public abstract class ProductionWalker {
         myCancellationToken = cancellationToken;
     }
 
+    /**
+     * Drives {@code production} into {@code sink}.
+     * <p>
+     * Malformed input must never propagate out of here: this runs inside the lexer, so an exception
+     * would break every caller that merely touches the file - find-in-files, indexing, the
+     * structure view. If the productions do not nest, the document is emitted as flat text
+     * instead, which keeps the token stream gap-free and the file merely unstructured.
+     * <p>
+     * Nesting is therefore checked <em>before</em> anything is emitted. It cannot be checked while
+     * emitting: by the time a mismatch is found the sink has already been given markers, and a
+     * {@link consulo.language.parser.PsiBuilder} cannot be rewound from here.
+     */
     public void walk(List<SequentialParser.Node> production, MarkdownProductionSink sink) {
         List<MyEvent> events = constructEvents(production);
-        Compat.assertCondition(!events.isEmpty(), "nonsense");
-        Compat.assertCondition(events.get(0).myInfo == events.get(events.size() - 1).myInfo,
-                "more than one root?\nfirst: " + events.get(0).myInfo + "\nlast: " + events.get(events.size() - 1).myInfo);
+        if (events.isEmpty()
+            || events.get(0).myInfo != events.get(events.size() - 1).myInfo
+            || !nestsProperly(events)) {
+            emitFallback(events.isEmpty() ? null : events.get(0).myInfo, sink);
+            return;
+        }
 
-        Stack<SequentialParser.Node> open = new Stack<>();
         // A production that is itself a token becomes one leaf covering its whole range; anything
-        // the parser found inside it is part of that token's text, not a child. Events for nodes
-        // contained in that range are therefore dropped rather than emitted alongside it.
-        int suppressStart = -1;
-        int suppressEnd = -1;
+        // the parser found inside it is part of that token's text, not a child.
+        //
+        // Every event is still pushed and popped while inside such a node - only the output is
+        // suppressed. Skipping the events instead unbalances the stack, because a node's open and
+        // close sit at opposite ends of its span and a positional test can accept one and reject
+        // the other.
+        Stack<SequentialParser.Node> open = new Stack<>();
+        int suppressDepth = 0;
 
         for (int i = 0; i < events.size(); i++) {
             myCancellationToken.checkCancelled();
             MyEvent event = events.get(i);
             IElementType type = event.myInfo.getType();
 
-            if (suppressEnd >= 0) {
-                if (event.myPosition >= suppressEnd) {
-                    suppressStart = -1;
-                    suppressEnd = -1;
-                }
-                else if (startOffsetOf(event.myInfo) >= suppressStart
-                         && endOffsetOf(event.myInfo) <= suppressEnd) {
+            if (event.isStart()) {
+                if (suppressDepth > 0) {
+                    open.push(event.myInfo);
+                    suppressDepth++;
                     continue;
                 }
-            }
-
-            if (event.isStart()) {
                 flushBefore(startOffsetOf(event.myInfo), sink);
                 if (isLeafType(type)) {
                     emitLeaf(event.myInfo, sink);
-                    suppressStart = startOffsetOf(event.myInfo);
-                    suppressEnd = endOffsetOf(event.myInfo);
+                    open.push(event.myInfo);
+                    suppressDepth = 1;
                     continue;
                 }
                 open.push(event.myInfo);
                 sink.open(type, startOffsetOf(event.myInfo));
             }
-            else {
-                if (event.isEmpty()) {
-                    flushBefore(startOffsetOf(event.myInfo), sink);
-                    if (isLeafType(type)) {
-                        emitLeaf(event.myInfo, sink);
-                        suppressStart = startOffsetOf(event.myInfo);
-                        suppressEnd = endOffsetOf(event.myInfo);
-                        continue;
-                    }
-                    sink.open(type, startOffsetOf(event.myInfo));
-                    // A production can be empty in its own coordinates yet still span text - an
-                    // inline root over a region with no non-whitespace tokens, say. Without this
-                    // flush that text is lost, and only the engine tree goldens would notice.
-                    flushBefore(endOffsetOf(event.myInfo), sink);
-                    sink.close(type, endOffsetOf(event.myInfo));
+            else if (event.isEmpty()) {
+                if (suppressDepth > 0) {
                     continue;
                 }
+                flushBefore(startOffsetOf(event.myInfo), sink);
                 if (isLeafType(type)) {
+                    emitLeaf(event.myInfo, sink);
                     continue;
                 }
-                SequentialParser.Node started = open.pop();
-                Compat.assertCondition(started == event.myInfo,
-                        "Intersecting parsed nodes detected: " + started + " vs " + event.myInfo);
+                sink.open(type, startOffsetOf(event.myInfo));
+                // A production can be empty in its own coordinates yet still span text - an
+                // inline root over a region with no non-whitespace tokens, say. Without this
+                // flush that text is lost, and only the parse expectations would notice.
+                flushBefore(endOffsetOf(event.myInfo), sink);
+                sink.close(type, endOffsetOf(event.myInfo));
+            }
+            else {
+                open.pop();
+                if (suppressDepth > 0) {
+                    suppressDepth--;
+                    continue;
+                }
                 flushBefore(endOffsetOf(event.myInfo), sink);
                 sink.close(type, endOffsetOf(event.myInfo));
             }
         }
-        Compat.assertCondition(open.isEmpty(), "unclosed nodes remain: " + open);
     }
+
+    /**
+     * Whether the events open and close in a well-formed order. Pure: no sink calls and no cursor
+     * state is touched, so it can run before anything is emitted.
+     */
+    private boolean nestsProperly(List<MyEvent> events) {
+        Stack<SequentialParser.Node> open = new Stack<>();
+        int suppressDepth = 0;
+
+        for (MyEvent event : events) {
+            myCancellationToken.checkCancelled();
+            if (event.isStart()) {
+                open.push(event.myInfo);
+                if (suppressDepth > 0) {
+                    suppressDepth++;
+                }
+                else if (isLeafType(event.myInfo.getType())) {
+                    suppressDepth = 1;
+                }
+            }
+            else if (!event.isEmpty()) {
+                if (open.isEmpty() || open.pop() != event.myInfo) {
+                    return false;
+                }
+                if (suppressDepth > 0) {
+                    suppressDepth--;
+                }
+            }
+        }
+        return open.isEmpty();
+    }
+
+    /**
+     * Emits the whole region as flat text under {@code root}, for input whose productions do not
+     * nest. {@code root} is null only when there were no productions at all.
+     */
+    protected abstract void emitFallback(SequentialParser.@Nullable Node root, MarkdownProductionSink sink);
 
     /** Types the parser reports as a span but that are terminals in the tree. */
     protected boolean isLeafType(IElementType type) {

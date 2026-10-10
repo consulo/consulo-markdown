@@ -20,6 +20,7 @@ import consulo.language.ast.IElementType;
 import org.intellij.markdown.lexer.TokenInfo;
 import org.intellij.markdown.parser.sequentialparsers.SequentialParser;
 import org.intellij.markdown.parser.sequentialparsers.TokensCache;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -94,5 +95,20 @@ public final class InlineProductionWalker extends ProductionWalker {
     @Override
     protected void emitLeaf(SequentialParser.Node node, MarkdownProductionSink sink) {
         throw new IllegalStateException("inline productions are never leaves");
+    }
+
+    @Override
+    protected void emitFallback(SequentialParser.@Nullable Node root, MarkdownProductionSink sink) {
+        if (root == null) {
+            return;
+        }
+        IElementType type = root.getType();
+        int start = myTokensCache.getOriginalTextStart();
+        int end = myTokensCache.getOriginalTextEnd() + 1;
+        sink.open(type, start);
+        for (TokenInfo token : myTokensCache.getCachedTokens()) {
+            sink.leaf(token.getType(), token.getTokenStart(), token.getTokenEnd());
+        }
+        sink.close(type, end);
     }
 }

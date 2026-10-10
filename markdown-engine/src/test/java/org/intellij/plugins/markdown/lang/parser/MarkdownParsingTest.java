@@ -262,6 +262,17 @@ public class MarkdownParsingTest extends SimpleParsingTest<Object> {
         doTest(context, null);
     }
 
+    /**
+     * A table whose last line is a bare {@code |}: the row is one character long and ends at the
+     * same offset as the table. Regression test - suppression used to be keyed on a live offset
+     * range, which accepted such a row's open event and rejected its close, unbalancing the marker
+     * stack and reporting it as intersecting nodes.
+     */
+    @Test
+    public void testTableTrailingPipe(Context context) throws Exception {
+        doTest(context, null);
+    }
+
     @Test
     public void testTabStops(Context context) throws Exception {
         doTest(context, null);
