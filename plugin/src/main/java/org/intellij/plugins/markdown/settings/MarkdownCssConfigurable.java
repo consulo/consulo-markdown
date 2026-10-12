@@ -5,10 +5,13 @@ import consulo.configurable.ApplicationConfigurable;
 import consulo.configurable.ConfigurationException;
 import consulo.configurable.SearchableConfigurable;
 import consulo.configurable.StandardConfigurableIds;
+import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
 import consulo.language.LanguageRegistry;
 import consulo.localize.LocalizeValue;
 import consulo.markdown.localize.MarkdownLocalize;
+import consulo.ui.Component;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
@@ -64,8 +67,8 @@ public class MarkdownCssConfigurable implements SearchableConfigurable, Applicat
 
     @Nonnull
     @Override
-    public JComponent createComponent() {
-        return getForm().getComponent();
+    public Component createUIComponent(Disposable parentDisposable) {
+        return TargetAWT.wrap(getForm().getComponent());
     }
 
     @Nonnull
