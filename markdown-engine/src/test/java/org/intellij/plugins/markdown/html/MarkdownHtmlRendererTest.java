@@ -29,6 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -64,6 +66,22 @@ public class MarkdownHtmlRendererTest extends SimpleParsingTest<Object> {
                    "the preview relies on md-src-pos attributes for scroll sync, but none were emitted");
     }
 
+    @Test
+    public void testCodeFenceContentRenderer(Context context) throws Exception {
+        String source = "```yaml title=\"a.yaml\"\n  key: <a> & b\n```\n\n```\nplain <b>\n```\n";
+        List<String> calls = new ArrayList<>();
+        String html = render(context, "fenceRenderer", source, (infoString, code) -> {
+            calls.add(infoString + "|" + code);
+            return infoString.isEmpty() ? null : "<span>RENDERED</span>";
+        });
+
+        // the renderer gets the whole info string and the raw code, not escaped
+        assertEquals(List.of("yaml title=\"a.yaml\"|  key: <a> & b\n", "|plain <b>\n"), calls);
+        assertTrue(html.contains("<code class=\"language-yaml\"") && html.contains("><span>RENDERED</span></code>"), html);
+        // a fence the renderer declines keeps its escaped plain text
+        assertTrue(html.contains("plain &lt;b&gt;"), html);
+    }
+
     private void check(Context context, String name) throws Exception {
         String source = Files.readString(CORPUS.resolve(name + ".md"), StandardCharsets.UTF_8);
         String actual = render(context, name, source);
@@ -78,9 +96,13 @@ public class MarkdownHtmlRendererTest extends SimpleParsingTest<Object> {
     }
 
     private String render(Context context, String name, String source) throws Exception {
+        return render(context, name, source, null);
+    }
+
+    private String render(Context context, String name, String source, @Nullable CodeFenceContentRenderer codeFenceRenderer) throws Exception {
         PsiFile file = createFile(context, null, name + ".md", MarkdownFileType.INSTANCE, source);
         ensureParsed(file);
-        return MarkdownHtmlRenderer.renderTree(file.getNode(), source, BASE_URI);
+        return MarkdownHtmlRenderer.renderTree(file.getNode(), source, BASE_URI, codeFenceRenderer);
     }
 
     @Nonnull

@@ -58,6 +58,12 @@ public class DefaultLanguageGuesser implements LanguageGuesser {
   @Nullable
   @Override
   public Language guessLanguage(@Nonnull MarkdownCodeFenceImpl markdownCodeFence, @Nonnull String fenceLanguage) {
+    return guessLanguage(fenceLanguage);
+  }
+
+  @Nullable
+  @Override
+  public Language guessLanguage(@Nonnull String fenceLanguage) {
     return langIdToLanguage.getValue().get(LanguageGuesser.getLanguageName(fenceLanguage).toLowerCase(Locale.US));
   }
 

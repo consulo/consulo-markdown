@@ -20,6 +20,8 @@ import consulo.language.ast.ASTNode;
 import consulo.language.ast.IElementType;
 import org.intellij.markdown.flavours.MarkdownFlavourDescriptor;
 import consulo.virtualFileSystem.VirtualFile;
+import org.intellij.markdown.MarkdownElementTypes;
+import org.intellij.markdown.html.CodeFenceGeneratingProvider;
 import org.intellij.markdown.html.GeneratingProvider;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.markdown.parser.LinkMap;
@@ -56,7 +58,21 @@ public final class MarkdownHtmlRenderer {
 
     /** Renders from an already-parsed tree, in the preview's configuration. */
     public static String renderTree(ASTNode root, String text, @Nullable URI baseUri) {
-        return renderTree(root, text, baseUri, MarkdownParserManager.FLAVOUR, INCLUDE_SRC_POSITIONS, null);
+        return renderTree(root, text, baseUri, null);
+    }
+
+    /**
+     * Renders from an already-parsed tree, in the preview's configuration
+     *
+     * @param codeFenceRenderer renders the code of the code fences, for example highlighted; {@code null} shows it as plain text
+     */
+    public static String renderTree(ASTNode root, String text, @Nullable URI baseUri, @Nullable CodeFenceContentRenderer codeFenceRenderer) {
+        Map<IElementType, GeneratingProvider> providers =
+            MarkdownParserManager.FLAVOUR.createHtmlGeneratingProviders(LinkMap.buildLinkMap(root, text), baseUri);
+        if (codeFenceRenderer != null) {
+            providers.put(MarkdownElementTypes.CODE_FENCE, new CodeFenceGeneratingProvider(codeFenceRenderer));
+        }
+        return new HtmlGenerator(text, root, providers, INCLUDE_SRC_POSITIONS).generateHtml();
     }
 
     /**

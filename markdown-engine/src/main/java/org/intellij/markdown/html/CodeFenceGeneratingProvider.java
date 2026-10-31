@@ -19,12 +19,27 @@ package org.intellij.markdown.html;
 import org.intellij.markdown.MarkdownTokenTypes;
 import consulo.language.ast.ASTNode;
 import org.intellij.markdown.MarkdownAstUtil;
+import org.intellij.plugins.markdown.html.CodeFenceContentRenderer;
+import org.jspecify.annotations.Nullable;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class CodeFenceGeneratingProvider implements GeneratingProvider {
+    private final @Nullable CodeFenceContentRenderer myContentRenderer;
+
+    public CodeFenceGeneratingProvider() {
+        this(null);
+    }
+
+    /**
+     * @param contentRenderer renders the code instead of the plain escaped text, for example highlighted
+     */
+    public CodeFenceGeneratingProvider(@Nullable CodeFenceContentRenderer contentRenderer) {
+        myContentRenderer = contentRenderer;
+    }
+
     @Override
     public void processNode(HtmlGenerator.HtmlGeneratingVisitor visitor, String text, ASTNode node) {
         CharSequence nodeText = MarkdownAstUtil.getTextInNode(node, text);
@@ -41,19 +56,26 @@ public final class CodeFenceGeneratingProvider implements GeneratingProvider {
 
         boolean lastChildWasContent = false;
 
+        // the content is collected twice: escaped for the plain text, raw for the content renderer
+        StringBuilder contentHtml = new StringBuilder();
+        StringBuilder rawContent = new StringBuilder();
+        String infoString = "";
+
         ArrayList<String> attributes = new ArrayList<>();
         for (ASTNode child : childrenToConsider) {
             if (state == 1 && (child.getElementType() == MarkdownTokenTypes.CODE_FENCE_CONTENT
                     || child.getElementType() == MarkdownTokenTypes.EOL)) {
-                visitor.consumeHtml(
+                contentHtml.append(
                         HtmlGenerator.trimIndents(
                                 HtmlGenerator.leafText(text, child, false),
                                 indentBefore
                         )
                 );
+                rawContent.append(HtmlGenerator.trimIndents(MarkdownAstUtil.getTextInNode(child, text), indentBefore));
                 lastChildWasContent = child.getElementType() == MarkdownTokenTypes.CODE_FENCE_CONTENT;
             }
             if (state == 0 && child.getElementType() == MarkdownTokenTypes.FENCE_LANG) {
+                infoString = MarkdownAstUtil.getTextInNode(child, text).toString().trim();
                 String langText = HtmlGenerator.leafText(text, child).toString().trim().split(" ")[0];
                 attributes.add("class=\"language-" + langText + "\"");
             }
@@ -65,6 +87,10 @@ public final class CodeFenceGeneratingProvider implements GeneratingProvider {
         if (state == 0) {
             visitor.consumeTagOpen(node, "code", attributes.toArray(new CharSequence[0]));
         }
+        CharSequence renderedContent = myContentRenderer != null && rawContent.length() > 0
+            ? myContentRenderer.render(infoString, rawContent.toString())
+            : null;
+        visitor.consumeHtml(renderedContent != null ? renderedContent : contentHtml);
         if (lastChildWasContent) {
             visitor.consumeHtml("\n");
         }

@@ -1,5 +1,7 @@
 package org.intellij.plugins.markdown.ui.preview;
 
+import consulo.colorScheme.EditorColorsManager;
+import consulo.markdown.preview.CodeFenceHighlighter;
 import consulo.application.Application;
 import consulo.component.messagebus.MessageBusConnection;
 import consulo.disposer.Disposer;
@@ -246,9 +248,12 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       if (psiFile == null) {
         return "";
       }
+      // the color scheme is taken on every rendering, so a changed scheme shows with the next update
+      CodeFenceHighlighter codeFenceHighlighter = new CodeFenceHighlighter(myProject, EditorColorsManager.getInstance().getGlobalScheme());
       return org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.renderTree(psiFile.getNode(),
                                              psiFile.getText(),
-                                             org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.baseUriFor(myFile));
+                                             org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.baseUriFor(myFile),
+                                             codeFenceHighlighter);
     });
   }
 

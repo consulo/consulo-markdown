@@ -31,6 +31,16 @@ public interface LanguageGuesser {
   Language guessLanguage(@Nonnull MarkdownCodeFenceImpl markdownCodeFence, @Nonnull String fenceLanguage);
 
   /**
+   * The language of an info string alone, without its code fence: the preview highlights the code by it
+   *
+   * @param fenceLanguage the whole info string of the fence; {@link #getLanguageName(String)} gives its language name
+   */
+  @Nullable
+  default Language guessLanguage(@Nonnull String fenceLanguage) {
+    return null;
+  }
+
+  /**
    * @return the info strings offered by completion after the opening backticks of a fence
    */
   @Nonnull
