@@ -3,7 +3,7 @@
  * @since 14/01/2023
  */
 open module consulo.markdown {
-  requires consulo.language.editor.api;
+  requires transitive consulo.language.editor.api;
   requires consulo.language.impl;
   requires consulo.configurable.api;
   requires consulo.file.editor.api;
@@ -12,7 +12,9 @@ open module consulo.markdown {
   requires consulo.language.inject.advanced.api;
   requires consulo.execution.api;
 
-  requires consulo.markdown.engine;
+  requires transitive consulo.markdown.engine;
+
+  exports consulo.markdown.injection;
 
   // TODO remove in future
   requires java.desktop;
