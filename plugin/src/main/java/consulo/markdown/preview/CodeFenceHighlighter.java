@@ -17,37 +17,177 @@ package consulo.markdown.preview;
 
 import consulo.annotation.access.RequiredReadAction;
 import consulo.colorScheme.EditorColorsScheme;
-import consulo.colorScheme.TextAttributes;
-import consulo.colorScheme.TextAttributesKey;
+import consulo.execution.icon.ExecutionIconGroup;
+import consulo.execution.runAnything.codeBlock.CodeBlockCommandRunner;
+import consulo.execution.runAnything.codeBlock.CodeBlockRunner;
 import consulo.language.Language;
-import consulo.language.editor.highlight.SyntaxHighlighter;
-import consulo.language.editor.highlight.SyntaxHighlighterFactory;
-import consulo.language.file.light.LightVirtualFile;
-import consulo.language.lexer.Lexer;
+import consulo.language.editor.codeBlock.CodeBlockHighlighter;
+import consulo.language.editor.codeBlock.CodeBlockHtmlBuilder;
 import consulo.markdown.injection.LanguageGuesser;
+import consulo.markdown.localize.MarkdownLocalize;
 import consulo.project.Project;
-import consulo.ui.color.ColorValue;
-import consulo.ui.util.ColorValueUtil;
+import consulo.ui.HtmlView;
+import consulo.ui.clipboard.DataTransfer;
+import consulo.ui.clipboard.DataTransferType;
 import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
 import org.intellij.plugins.markdown.html.CodeFenceContentRenderer;
 import org.jspecify.annotations.Nullable;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
- * Highlights the code of a code fence in the preview by the syntax highlighter of the language of its info string: every token
- * gets the foreground color of the color scheme, as an inline style
+ * Highlights the code of a code fence in the preview as the editor colors the language of its info string, names every fence so
+ * the preview puts a copy button over it, and marks what can be run in it. One instance serves one rendering of a document.
  */
 public class CodeFenceHighlighter implements CodeFenceContentRenderer {
+    private static final String BLOCK_ID_PREFIX = "consulo-code-fence-";
+
     private final Project myProject;
     private final EditorColorsScheme myColorsScheme;
+    private final CodeBlockHighlighter myCodeBlockHighlighter;
+    private final CodeBlockCommandRunner myCommandRunner;
+    private final Map<String, DataTransfer> myCopyTargets = new LinkedHashMap<>();
+    private final CodeFenceRunTargets myRunTargets;
 
-    public CodeFenceHighlighter(Project project, EditorColorsScheme colorsScheme) {
+    /**
+     * The id {@link #getBlockId} gave the fence {@link #render} renders next
+     */
+    private @Nullable String myBlockId;
+
+    public CodeFenceHighlighter(Project project, EditorColorsScheme colorsScheme, @Nullable VirtualFile workingDirectory) {
         myProject = project;
         myColorsScheme = colorsScheme;
+        myCodeBlockHighlighter = project.getApplication().getInstance(CodeBlockHighlighter.class);
+        myCommandRunner = project.getInstance(CodeBlockCommandRunner.class);
+        myRunTargets = new CodeFenceRunTargets(workingDirectory);
+    }
+
+    /**
+     * What the copy button of every fence rendered so far puts on the clipboard, by the id of its {@code pre}
+     */
+    public Map<String, DataTransfer> getCopyTargets() {
+        return myCopyTargets;
+    }
+
+    public CodeFenceRunTargets getRunTargets() {
+        return myRunTargets;
+    }
+
+    @Override
+    @RequiredReadAction
+    public @Nullable String getBlockId(String infoString, String code) {
+        myBlockId = null;
+        if (code.isEmpty()) {
+            return null;
+        }
+
+        String blockId = BLOCK_ID_PREFIX + myCopyTargets.size();
+        myBlockId = blockId;
+
+        DataTransfer.Builder value = DataTransfer.builder().put(DataTransferType.TEXT, code);
+        Language language = findLanguage(infoString);
+        if (language != null) {
+            String html = myCodeBlockHighlighter.newHtmlBuilder(myProject, language, code)
+                .colorsScheme(myColorsScheme)
+                .generateWrappedTags()
+                .generateBackground()
+                .generateFontFamily()
+                .generateFontSize()
+                .build();
+            value.put(DataTransferType.HTML, html);
+        }
+        myCopyTargets.put(blockId, value.build());
+
+        CodeBlockRunner runner = myCommandRunner.findBlockRunner(LanguageGuesser.getLanguageName(infoString), language);
+        if (runner != null) {
+            myRunTargets.addBlock(blockId, code, runner, new HtmlView.GutterAction(ExecutionIconGroup.gutterRun(), runner.getTitle()));
+        }
+        return blockId;
     }
 
     @Override
     @RequiredReadAction
     public @Nullable CharSequence render(String infoString, String code) {
+        String blockId = myBlockId;
+        myBlockId = null;
+
+        Language language = findLanguage(infoString);
+        Map<Integer, String> lineIds = blockId == null || myRunTargets.getGutterActions().containsKey(blockId)
+            ? Map.of()
+            : markRunnableLines(blockId, code);
+
+        if (language == null) {
+            return lineIds.isEmpty() ? null : escapeWithLineIds(code, lineIds);
+        }
+
+        CodeBlockHtmlBuilder builder = myCodeBlockHighlighter.newHtmlBuilder(myProject, language, code).colorsScheme(myColorsScheme);
+        if (!lineIds.isEmpty()) {
+            // every line starts a piece of text of its own, so the first piece of a runnable line becomes the element its button is next to
+            builder.textHandler((startOffset, endOffset, resultBuffer, superHandler) -> {
+                String lineId = lineIds.get(startOffset);
+                if (lineId == null) {
+                    superHandler.run();
+                    return;
+                }
+                resultBuffer.append("<span id=\"").append(lineId).append("\">");
+                superHandler.run();
+                resultBuffer.append("</span>");
+            });
+        }
+        return builder.build();
+    }
+
+    /**
+     * @return the id of every runnable line, by the offset its text starts at
+     */
+    @RequiredReadAction
+    private Map<Integer, String> markRunnableLines(String blockId, String code) {
+        Map<Integer, String> lineIds = new LinkedHashMap<>();
+        int lineStart = 0;
+        int lineNumber = 0;
+        while (lineStart < code.length()) {
+            int lineEnd = code.indexOf('\n', lineStart);
+            if (lineEnd < 0) {
+                lineEnd = code.length();
+            }
+            String line = code.substring(lineStart, lineEnd);
+            if (!line.isBlank() && myCommandRunner.canRunLine(line, myRunTargets.getWorkingDirectory(), false)) {
+                String lineId = blockId + "-line-" + lineNumber;
+                lineIds.put(lineStart, lineId);
+                String command = CodeBlockCommandRunner.trimPrompt(line).trim();
+                myRunTargets.addLine(lineId, line, new HtmlView.GutterAction(
+                    ExecutionIconGroup.gutterRun(),
+                    MarkdownLocalize.markdownPreviewRunCommand(command)
+                ));
+            }
+            lineStart = lineEnd + 1;
+            lineNumber++;
+        }
+        return lineIds;
+    }
+
+    private static String escapeWithLineIds(String code, Map<Integer, String> lineIds) {
+        StringBuilder html = new StringBuilder(code.length() + lineIds.size() * 40);
+        int lineStart = 0;
+        while (lineStart < code.length()) {
+            int lineEnd = code.indexOf('\n', lineStart);
+            int next = lineEnd < 0 ? code.length() : lineEnd + 1;
+            String line = StringUtil.escapeXmlEntities(code.substring(lineStart, next));
+            String lineId = lineIds.get(lineStart);
+            if (lineId != null) {
+                html.append("<span id=\"").append(lineId).append("\">").append(line).append("</span>");
+            }
+            else {
+                html.append(line);
+            }
+            lineStart = next;
+        }
+        return html.toString();
+    }
+
+    private @Nullable Language findLanguage(String infoString) {
         if (infoString.isEmpty()) {
             return null;
         }
@@ -55,43 +195,6 @@ public class CodeFenceHighlighter implements CodeFenceContentRenderer {
         Language language = myProject.getApplication()
             .getExtensionPoint(LanguageGuesser.class)
             .computeSafeIfAny(guesser -> guesser.guessLanguage(infoString));
-        if (language == null) {
-            return null;
-        }
-
-        SyntaxHighlighter highlighter =
-            SyntaxHighlighterFactory.getSyntaxHighlighter(language, myProject, new LightVirtualFile("markdown_temp", language, code));
-        Lexer lexer = highlighter.getHighlightingLexer();
-        lexer.start(code);
-
-        StringBuilder html = new StringBuilder(code.length() * 2);
-        while (lexer.getTokenType() != null) {
-            String tokenHtml = StringUtil.escapeXmlEntities(code.substring(lexer.getTokenStart(), lexer.getTokenEnd()));
-            ColorValue color = getForegroundColor(highlighter.getTokenHighlights(lexer.getTokenType()));
-            if (color != null) {
-                html.append("<span style=\"color: #").append(ColorValueUtil.toHex(color)).append(";\">").append(tokenHtml).append("</span>");
-            }
-            else {
-                html.append(tokenHtml);
-            }
-            lexer.advance();
-        }
-        return html;
-    }
-
-    /**
-     * The color of the last key, the most specific one
-     */
-    private @Nullable ColorValue getForegroundColor(TextAttributesKey[] keys) {
-        if (keys.length == 0) {
-            return null;
-        }
-        TextAttributesKey key = keys[keys.length - 1];
-        TextAttributes attributes = myColorsScheme.getAttributes(key);
-        if (attributes != null && attributes.getForegroundColor() != null) {
-            return attributes.getForegroundColor();
-        }
-        TextAttributes defaultAttributes = key.getDefaultAttributes();
-        return defaultAttributes == null ? null : defaultAttributes.getForegroundColor();
+        return language != null ? language : myCodeBlockHighlighter.guessLanguage(LanguageGuesser.getLanguageName(infoString));
     }
 }

@@ -16,6 +16,12 @@ open module consulo.markdown {
 
   exports consulo.markdown.injection;
 
+  // for Markdown dialects in other plugins (MDX)
+  exports org.intellij.plugins.markdown.braces;
+  exports org.intellij.plugins.markdown.highlighting;
+  exports org.intellij.plugins.markdown.injection;
+  exports org.intellij.plugins.markdown.injection.aliases;
+
   // TODO remove in future
   requires java.desktop;
   requires forms.rt;

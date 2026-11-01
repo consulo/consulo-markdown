@@ -2,6 +2,7 @@ package org.intellij.plugins.markdown.ui.preview;
 
 import consulo.colorScheme.EditorColorsManager;
 import consulo.markdown.preview.CodeFenceHighlighter;
+import consulo.markdown.preview.CodeFenceRunTargets;
 import consulo.application.Application;
 import consulo.component.messagebus.MessageBusConnection;
 import consulo.disposer.Disposer;
@@ -14,6 +15,7 @@ import consulo.fileEditor.FileEditorState;
 import consulo.fileEditor.FileEditorStateLevel;
 import consulo.ui.Component;
 import consulo.ui.HtmlView;
+import consulo.ui.clipboard.DataTransfer;
 import consulo.ui.ex.awt.JBUI;
 import consulo.ui.ex.awt.util.Alarm;
 import consulo.ui.ex.awtUnsafe.TargetAWT;
@@ -70,6 +72,11 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   @Nonnull
   private String myLastRenderedHtml = "";
 
+  /**
+   * What the run buttons of the shown document run
+   */
+  private volatile CodeFenceRunTargets myRunTargets = CodeFenceRunTargets.EMPTY;
+
   public MarkdownPreviewFileEditor(@Nonnull Project project, @Nonnull VirtualFile file) {
     myProject = project;
     myFile = file;
@@ -97,6 +104,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     }
 
     myPanel = HtmlView.create();
+    myPanel.addGutterActionListener(event -> myRunTargets.run(myProject, event.getTargetId()));
 
     MessageBusConnection settingsConnection = Application.get().getMessageBus().connect(this);
     MarkdownSettingsChangedListener settingsChangedListener = new MyUpdatePanelOnSettingsChangedListener();
@@ -164,7 +172,8 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       return;
     }
 
-    final String html = generateMarkdownHtml();
+    final RenderedHtml rendered = generateMarkdownHtml();
+    final String html = rendered.html();
 
     // EA-75860: The lines to the top may be processed slowly; Since we're in pooled thread, we can be disposed already.
     if (!myFile.isValid() || Disposer.isDisposed(this)) {
@@ -199,7 +208,9 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
               }
             }
 
-            myPanel.render(new HtmlView.RenderData(currentHtml, inlineCss, cssUrls)).whenComplete((o, throwable) -> {
+            myRunTargets = rendered.runTargets();
+            myPanel.render(new HtmlView.RenderData(currentHtml, inlineCss, cssUrls, rendered.copyTargets(),
+                                                   rendered.runTargets().getGutterActions())).whenComplete((o, throwable) -> {
                 if (preserveScrollOffset) {
                     myPanel.scrollToMarkdownSrcOffset(myLastScrollOffset);
                 }
@@ -239,21 +250,31 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   public void dispose() {
   }
 
+  /**
+   * @param copyTargets what the copy button over every code fence puts on the clipboard
+   * @param runTargets  what the run buttons next to the code fences run
+   */
+  private record RenderedHtml(String html, Map<String, DataTransfer> copyTargets, CodeFenceRunTargets runTargets) {
+  }
+
   @Nonnull
-  private String generateMarkdownHtml() {
+  private RenderedHtml generateMarkdownHtml() {
     // Renders from the file's own PSI tree rather than reparsing the text, so the preview and the
     // editor always agree. Needs a read action: this runs on a pooled thread from the alarm.
     return ReadAction.compute(() -> {
       PsiFile psiFile = PsiManager.getInstance(myProject).findFile(myFile);
       if (psiFile == null) {
-        return "";
+        return new RenderedHtml("", Map.of(), CodeFenceRunTargets.EMPTY);
       }
       // the color scheme is taken on every rendering, so a changed scheme shows with the next update
-      CodeFenceHighlighter codeFenceHighlighter = new CodeFenceHighlighter(myProject, EditorColorsManager.getInstance().getGlobalScheme());
-      return org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.renderTree(psiFile.getNode(),
-                                             psiFile.getText(),
-                                             org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.baseUriFor(myFile),
-                                             codeFenceHighlighter);
+      // commands run from the root of the project
+      CodeFenceHighlighter codeFenceHighlighter =
+        new CodeFenceHighlighter(myProject, EditorColorsManager.getInstance().getGlobalScheme(), myProject.getBaseDir());
+      String html = org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.renderTree(psiFile.getNode(),
+                                                                                       psiFile.getText(),
+                                                                                       org.intellij.plugins.markdown.html.MarkdownHtmlRenderer.baseUriFor(myFile),
+                                                                                       codeFenceHighlighter);
+      return new RenderedHtml(html, Map.copyOf(codeFenceHighlighter.getCopyTargets()), codeFenceHighlighter.getRunTargets());
     });
   }
 

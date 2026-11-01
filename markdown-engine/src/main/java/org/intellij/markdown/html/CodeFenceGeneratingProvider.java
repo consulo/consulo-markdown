@@ -45,8 +45,6 @@ public final class CodeFenceGeneratingProvider implements GeneratingProvider {
         CharSequence nodeText = MarkdownAstUtil.getTextInNode(node, text);
         int indentBefore = commonPrefixLength(nodeText, "          ");
 
-        visitor.consumeHtml("<pre>");
-
         int state = 0;
 
         List<ASTNode> childrenToConsider = MarkdownAstUtil.children(node);
@@ -80,13 +78,15 @@ public final class CodeFenceGeneratingProvider implements GeneratingProvider {
                 attributes.add("class=\"language-" + langText + "\"");
             }
             if (state == 0 && child.getElementType() == MarkdownTokenTypes.EOL) {
-                visitor.consumeTagOpen(node, "code", attributes.toArray(new CharSequence[0]));
                 state = 1;
             }
         }
-        if (state == 0) {
-            visitor.consumeTagOpen(node, "code", attributes.toArray(new CharSequence[0]));
-        }
+
+        // the pre is written once the code is known, the renderer may name it by the code
+        String blockId = myContentRenderer != null ? myContentRenderer.getBlockId(infoString, rawContent.toString()) : null;
+        visitor.consumeHtml(blockId != null ? "<pre id=\"" + blockId + "\">" : "<pre>");
+        visitor.consumeTagOpen(node, "code", attributes.toArray(new CharSequence[0]));
+
         CharSequence renderedContent = myContentRenderer != null && rawContent.length() > 0
             ? myContentRenderer.render(infoString, rawContent.toString())
             : null;

@@ -1,5 +1,6 @@
 package org.intellij.plugins.markdown.lang.lexer;
 
+import org.intellij.markdown.flavours.MarkdownFlavourDescriptor;
 import org.intellij.markdown.parser.LexemeSink;
 import org.intellij.markdown.parser.MarkdownParser;
 import org.intellij.markdown.parser.MarkdownParserManager;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MarkdownToplevelLexer extends LexerBase {
+  private final MarkdownFlavourDescriptor myFlavour;
   private CharSequence myBuffer;
   private int myBufferStart;
   private int myBufferEnd;
@@ -25,6 +27,17 @@ public class MarkdownToplevelLexer extends LexerBase {
 
   private int myLexemeIndex;
 
+  public MarkdownToplevelLexer() {
+    this(MarkdownParserManager.FLAVOUR);
+  }
+
+  /**
+   * The lexer of a Markdown dialect with its own block parser (MDX).
+   */
+  public MarkdownToplevelLexer(@Nonnull MarkdownFlavourDescriptor flavour) {
+    myFlavour = flavour;
+  }
+
   @Override
   public void start(@Nonnull CharSequence buffer, int startOffset, int endOffset, int initialState) {
     myBuffer = buffer;
@@ -33,8 +46,8 @@ public class MarkdownToplevelLexer extends LexerBase {
 
     final CharSequence text = buffer.subSequence(startOffset, endOffset);
     final LexemeSink sink = new LexemeSink();
-    new MarkdownParser(MarkdownParserManager.FLAVOUR)
-      .walkBlocks(MarkdownParserManager.parseBlocks(text), text, false, sink);
+    new MarkdownParser(myFlavour)
+      .walkBlocks(MarkdownParserManager.parseBlocks(text, myFlavour), text, false, sink);
 
     myLexemes = sink.getTypes();
     myStartOffsets = sink.getStarts();

@@ -22,7 +22,7 @@ import org.intellij.markdown.parser.constraints.CommonMarkdownConstraints;
 public final class GFMConstraints extends CommonMarkdownConstraints {
     private final boolean myIsCheckbox;
 
-    private GFMConstraints(int[] indents, char[] types, boolean[] isExplicit, int charsEaten, boolean isCheckbox) {
+    public GFMConstraints(int[] indents, char[] types, boolean[] isExplicit, int charsEaten, boolean isCheckbox) {
         super(indents, types, isExplicit, charsEaten);
         myIsCheckbox = isCheckbox;
     }

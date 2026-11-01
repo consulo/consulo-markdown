@@ -76,9 +76,17 @@ public class CodeFenceProvider implements MarkerBlockProvider<MarkerProcessor.St
         final String myDelimiter;
         final String myInfo;
 
-        OpeningInfo(String delimiter, String info) {
+        public OpeningInfo(String delimiter, String info) {
             myDelimiter = delimiter;
             myInfo = info;
+        }
+
+        public String getDelimiter() {
+            return myDelimiter;
+        }
+
+        public String getInfo() {
+            return myInfo;
         }
     }
 

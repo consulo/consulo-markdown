@@ -29,4 +29,14 @@ public interface CodeFenceContentRenderer {
      */
     @Nullable
     CharSequence render(String infoString, String code);
+
+    /**
+     * @param infoString the whole info string after the opening backticks, empty if there is none
+     * @param code       the code of the fence, without its indentation and not escaped
+     * @return the {@code id} of the {@code <pre>} of the fence, or {@code null} for none
+     */
+    @Nullable
+    default String getBlockId(String infoString, String code) {
+        return null;
+    }
 }

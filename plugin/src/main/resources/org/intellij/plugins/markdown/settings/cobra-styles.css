@@ -108,7 +108,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 1em;
 }
 

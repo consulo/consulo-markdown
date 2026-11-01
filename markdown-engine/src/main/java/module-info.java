@@ -18,6 +18,7 @@ module consulo.markdown.engine {
     exports org.intellij.plugins.markdown.lang;
     exports org.intellij.plugins.markdown.lang.lexer;
     exports org.intellij.plugins.markdown.lang.parser;
+    exports org.intellij.plugins.markdown.lang.parser.blocks;
     exports org.intellij.plugins.markdown.lang.psi;
     exports org.intellij.plugins.markdown.lang.psi.impl;
 

@@ -18,11 +18,23 @@ package org.intellij.markdown.lexer;
 
 import consulo.language.ast.IElementType;
 import consulo.language.lexer.LexerBase;
+import org.intellij.markdown.flavours.MarkdownFlavourDescriptor;
 import org.intellij.markdown.parser.MarkdownParserManager;
 import org.jspecify.annotations.Nullable;
 
 public class MarkdownLexerAdapter extends LexerBase {
-    private final MarkdownLexer myDelegate = MarkdownParserManager.FLAVOUR.createInlinesLexer();
+    private final MarkdownLexer myDelegate;
+
+    public MarkdownLexerAdapter() {
+        this(MarkdownParserManager.FLAVOUR);
+    }
+
+    /**
+     * The inline lexer of {@code flavour}.
+     */
+    public MarkdownLexerAdapter(MarkdownFlavourDescriptor flavour) {
+        myDelegate = flavour.createInlinesLexer();
+    }
 
     private int myEndOffset;
 

@@ -15,6 +15,7 @@
  */
 package org.intellij.plugins.markdown.lang.parser;
 
+import org.intellij.markdown.flavours.MarkdownFlavourDescriptor;
 import org.intellij.markdown.parser.MarkdownParser;
 import org.intellij.markdown.parser.PsiBuilderSink;
 import org.intellij.markdown.parser.MarkdownParserManager;
@@ -26,6 +27,19 @@ import consulo.language.version.LanguageVersion;
 import jakarta.annotation.Nonnull;
 
 public class MarkdownParserAdapter implements PsiParser {
+  private final MarkdownFlavourDescriptor myFlavour;
+
+  public MarkdownParserAdapter() {
+    this(MarkdownParserManager.FLAVOUR);
+  }
+
+  /**
+   * The parser of a Markdown dialect with its own block parser (MDX).
+   */
+  public MarkdownParserAdapter(@Nonnull MarkdownFlavourDescriptor flavour) {
+    myFlavour = flavour;
+  }
+
   @Nonnull
   public ASTNode parse(@Nonnull IElementType root, @Nonnull PsiBuilder builder, LanguageVersion languageVersion) {
 
@@ -34,8 +48,8 @@ public class MarkdownParserAdapter implements PsiParser {
     final CharSequence text = builder.getOriginalText();
 
     assert builder.getCurrentOffset() == 0;
-    new MarkdownParser(MarkdownParserManager.FLAVOUR)
-      .walkBlocks(MarkdownParserManager.parseBlocks(text), text, false, new PsiBuilderSink(builder));
+    new MarkdownParser(myFlavour)
+      .walkBlocks(MarkdownParserManager.parseBlocks(text, myFlavour), text, false, new PsiBuilderSink(builder));
     assert builder.eof();
 
     rootMarker.done(root);

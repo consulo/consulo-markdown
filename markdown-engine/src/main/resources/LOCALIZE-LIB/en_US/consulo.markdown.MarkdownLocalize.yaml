@@ -80,6 +80,8 @@ markdown.layout.preview.only:
     text: Show preview only
 markdown.plugin.name:
     text: Markdown
+markdown.preview.run.command:
+    text: Run "{0}"
 markdown.toolbar.view.label:
     text: 'View:'
 settings.markdown.css.enable.inline:

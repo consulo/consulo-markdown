@@ -24,6 +24,7 @@ import consulo.language.parser.PsiBuilderFactory;
 import consulo.language.psi.PsiElement;
 import consulo.language.version.LanguageVersionUtil;
 import consulo.project.Project;
+import org.intellij.markdown.flavours.MarkdownFlavourDescriptor;
 import org.intellij.markdown.lexer.MarkdownLexerAdapter;
 import org.intellij.markdown.parser.MarkdownParser;
 import org.intellij.markdown.parser.MarkdownParserManager;
@@ -60,7 +61,9 @@ public class MarkdownLazyElementType extends ILazyParseableElementType implement
     @Override
     protected ASTNode doParseContents(ASTNode chameleon, PsiElement psi) {
         Project project = psi.getProject();
-        Lexer lexer = new MarkdownLexerAdapter();
+        // the flavour of the file: a dialect (MDX) adds its own inline parsers
+        MarkdownFlavourDescriptor flavour = MarkdownParserManager.getFlavour(psi);
+        Lexer lexer = new MarkdownLexerAdapter(flavour);
         CharSequence chars = chameleon.getChars();
 
         PsiBuilder builder = PsiBuilderFactory.getInstance()
@@ -71,7 +74,7 @@ public class MarkdownLazyElementType extends ILazyParseableElementType implement
                            LanguageVersionUtil.findDefaultVersion(getLanguage()),
                            chars);
         assert builder.getCurrentOffset() == 0;
-        new MarkdownParser(MarkdownParserManager.FLAVOUR)
+        new MarkdownParser(flavour)
             .parseInlineInto(chameleon.getElementType(), chars, 0, chars.length(), new PsiBuilderSink(builder));
         assert builder.eof();
 
