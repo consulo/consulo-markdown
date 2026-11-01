@@ -31,8 +31,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Utility functions used to work with Markdown Code Fences.
  * <p>
- * Ported from the JetBrains Markdown plugin (the part other plugins use). Consulo: the code fence PSI is
- * {@link MarkdownCodeFenceImpl} (JetBrains: {@code MarkdownCodeFence}).
+ * The code fence PSI is {@link MarkdownCodeFenceImpl}.
  */
 public final class MarkdownCodeFenceUtils {
     private MarkdownCodeFenceUtils() {

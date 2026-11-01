@@ -26,8 +26,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Guesses the language of a code fence from its info string.
  * <p>
- * Ported from the JetBrains Markdown plugin. Consulo: the guessing itself is {@link LanguageGuesser} (JetBrains:
- * {@code CodeFenceLanguageProvider}s); the extension is the default one of the language's file type.
+ * The guessing itself is {@link LanguageGuesser}; the extension is the default one of the language's file type.
  */
 public final class CodeFenceLanguageGuesser {
     private CodeFenceLanguageGuesser() {

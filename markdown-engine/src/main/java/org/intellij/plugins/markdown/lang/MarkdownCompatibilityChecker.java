@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  * - MarkdownLanguage is the default Markdown implementation.
  * - MDX files contain Markdown outside of their JSX and ESM parts.
  * <p>
- * Ported from the JetBrains Markdown plugin. Use {@link #supportsMarkdown(Language)} and friends to ask all checkers.
+ * Use {@link #supportsMarkdown(Language)} and friends to ask all checkers.
  */
 @ExtensionAPI(ComponentScope.APPLICATION)
 public interface MarkdownCompatibilityChecker {
@@ -56,7 +56,7 @@ public interface MarkdownCompatibilityChecker {
     }
 
     /**
-     * JetBrains: {@code MarkdownLanguageUtils.supportsMarkdown}. Markdown itself is always supported.
+     * Whether {@code language} supports Markdown features. Markdown itself is always supported.
      */
     static boolean supportsMarkdown(Language language) {
         return language == MarkdownLanguage.INSTANCE || EP_NAME.findFirstSafe(it -> it.isSupportedLanguage(language)) != null;

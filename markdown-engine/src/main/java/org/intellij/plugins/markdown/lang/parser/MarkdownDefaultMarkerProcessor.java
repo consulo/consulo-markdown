@@ -42,11 +42,9 @@ import org.intellij.plugins.markdown.lang.parser.blocks.CodeFenceMarkerProvider;
 import java.util.List;
 
 /**
- * The marker processor of the JetBrains Markdown plugin, for flavours that extend it (MDX).
+ * The marker processor for flavours that extend the Markdown plugin's block parser (MDX): GFM tables and checkboxes, the
+ * CommonMark blocks, and Mermaid {@code :::} fences.
  * <p>
- * Consulo: reduced to the block providers the markdown engine has, in JetBrains' order. JetBrains' indented code
- * fences, GitHub alerts, definition lists, admonitions, front matter headers and comment-aware link reference
- * definitions have no Consulo port; their places are taken by the plain CommonMark providers where one exists.
  * The default Markdown file type keeps parsing with {@link org.intellij.markdown.parser.MarkdownParserManager#FLAVOUR}.
  */
 public class MarkdownDefaultMarkerProcessor extends CommonMarkMarkerProcessor {

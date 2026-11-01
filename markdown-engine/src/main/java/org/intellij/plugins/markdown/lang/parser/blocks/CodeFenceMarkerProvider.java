@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
  * &lt;mermaid diagram syntax&gt;
  * :::
  * </pre>
- * Ported from the JetBrains Markdown plugin.
  */
 public class CodeFenceMarkerProvider extends CodeFenceProvider {
     private static final Pattern OPENING_REGEX = Pattern.compile("^ {0,3}(~~~++|```++|:::++)([^`]*+)$");

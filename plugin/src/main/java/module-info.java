@@ -21,6 +21,7 @@ open module consulo.markdown {
   exports org.intellij.plugins.markdown.highlighting;
   exports org.intellij.plugins.markdown.injection;
   exports org.intellij.plugins.markdown.injection.aliases;
+  exports org.intellij.plugins.markdown.lang.formatter.settings;
 
   // TODO remove in future
   requires java.desktop;
