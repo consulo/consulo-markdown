@@ -21,6 +21,7 @@ import consulo.language.psi.PsiFile;
 import consulo.test.junit.impl.language.SimpleParsingTest;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.intellij.markdown.html.CodeFenceContentRenderer;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.junit.jupiter.api.Test;
 
