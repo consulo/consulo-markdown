@@ -161,5 +161,10 @@
             <artifactId>consulo.markdown.language.editor.api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>consulo.markdown.documentation.api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

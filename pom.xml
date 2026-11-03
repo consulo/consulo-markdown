@@ -45,6 +45,7 @@
     <module>markdown-language-api</module>
     <module>markdown-language-impl</module>
     <module>markdown-language-editor-api</module>
+    <module>markdown-documentation-api</module>
     <module>plugin</module>
   </modules>
 </project>
