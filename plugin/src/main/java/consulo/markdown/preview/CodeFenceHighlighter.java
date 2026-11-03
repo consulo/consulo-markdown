@@ -31,7 +31,7 @@ import consulo.ui.clipboard.DataTransfer;
 import consulo.ui.clipboard.DataTransferType;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import org.intellij.plugins.markdown.html.CodeFenceContentRenderer;
+import org.intellij.markdown.html.CodeFenceContentRenderer;
 import org.jspecify.annotations.Nullable;
 
 import java.util.LinkedHashMap;

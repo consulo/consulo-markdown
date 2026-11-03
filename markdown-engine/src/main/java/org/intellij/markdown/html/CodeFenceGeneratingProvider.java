@@ -19,7 +19,7 @@ package org.intellij.markdown.html;
 import org.intellij.markdown.MarkdownTokenTypes;
 import consulo.language.ast.ASTNode;
 import org.intellij.markdown.MarkdownAstUtil;
-import org.intellij.plugins.markdown.html.CodeFenceContentRenderer;
+import org.intellij.markdown.html.CodeFenceContentRenderer;
 import org.jspecify.annotations.Nullable;
 
 

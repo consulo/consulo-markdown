@@ -4,23 +4,11 @@
  * Upstream: https://github.com/JetBrains/markdown — the package layout is kept identical to
  * upstream so future upstream commits stay readable against this tree. Unlike upstream, element
  * types are {@link consulo.language.ast.IElementType} rather than a parallel type hierarchy.
+ * <p>
+ * Only the parser - the Markdown language, its PSI and its editor support are in the {@code consulo.markdown.language.*} modules.
  */
 module consulo.markdown.engine {
     requires transitive consulo.language.api;
-    requires transitive consulo.language.impl;
-    requires consulo.ui.ex.api;
-    requires consulo.execution.api;
-
-    exports consulo.markdown.icon;
-    exports consulo.markdown.localize;
-
-    exports org.intellij.plugins.markdown.html;
-    exports org.intellij.plugins.markdown.lang;
-    exports org.intellij.plugins.markdown.lang.lexer;
-    exports org.intellij.plugins.markdown.lang.parser;
-    exports org.intellij.plugins.markdown.lang.parser.blocks;
-    exports org.intellij.plugins.markdown.lang.psi;
-    exports org.intellij.plugins.markdown.lang.psi.impl;
 
     exports org.intellij.markdown;
     exports org.intellij.markdown.flavours;

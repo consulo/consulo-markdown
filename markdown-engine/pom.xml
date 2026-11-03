@@ -36,8 +36,6 @@
             <id>gen</id>
             <phase>generate-sources</phase>
             <goals>
-              <goal>generate-icon</goal>
-              <goal>generate-localize</goal>
               <goal>generate-lexers</goal>
             </goals>
           </execution>
@@ -52,37 +50,6 @@
       <artifactId>consulo-language-api</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>consulo</groupId>
-      <artifactId>consulo-language-impl</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>consulo</groupId>
-      <artifactId>consulo-ui-ex-api</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>consulo</groupId>
-      <artifactId>consulo-execution-api</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>consulo</groupId>
-      <artifactId>consulo-test-junit-impl</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

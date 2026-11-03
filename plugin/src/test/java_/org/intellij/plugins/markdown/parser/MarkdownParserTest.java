@@ -17,7 +17,7 @@ package org.intellij.plugins.markdown.parser;
 
 import consulo.testFramework.ParsingTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
-import org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage;
+import org.intellij.plugins.markdown.highlighting.impl.MarkdownColorSettingsPage;
 
 import java.io.IOException;
 

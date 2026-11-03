@@ -13,14 +13,15 @@ open module consulo.markdown {
   requires consulo.execution.api;
 
   requires transitive consulo.markdown.engine;
+  requires transitive consulo.markdown.language.api;
+  requires transitive consulo.markdown.language.impl;
+  requires transitive consulo.markdown.language.editor.api;
 
-  exports consulo.markdown.injection;
 
   // for Markdown dialects in other plugins (MDX)
   exports org.intellij.plugins.markdown.braces;
-  exports org.intellij.plugins.markdown.highlighting;
+  exports org.intellij.plugins.markdown.highlighting.impl;
   exports org.intellij.plugins.markdown.injection;
-  exports org.intellij.plugins.markdown.injection.aliases;
   exports org.intellij.plugins.markdown.lang.formatter.settings;
 
   // TODO remove in future

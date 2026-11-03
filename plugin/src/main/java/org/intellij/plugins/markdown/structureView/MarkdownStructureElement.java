@@ -13,7 +13,7 @@ import consulo.navigation.ItemPresentation;
 import consulo.navigation.NavigationItem;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.StringUtil;
-import org.intellij.plugins.markdown.lang.psi.MarkdownBasePresentation;
+import org.intellij.plugins.markdown.presentation.MarkdownBasePresentation;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypeSets;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownBlockQuoteImpl;

@@ -146,5 +146,20 @@
             <artifactId>consulo.markdown.engine</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>consulo.markdown.language.api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>consulo.markdown.language.impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>consulo.markdown.language.editor.api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
