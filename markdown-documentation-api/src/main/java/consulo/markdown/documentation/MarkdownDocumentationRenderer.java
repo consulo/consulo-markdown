@@ -16,22 +16,37 @@
 package consulo.markdown.documentation;
 
 import consulo.annotation.access.RequiredReadAction;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
 import consulo.language.Language;
 import consulo.language.editor.codeBlock.CodeBlockHighlighter;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
+import org.intellij.markdown.MarkdownElementTypes;
 import org.intellij.markdown.flavours.MarkdownFlavourDescriptor;
+import org.intellij.markdown.html.CodeFenceGeneratingProvider;
+import org.intellij.markdown.html.GeneratingProvider;
+import org.intellij.markdown.html.HtmlGenerator;
+import org.intellij.markdown.parser.LinkMap;
+import org.intellij.markdown.parser.MarkdownParser;
+import org.intellij.plugins.markdown.html.TreeBuildingSink;
+import org.intellij.plugins.markdown.injection.aliases.CodeFenceLanguageGuesser;
 import org.intellij.plugins.markdown.html.MarkdownToHtmlConverter;
 import org.jspecify.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Renders the Markdown of a documentation comment to the HTML of the documentation, with the code highlighted by
  * {@link CodeBlockHighlighter}.
  */
 public final class MarkdownDocumentationRenderer {
+    private final MarkdownFlavourDescriptor myFlavour;
     private final MarkdownToHtmlConverter myConverter;
 
     public MarkdownDocumentationRenderer(MarkdownFlavourDescriptor flavour) {
+        myFlavour = flavour;
         myConverter = new MarkdownToHtmlConverter(flavour);
     }
 
@@ -40,6 +55,29 @@ public final class MarkdownDocumentationRenderer {
      */
     public String toHtml(String markdown) {
         return myConverter.convertMarkdownToHtml(markdown.stripIndent());
+    }
+
+    /**
+     * Renders like {@link #toHtml(String)}, and highlights the code of the fences with the language the fence names - for a language
+     * whose documentation has no PSI of its code fences.
+     */
+    @RequiredReadAction
+    public String toHtml(String markdown, Project project) {
+        String text = markdown.stripIndent();
+        MarkdownParser parser = new MarkdownParser(myFlavour);
+        TreeBuildingSink sink = new TreeBuildingSink(text);
+        parser.walkBlocks(parser.parseBlocks(MarkdownElementTypes.MARKDOWN_FILE, text), text, true, sink);
+        ASTNode root = sink.getRoot();
+
+        Map<IElementType, GeneratingProvider> providers = new HashMap<>(myFlavour.createHtmlGeneratingProviders(LinkMap.buildLinkMap(root, text), null));
+        providers.put(MarkdownElementTypes.CODE_FENCE, new CodeFenceGeneratingProvider((infoString, code) -> {
+            Language language = CodeFenceLanguageGuesser.guessLanguageForInjection(infoString);
+            if (language == null) {
+                return null;
+            }
+            return project.getApplication().getInstance(CodeBlockHighlighter.class).newHtmlBuilder(project, language, code).build();
+        }));
+        return new HtmlGenerator(text, root, providers, false).generateHtml();
     }
 
     /**
